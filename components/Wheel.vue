@@ -3,30 +3,33 @@
 </template>
 
 <script lang="ts">
-const CENTER_X = 150;
-const CENTER_Y = 150;
+// canvasの中心座標
+const CENTER_X: number = 150;
+const CENTER_Y: number = 150;
+
+// radianに変換
+function ToRadian(deg: number): number {
+  return ((360 - deg) * Math.PI) / 180;
+}
 
 export default {
   props: {
-    items: Array,
+    items: { type: Array, default: [] },
   },
-  setup() {},
   methods: {
     draw() {
-      let count = 0;
-      let a = 360 / this.items.length;
-      console.log(a);
+      let start_deg: number = 0;
+      let deg: number = 360 / this.items.length;
 
-      this.items.forEach((element) => {
-        this.drawPart(count, count + a, element.color);
-        count += a;
+      this.items.forEach((element: { color: string }) => {
+        this.drawPart(start_deg, start_deg + deg, element.color);
+        start_deg += deg;
       });
     },
 
-    drawPart(start_deg: number, end_deg: number, color: String) {
-      var start_rad = ((360 - start_deg) * Math.PI) / 180;
-      var end_rad = ((360 - end_deg) * Math.PI) / 180;
-
+    drawPart(start_deg: number, end_deg: number, color: string) {
+      let start_rad: number = ToRadian(start_deg);
+      let end_rad: number = ToRadian(end_deg);
       this.ctx.beginPath();
       this.ctx.moveTo(CENTER_X, CENTER_Y);
       this.ctx.fillStyle = color;

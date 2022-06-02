@@ -36,6 +36,7 @@ export default {
 
       this.items.forEach((element: WheelItem) => {
         this.drawPart(start_deg, start_deg + deg, element);
+        this.drawLabel((start_deg * 2 + deg) / 2, element.value);
         start_deg += deg;
       });
     },
@@ -49,6 +50,22 @@ export default {
       this.ctx.fillStyle = element.color;
       this.ctx.arc(CENTER_X, CENTER_Y, 100, start_rad, end_rad);
       this.ctx.fill();
+    },
+
+    drawLabel(deg: number, text: string) {
+      this.ctx.font = "28px serif";
+      this.ctx.fillStyle = "#000000";
+      this.ctx.textBaseline = "center";
+      this.ctx.textAlign = "center";
+
+      const rad: number = ToRadian(deg);
+      this.ctx.fillText(
+        text,
+        CENTER_X + Math.cos(rad) * 40,
+        CENTER_Y + Math.sin(rad) * 40
+      );
+    },
+
     start() {
       const num = Math.random() * 360;
       const i = Math.floor(num / (360 / this.items.length));

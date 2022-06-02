@@ -8,15 +8,11 @@
 </template>
 
 <script lang="ts">
+import WheelItem from "@/types/WheelItem";
+
 // canvasの中心座標
 const CENTER_X: number = 150;
 const CENTER_Y: number = 150;
-
-export interface WheelItem {
-  id: number;
-  value: string;
-  color: string;
-}
 
 // radianに変換
 function ToRadian(deg: number): number {

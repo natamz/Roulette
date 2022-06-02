@@ -75,6 +75,14 @@ export default {
     this.ctx = this.$refs.canvas.getContext("2d");
     this.draw();
   },
+  watch: {
+    items: {
+      handler() {
+        this.draw();
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 

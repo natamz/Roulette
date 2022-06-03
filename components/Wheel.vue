@@ -1,18 +1,13 @@
 <template>
-  <canvas ref="canvas" id="canvas" width="300" height="300"></canvas>
-
-  <div>
-    {{ result }}
-    <v-btn @click="start">start</v-btn>
-  </div>
+  <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
 </template>
 
 <script lang="ts">
 import WheelItem from "@/types/WheelItem";
 
 // canvasの中心座標
-const CENTER_X: number = 150;
-const CENTER_Y: number = 150;
+const CENTER_X: number = 250;
+const CENTER_Y: number = 250;
 
 // radianに変換
 function ToRadian(deg: number): number {
@@ -30,7 +25,7 @@ export default {
   },
   methods: {
     draw(start_deg: number = 0) {
-      this.ctx.clearRect(0, 0, 300, 300);
+      this.ctx.clearRect(0, 0, 500, 500);
 
       let deg: number = 360 / this.items.length;
 
@@ -48,12 +43,12 @@ export default {
       this.ctx.beginPath();
       this.ctx.moveTo(CENTER_X, CENTER_Y);
       this.ctx.fillStyle = element.color;
-      this.ctx.arc(CENTER_X, CENTER_Y, 100, start_rad, end_rad);
+      this.ctx.arc(CENTER_X, CENTER_Y, 200, start_rad, end_rad);
       this.ctx.fill();
     },
 
     drawLabel(deg: number, text: string) {
-      this.ctx.font = "28px serif";
+      this.ctx.font = "32px serif";
       this.ctx.fillStyle = "#000000";
       this.ctx.textBaseline = "center";
       this.ctx.textAlign = "center";
@@ -61,8 +56,8 @@ export default {
       const rad: number = ToRadian(deg);
       this.ctx.fillText(
         text,
-        CENTER_X + Math.cos(rad) * 40,
-        CENTER_Y + Math.sin(rad) * 40
+        CENTER_X + Math.cos(rad) * 75,
+        CENTER_Y + Math.sin(rad) * 75
       );
     },
 
@@ -85,7 +80,8 @@ export default {
     },
   },
   mounted() {
-    this.ctx = this.$refs.canvas.getContext("2d");
+    this.canvas = this.$refs.canvas;
+    this.ctx = this.canvas.getContext("2d");
     this.draw();
   },
   watch: {
@@ -101,6 +97,7 @@ export default {
 
 <style lang="scss" scoped>
 canvas {
-  border: 1px solid rgb(107, 107, 107);
+  width: 100%;
+  height: auto;
 }
 </style>

@@ -1,15 +1,24 @@
 <template>
-  <wheel :items="items"></wheel>
+  <v-row>
+    <v-col cols="12" sm="6">
+      <wheel :items="items" ref="wheel"></wheel>
 
-  <v-list v-for="item in items" :key="item.id">
-    <v-list-item>
-      <input type="color" v-model="item.color" />
-      <v-text-field height="37px" dense v-model="item.value"> </v-text-field>
-      <v-btn @click="remove(item.id)">x</v-btn>
-    </v-list-item>
-  </v-list>
+      <v-btn @click="$refs.wheel.start()">start</v-btn>
+    </v-col>
 
-  <v-btn @click="add">add</v-btn>
+    <v-col cols="12" sm="6">
+      <v-list v-for="item in items" :key="item.id">
+        <v-list-item>
+          <input type="color" v-model="item.color" />
+          <v-text-field height="37px" dense v-model="item.value">
+          </v-text-field>
+          <v-btn @click="remove(item.id)">x</v-btn>
+        </v-list-item>
+      </v-list>
+
+      <v-btn @click="add">add</v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

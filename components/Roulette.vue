@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import WheelItem from "@/types/WheelItem";
+import { colors } from "@/consts/colors";
 
 export default {
   data(): { items: WheelItem[]; count: number } {
@@ -36,12 +37,12 @@ export default {
         {
           id: 1,
           value: "hoge",
-          color: "#ff0000",
+          color: colors[0],
         },
         {
           id: 2,
           value: "fuga",
-          color: "#00ff00",
+          color: colors[1],
         },
       ],
       count: 2,
@@ -50,7 +51,11 @@ export default {
   methods: {
     add() {
       this.count++;
-      this.items.push({ id: this.count, value: "", color: "#ffff00" });
+      this.items.push({
+        id: this.count,
+        value: "",
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
     },
     remove(id: number) {
       this.items = this.items.filter((i: WheelItem) => i.id !== id);

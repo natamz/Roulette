@@ -1,5 +1,6 @@
 <template>
   <color-palette ref="colorPalette" @colorSubmit="changeColor"></color-palette>
+  <result-dialog ref="resultDialog"></result-dialog>
 
   <v-row>
     <v-col cols="12" sm="6">
@@ -89,8 +90,9 @@ export default {
       this.isRunning = true;
       this.$refs.wheel.start();
     },
-    stopped() {
+    stopped(result: string) {
       this.isRunning = false;
+      this.$refs.resultDialog.showDialog(result);
     },
   },
 };

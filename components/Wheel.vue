@@ -15,9 +15,10 @@ function ToRadian(deg: number): number {
 }
 
 export default {
-  data(): { result: string } {
+  data(): { result: string; isRunning: boolean } {
     return {
       result: "",
+      isRunning: false,
     };
   },
   props: {
@@ -71,9 +72,11 @@ export default {
     },
 
     start() {
+      // 連打防止
+      if (this.isRunning) return;
+      this.isRunning = true;
+
       const num = Math.random() * 360;
-      const i = Math.floor(num / (360 / this.items.length));
-      this.result = this.items[i].value;
       let speed: number = 10000;
 
       let timer = setInterval(() => {
@@ -84,6 +87,11 @@ export default {
         if (speed < 0.1) {
           // 停止
           clearInterval(timer);
+          this.isRunning = false;
+
+          const i = Math.floor(num / (360 / this.items.length));
+          const result = this.items[i].value;
+          this.$emit("stopped", result);
         }
       }, 10);
     },

@@ -34,6 +34,7 @@ export default {
         this.drawLabel((start_deg * 2 + deg) / 2, element.value);
         start_deg += deg;
       });
+      this.drawTriangle();
     },
 
     drawPart(start_deg: number, end_deg: number, element: WheelItem) {
@@ -59,6 +60,14 @@ export default {
         CENTER_X + Math.cos(rad) * 75,
         CENTER_Y + Math.sin(rad) * 75
       );
+    },
+    drawTriangle() {
+      this.ctx.beginPath();
+      this.ctx.moveTo(250, 50);
+      this.ctx.lineTo(230, 10);
+      this.ctx.lineTo(270, 10);
+      this.ctx.fillStyle = "#000000";
+      this.ctx.fill();
     },
 
     start() {

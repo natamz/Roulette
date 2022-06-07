@@ -28,7 +28,7 @@ export default {
     draw(start_deg: number = 0) {
       this.ctx.clearRect(0, 0, 500, 500);
 
-      let deg: number = 360 / this.items.length;
+      const deg: number = 359.9 / this.items.length;
 
       this.items.forEach((element: WheelItem) => {
         this.drawPart(start_deg, start_deg + deg, element);

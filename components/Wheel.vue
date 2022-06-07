@@ -77,14 +77,14 @@ export default {
       this.isRunning = true;
 
       const num = Math.random() * 360;
-      let speed: number = 10000;
+      let speed: number = 5000;
 
       let timer = setInterval(() => {
-        speed *= 0.985;
+        speed *= 0.98;
 
         this.draw(-num - speed - 90);
 
-        if (speed < 0.1) {
+        if (speed < 1) {
           // 停止
           clearInterval(timer);
           this.isRunning = false;
@@ -93,7 +93,7 @@ export default {
           const result = this.items[i].value;
           this.$emit("stopped", result);
         }
-      }, 10);
+      }, 33);
     },
   },
   mounted() {

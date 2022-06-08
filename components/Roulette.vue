@@ -87,6 +87,9 @@ export default {
       this.items[index].color = color;
     },
     start() {
+      if (this.items.length < 1) {
+        return;
+      }
       this.isRunning = true;
       this.$refs.wheel.start();
     },

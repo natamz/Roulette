@@ -10,6 +10,7 @@
     "nuxt": "3.0.0-rc.3",
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0",
+    "vue-gtag": "^2.0.1",
     "vuetify": "^3.0.0-beta.3"
   }
 }

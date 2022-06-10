@@ -14,6 +14,11 @@ function ToRadian(deg: number): number {
   return ((deg % 360) * Math.PI) / 180;
 }
 
+// 時刻をミリ秒で返す
+function GetTime() {
+  return new Date().getTime();
+}
+
 export default {
   data(): { result: string; isRunning: boolean } {
     return {
@@ -76,15 +81,21 @@ export default {
       if (this.isRunning) return;
       this.isRunning = true;
 
+      // 回転時間
+      const time = 8000;
+      const startTime = GetTime();
+
       const num = Math.random() * 360;
-      let speed: number = 5000;
+
+      const a = 1e-4 ** (1 / (time - 1000));
 
       let timer = setInterval(() => {
-        speed *= 0.98;
+        const t = GetTime() - startTime;
 
-        this.draw(-num - speed - 90);
+        const d = 10000 * a ** t;
+        this.draw(-num - d - 90);
 
-        if (speed < 1) {
+        if (time < t) {
           // 停止
           clearInterval(timer);
           this.isRunning = false;
@@ -93,7 +104,7 @@ export default {
           const result = this.items[i].value;
           this.$emit("stopped", result);
         }
-      }, 33);
+      }, 30);
     },
   },
   mounted() {

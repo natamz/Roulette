@@ -4,7 +4,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview", 
+    "storybook": "start-storybook"
   },
   "dependencies": {
     "nuxt": "3.0.0-rc.3",
@@ -12,5 +13,10 @@
     "sass-loader": "^13.0.0",
     "vue-gtag": "^2.0.1",
     "vuetify": "^3.0.0-beta.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^6.5.8",
+    "@storybook/builder-vite": "^0.1.36",
+    "@storybook/vue3": "^6.5.8"
   }
 }

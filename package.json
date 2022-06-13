@@ -4,11 +4,11 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview", 
+    "preview": "nuxt preview",
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "nuxt": "3.0.0-rc.3",
+    "nuxt": "3.0.0-rc.4",
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0",
     "vue-gtag": "^2.0.1",

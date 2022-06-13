@@ -87,24 +87,26 @@ export default {
 
       const num = Math.random() * 360;
 
-      const a = 1e-4 ** (1 / (time - 1000));
+      const a = 1e-4 ** (1 / time);
 
       let timer = setInterval(() => {
         const t = GetTime() - startTime;
-
         const d = 10000 * a ** t;
         this.draw(-num - d - 90);
 
-        if (time < t) {
+        if (d < 0.5) {
           // 停止
           clearInterval(timer);
           this.isRunning = false;
 
-          const i = Math.floor(num / (360 / this.items.length));
-          const result = this.items[i].value;
-          this.$emit("stopped", result);
+          this.$emit("stopped", this.getResult(num + d));
         }
       }, 30);
+    },
+
+    getResult(deg: number): string {
+      const i = Math.floor(deg / (360 / this.items.length));
+      return this.items[i].value;
     },
   },
   mounted() {

@@ -9,6 +9,16 @@
         <roulette></roulette>
       </v-container>
     </v-main>
+
+    <v-footer>
+      <v-card elevation="0" rounded="0" width="100%" class="text-center">
+        <v-divider></v-divider>
+
+        <v-card-text>
+          {{ new Date().getFullYear() }} — <strong>nata</strong>
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 

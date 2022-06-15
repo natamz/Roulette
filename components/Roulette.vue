@@ -96,7 +96,7 @@ export default {
     stopped(id: number) {
       this.isRunning = false;
 
-      const result: WheelItem = this.items[id];
+      const result: WheelItem = this.items.find((i: WheelItem) => i.id == id);
       this.$refs.resultDialog.showDialog(result.value, result.color);
     },
   },

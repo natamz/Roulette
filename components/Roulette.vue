@@ -93,9 +93,11 @@ export default {
       this.isRunning = true;
       this.$refs.wheel.start();
     },
-    stopped(result: string) {
+    stopped(id: number) {
       this.isRunning = false;
-      this.$refs.resultDialog.showDialog(result);
+
+      const result: WheelItem = this.items[id];
+      this.$refs.resultDialog.showDialog(result.value, result.color);
     },
   },
 };

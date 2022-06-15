@@ -104,9 +104,9 @@ export default {
       }, 30);
     },
 
-    getResult(deg: number): string {
+    getResult(deg: number): number {
       const i = Math.floor(deg / (360 / this.items.length));
-      return this.items[i].value;
+      return this.items[i].id;
     },
   },
   mounted() {

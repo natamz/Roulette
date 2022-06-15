@@ -4,6 +4,11 @@
       <v-card>
         <v-card-text>
           <p>結果は・・・</p>
+          <div
+            id="color"
+            v-if="color"
+            :style="'background-color:' + color"
+          ></div>
           <h1>{{ result }}</h1>
         </v-card-text>
       </v-card>
@@ -21,10 +26,24 @@ export default {
     };
   },
   methods: {
-    showDialog(result: string) {
+    showDialog(result: string, color: string) {
       this.result = result;
+      if (color !== "") {
+        this.color = color;
+      }
+
       this.dialog = true;
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+div#color {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  height: 2em;
+  border-radius: 5px;
+}
+</style>

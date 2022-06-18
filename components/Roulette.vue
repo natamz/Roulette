@@ -26,7 +26,11 @@
           :disabled="isRunning"
         ></v-btn>
 
-        <v-text-field v-model="item.value" :disabled="isRunning"></v-text-field>
+        <v-text-field
+          v-model="item.value"
+          @blur="changeValue(item.id, item.value)"
+          :disabled="isRunning"
+        ></v-text-field>
 
         <v-btn
           size="x-small"
@@ -49,42 +53,35 @@ import WheelItem from "@/types/WheelItem";
 import { colors } from "@/consts/colors";
 
 export default {
-  data(): { items: WheelItem[]; count: number; isRunning: boolean } {
+  data(): { items: WheelItem[]; isRunning: boolean } {
     return {
-      items: [
-        {
-          id: 1,
-          value: "hoge",
-          color: colors[0],
-        },
-        {
-          id: 2,
-          value: "fuga",
-          color: colors[1],
-        },
-      ],
-      count: 2,
+      items: [],
       isRunning: false,
     };
   },
   methods: {
-    add() {
-      this.count++;
-      this.items.push({
-        id: this.count,
+    async add() {
+      this.$db.rouletteItem.add({
         value: "",
         color: colors[Math.floor(Math.random() * colors.length)],
+        rate: 1,
       });
+      this.items = await this.$db.rouletteItem.getAll();
     },
-    remove(id: number) {
-      this.items = this.items.filter((i: WheelItem) => i.id !== id);
+    async remove(id: number) {
+      this.$db.rouletteItem.remove(id);
+      this.items = await this.$db.rouletteItem.getAll();
     },
-    changeColor({ id, color }) {
-      const index: number = this.items.findIndex((x: WheelItem) => x.id === id);
-      if (index < -1) {
-        return;
-      }
-      this.items[index].color = color;
+    async changeColor({ id, color }) {
+      const item = await this.$db.rouletteItem.get(id);
+      item.color = color;
+      this.$db.rouletteItem.update(item);
+      this.items = await this.$db.rouletteItem.getAll();
+    },
+    async changeValue(id: number, value: string) {
+      const item = await this.$db.rouletteItem.get(id);
+      item.value = value;
+      this.$db.rouletteItem.update(item);
     },
     start() {
       if (this.items.length < 1) {
@@ -99,6 +96,9 @@ export default {
       const result: WheelItem = this.items.find((i: WheelItem) => i.id == id);
       this.$refs.resultDialog.showDialog(result.value, result.color);
     },
+  },
+  async mounted() {
+    this.items = await this.$db.rouletteItem.getAll();
   },
 };
 </script>

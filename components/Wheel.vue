@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import WheelItem from "@/types/WheelItem";
+import { RouletteItem } from "~~/models/entities/RouletteItem";
 
 // canvasの中心座標
 const CENTER_X: number = 250;
@@ -28,7 +28,7 @@ export default {
     };
   },
   props: {
-    items: { type: Object as () => WheelItem, default: [] },
+    items: { type: Object as () => RouletteItem, default: [] },
   },
   methods: {
     draw(start_deg: number = 0) {
@@ -36,16 +36,16 @@ export default {
 
       const deg: number = 359.9 / this.sumOfItemsRate;
 
-      this.items.forEach((element: WheelItem) => {
+      this.items.forEach((element: RouletteItem) => {
         const element_deg = deg * element.rate;
         this.drawPart(start_deg, start_deg + element_deg, element);
-        this.drawLabel((start_deg * 2 + element_deg) / 2, element.value);
+        this.drawLabel((start_deg * 2 + element_deg) / 2, element.name);
         start_deg += element_deg;
       });
       this.drawTriangle();
     },
 
-    drawPart(start_deg: number, end_deg: number, element: WheelItem) {
+    drawPart(start_deg: number, end_deg: number, element: RouletteItem) {
       const start_rad: number = ToRadian(start_deg);
       const end_rad: number = ToRadian(end_deg);
 
@@ -119,7 +119,7 @@ export default {
 
     calcSumOfItemsRate() {
       this.sumOfItemsRate = this.items.reduce(
-        (num: number, item: WheelItem) => {
+        (num: number, item: RouletteItem) => {
           return num + item.rate;
         },
         0

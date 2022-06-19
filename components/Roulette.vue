@@ -31,7 +31,7 @@
 
         <v-col cols="6">
           <v-text-field
-            v-model="item.value"
+            v-model="item.name"
             :disabled="isRunning"
           ></v-text-field>
         </v-col>
@@ -65,11 +65,11 @@
 </template>
 
 <script lang="ts">
-import WheelItem from "@/types/WheelItem";
 import { colors } from "@/consts/colors";
+import { RouletteItem } from "~~/models/entities/RouletteItem";
 
 export default {
-  data(): { items: WheelItem[]; isRunning: boolean } {
+  data(): { items: RouletteItem[]; isRunning: boolean } {
     return {
       items: [],
       isRunning: false,
@@ -78,7 +78,7 @@ export default {
   methods: {
     async add() {
       this.$db.rouletteItem.add({
-        value: "",
+        name: "",
         color: colors[Math.floor(Math.random() * colors.length)],
         rate: 1,
       });
@@ -104,8 +104,10 @@ export default {
     stopped(id: number) {
       this.isRunning = false;
 
-      const result: WheelItem = this.items.find((i: WheelItem) => i.id == id);
-      this.$refs.resultDialog.showDialog(result.value, result.color);
+      const result: RouletteItem = this.items.find(
+        (i: RouletteItem) => i.id == id
+      );
+      this.$refs.resultDialog.showDialog(result.name, result.color);
     },
   },
   async mounted() {
@@ -113,11 +115,11 @@ export default {
   },
   watch: {
     items: {
-      async handler(newItems: WheelItem[]) {
+      async handler(newItems: RouletteItem[]) {
         for (const newItem of newItems) {
           const item = await this.$db.rouletteItem.get(newItem.id);
           item.rate = newItem.rate;
-          item.value = newItem.value;
+          item.name = newItem.name;
           item.color = newItem.color;
           this.$db.rouletteItem.update(item);
         }

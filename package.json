@@ -8,6 +8,7 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
+    "@mdi/font": "^6.7.96",
     "dexie": "^3.2.2",
     "nuxt": "3.0.0-rc.4",
     "sass": "^1.52.1",

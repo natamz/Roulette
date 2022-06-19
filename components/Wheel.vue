@@ -20,10 +20,11 @@ function GetTime() {
 }
 
 export default {
-  data(): { result: string; isRunning: boolean } {
+  data(): { result: string; isRunning: boolean; sumOfItemsRate: number } {
     return {
       result: "",
       isRunning: false,
+      sumOfItemsRate: 0,
     };
   },
   props: {
@@ -33,12 +34,13 @@ export default {
     draw(start_deg: number = 0) {
       this.ctx.clearRect(0, 0, 500, 500);
 
-      const deg: number = 359.9 / this.items.length;
+      const deg: number = 359.9 / this.sumOfItemsRate;
 
       this.items.forEach((element: WheelItem) => {
-        this.drawPart(start_deg, start_deg + deg, element);
-        this.drawLabel((start_deg * 2 + deg) / 2, element.value);
-        start_deg += deg;
+        const element_deg = deg * element.rate;
+        this.drawPart(start_deg, start_deg + element_deg, element);
+        this.drawLabel((start_deg * 2 + element_deg) / 2, element.value);
+        start_deg += element_deg;
       });
       this.drawTriangle();
     },
@@ -105,18 +107,35 @@ export default {
     },
 
     getResult(deg: number): number {
-      const i = Math.floor(deg / (360 / this.items.length));
-      return this.items[i].id;
+      const i = Math.floor(deg / (360 / this.sumOfItemsRate));
+      let a = 0;
+      for (const item of this.items) {
+        a += item.rate;
+        if (a > i) {
+          return item.id;
+        }
+      }
+    },
+
+    calcSumOfItemsRate() {
+      this.sumOfItemsRate = this.items.reduce(
+        (num: number, item: WheelItem) => {
+          return num + item.rate;
+        },
+        0
+      );
     },
   },
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
+    this.calcSumOfItemsRate();
     this.draw();
   },
   watch: {
     items: {
       handler() {
+        this.calcSumOfItemsRate();
         this.draw();
       },
       deep: true,

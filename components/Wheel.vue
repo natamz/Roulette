@@ -1,5 +1,8 @@
 <template>
-  <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
+  <div class="canvas_container">
+    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
+    <canvas ref="canvas_label" width="500" height="500"></canvas>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,6 +36,7 @@ export default {
   methods: {
     draw(start_deg: number = 0) {
       this.ctx.clearRect(0, 0, 500, 500);
+      this.ctx_label.clearRect(0, 0, 500, 500);
 
       const deg: number = 359.9 / this.sumOfItemsRate;
 
@@ -57,25 +61,19 @@ export default {
     },
 
     drawLabel(deg: number, text: string) {
-      this.ctx.font = "32px serif";
-      this.ctx.fillStyle = "#000000";
-      this.ctx.textBaseline = "center";
-      this.ctx.textAlign = "center";
-
       const rad: number = ToRadian(deg);
-      this.ctx.fillText(
+      this.ctx_label.fillText(
         text,
-        CENTER_X + Math.cos(rad) * 75,
-        CENTER_Y + Math.sin(rad) * 75
+        CENTER_X + Math.cos(rad) * 100,
+        CENTER_Y + Math.sin(rad) * 100
       );
     },
     drawTriangle() {
-      this.ctx.beginPath();
-      this.ctx.moveTo(250, 50);
-      this.ctx.lineTo(230, 10);
-      this.ctx.lineTo(270, 10);
-      this.ctx.fillStyle = "#000000";
-      this.ctx.fill();
+      this.ctx_label.beginPath();
+      this.ctx_label.moveTo(250, 50);
+      this.ctx_label.lineTo(230, 10);
+      this.ctx_label.lineTo(270, 10);
+      this.ctx_label.fill();
     },
 
     start() {
@@ -129,6 +127,13 @@ export default {
   mounted() {
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
+
+    this.ctx_label = this.$refs.canvas_label.getContext("2d");
+    this.ctx_label.font = "32px serif";
+    this.ctx_label.fillStyle = "#000000";
+    this.ctx_label.textBaseline = "center";
+    this.ctx_label.textAlign = "center";
+
     this.calcSumOfItemsRate();
     this.draw();
   },
@@ -145,8 +150,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.canvas_container {
+  position: relative;
+  padding: 0;
+  box-sizing: content-box;
+  &:before {
+    padding-top: 100%;
+    content: "";
+    display: block;
+  }
+}
 canvas {
   width: 100%;
   height: auto;
+  position: absolute;
+  box-sizing: content-box;
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
 }
 </style>

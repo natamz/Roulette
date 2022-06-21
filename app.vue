@@ -1,7 +1,10 @@
 <template>
+  <settings-dialog ref="settingsDialog"></settings-dialog>
+
   <v-app>
     <v-app-bar elevation="1">
       <v-app-bar-title>roulette</v-app-bar-title>
+      <v-btn @click="$refs.settingsDialog.showDialog()">設定</v-btn>
     </v-app-bar>
 
     <v-main>

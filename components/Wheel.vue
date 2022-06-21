@@ -82,7 +82,7 @@ export default {
       this.isRunning = true;
 
       // 回転時間
-      const time = 8000;
+      const time = this.$params.rotationTime;
       const startTime = GetTime();
 
       const num = Math.random() * 360;

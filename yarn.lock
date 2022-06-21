@@ -1374,7 +1374,7 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@mdi/font@^6.7.96":
+"@mdi/font@6.7.96":
   version "6.7.96"
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-6.7.96.tgz#1686425ba291b90ea02a87292a565c6d0c854afe"
   integrity sha512-M68vlRhtmA/SpDjo2dV3SUZus20jrU9Zp2ggslfzh0cbFpygPukcVpBIA3pErwsukhYt4RfbgXpFi74SjixOrQ==
@@ -1796,7 +1796,7 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-essentials@^6.5.8":
+"@storybook/addon-essentials@6.5.9":
   version "6.5.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-essentials/-/addon-essentials-6.5.9.tgz#32ba63acba4d153f4cf6ac33cbbf14b87d260788"
   integrity sha512-V9ThjKQsde4A2Es20pLFBsn0MWx2KCJuoTcTsANP4JDcbvEmj8UjbDWbs8jAU+yzJT5r+CI6NoWmQudv12ZOgw==
@@ -1957,7 +1957,7 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/builder-vite@^0.1.36":
+"@storybook/builder-vite@0.1.36":
   version "0.1.36"
   resolved "https://registry.yarnpkg.com/@storybook/builder-vite/-/builder-vite-0.1.36.tgz#dff7385e854c25b6976e1b143cc385f1bf5cb47b"
   integrity sha512-08g3NfPDAlBFIR0Axo30cgT0RT7NLICel4FVJBlJZKvxwA6Go1wi3IoO93DPJsVjAAQTfxoBiQ6/gkDBlhZE5w==
@@ -2581,7 +2581,7 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@storybook/vue3@^6.5.8":
+"@storybook/vue3@6.5.9":
   version "6.5.9"
   resolved "https://registry.yarnpkg.com/@storybook/vue3/-/vue3-6.5.9.tgz#9095f25956095643fca854ea11acfa7397fe5373"
   integrity sha512-e8vD6lLqJ32xb1uD+D3yElKZYqpMYxJGVKWK5bqyEdlEdAwVwbBSI2n1PHaYXzflNSkAUW6z+Eg19wJzOFycVA==
@@ -5280,7 +5280,7 @@ detect-port@^1.3.0:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexie@^3.2.2:
+dexie@3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.2.2.tgz#fa6f2a3c0d6ed0766f8d97a03720056f88fe0e01"
   integrity sha512-q5dC3HPmir2DERlX+toCBbHQXW5MsyrFqPFcovkH9N2S/UW/H3H5AWAB6iEOExeraAu+j+zRDG+zg/D7YhH0qg==
@@ -11240,7 +11240,7 @@ sane@^4.0.3:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-sass-loader@^13.0.0:
+sass-loader@13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-13.0.0.tgz#0b4bff0289951ed21240bca54453eca3dbda1713"
   integrity sha512-IHCFecI+rbPvXE2zO/mqdVFe8MU7ElGrwga9hh2H65Ru4iaBJAMRteum1c4Gsxi9Cq1FOtTEDd6+/AEYuQDM4Q==
@@ -11248,7 +11248,7 @@ sass-loader@^13.0.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.52.1:
+sass@1.52.3:
   version "1.52.3"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.52.3.tgz#b7cc7ffea2341ccc9a0c4fd372bf1b3f9be1b6cb"
   integrity sha512-LNNPJ9lafx+j1ArtA7GyEJm9eawXN8KlA1+5dF6IZyoONg1Tyo/g+muOsENWJH/2Q1FHbbV4UwliU0cXMa/VIA==
@@ -12915,7 +12915,7 @@ vue-docgen-loader@^1.5.0:
     loader-utils "^1.2.3"
     querystring "^0.2.0"
 
-vue-gtag@^2.0.1:
+vue-gtag@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/vue-gtag/-/vue-gtag-2.0.1.tgz#d4dc1b9cf79809c37ce844824c0f7fa97af520dd"
   integrity sha512-aM4A58FVL0wV2ptYi+xzAjeg+pQVRyUcfBc5UkXAwQrR4t3WBhor50Izp2I+3Oo7+l+vWJ7u78DGcNzReb8S/A==
@@ -12960,7 +12960,7 @@ vue@^3.2.37:
     "@vue/server-renderer" "3.2.37"
     "@vue/shared" "3.2.37"
 
-vuetify@^3.0.0-beta.3:
+vuetify@3.0.0-beta.3:
   version "3.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.0.0-beta.3.tgz#ac1f11f2447f9a5a3fa6850ee16da780dead2a64"
   integrity sha512-as6G+6S6q4kfioc0wioJ+/DOLhIDGsA/ufaSwE8GHnxnoOmx+Usi+CLAh6UaZr1VEG7HVVtFV+gBXsk8pmljQg==

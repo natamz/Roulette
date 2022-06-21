@@ -8,17 +8,17 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "@mdi/font": "^6.7.96",
-    "dexie": "^3.2.2",
+    "@mdi/font": "6.7.96",
+    "dexie": "3.2.2",
     "nuxt": "3.0.0-rc.4",
-    "sass": "^1.52.1",
-    "sass-loader": "^13.0.0",
-    "vue-gtag": "^2.0.1",
-    "vuetify": "^3.0.0-beta.3"
+    "sass": "1.52.3",
+    "sass-loader": "13.0.0",
+    "vue-gtag": "2.0.1",
+    "vuetify": "3.0.0-beta.3"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^6.5.8",
-    "@storybook/builder-vite": "^0.1.36",
-    "@storybook/vue3": "^6.5.8"
+    "@storybook/addon-essentials": "6.5.9",
+    "@storybook/builder-vite": "0.1.36",
+    "@storybook/vue3": "6.5.9"
   }
 }

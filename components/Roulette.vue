@@ -109,6 +109,13 @@ export default {
       );
       this.$refs.resultDialog.showDialog(result.name, result.color);
     },
+    async setItems(items) {
+      this.$db.rouletteItem.clear();
+      for (const item of items) {
+        await this.$db.rouletteItem.add(item);
+      }
+      this.items = items;
+    },
   },
   async mounted() {
     this.items = await this.$db.rouletteItem.getAll();
@@ -116,12 +123,8 @@ export default {
   watch: {
     items: {
       async handler(newItems: RouletteItem[]) {
-        for (const newItem of newItems) {
-          const item = await this.$db.rouletteItem.get(newItem.id);
-          item.rate = newItem.rate;
-          item.name = newItem.name;
-          item.color = newItem.color;
-          this.$db.rouletteItem.update(item);
+        for (const item of newItems) {
+          await this.$db.rouletteItem.put(item);
         }
       },
       deep: true,

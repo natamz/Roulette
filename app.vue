@@ -1,15 +1,20 @@
 <template>
   <settings-dialog ref="settingsDialog"></settings-dialog>
+  <template-dialog
+    ref="templateDialog"
+    @selectTemplate="selectTemplate"
+  ></template-dialog>
 
   <v-app>
     <v-app-bar elevation="1">
       <v-app-bar-title>roulette</v-app-bar-title>
+      <v-btn @click="$refs.templateDialog.showDialog()">テンプレート</v-btn>
       <v-btn @click="$refs.settingsDialog.showDialog()">設定</v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container>
-        <roulette></roulette>
+        <roulette ref="roulette"></roulette>
       </v-container>
     </v-main>
 
@@ -25,7 +30,17 @@
   </v-app>
 </template>
 
-<script setup>
+<script lang="ts">
+export default {
+  methods: {
+    selectTemplate(items) {
+      this.$refs.roulette.setItems(items);
+    },
+  },
+};
+</script>
+
+<script setup lang="ts">
 useHead({
   title: "ルーレット",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",

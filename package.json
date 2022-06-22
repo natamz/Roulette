@@ -11,7 +11,7 @@
     "@mdi/font": "6.7.96",
     "dexie": "3.2.2",
     "nuxt": "3.0.0-rc.4",
-    "sass": "1.52.3",
+    "sass": "1.53.0",
     "sass-loader": "13.0.0",
     "vue-gtag": "2.0.1",
     "vuetify": "3.0.0-beta.4"

@@ -1,3 +1,4 @@
+import Dexie from "dexie";
 import db from "~~/data/dexie";
 import { RouletteItem } from "../entities/RouletteItem";
 
@@ -15,6 +16,10 @@ export class RouletteItemRepository {
   async update(item: RouletteItem): Promise<RouletteItem> {
     await db.RouletteItems.update(item.id, item);
     return await this.get(item.id);
+  }
+
+  async put(item: RouletteItem) {
+    await db.RouletteItems.put(Dexie.deepClone(item));
   }
 
   async remove(id: number) {
@@ -39,5 +44,9 @@ export class RouletteItemRepository {
       .catch((e) => {
         throw new Error(e);
       });
+  }
+
+  async clear() {
+    await db.RouletteItems.clear();
   }
 }

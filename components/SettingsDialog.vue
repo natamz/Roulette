@@ -13,21 +13,42 @@
           </v-btn>
           <v-toolbar-title>設定</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn text @click="dialog = false"> 保存 </v-btn>
-          </v-toolbar-items>
         </v-toolbar>
 
         <v-divider></v-divider>
         <v-list>
+          <v-list-subheader>回転時間</v-list-subheader>
           <v-list-item>
-            <v-list-item-title class="mr-3"> 回転時間 </v-list-item-title>
             <v-list-item-action v-for="item in rotationTimes">
               <v-btn
                 @click="setRotationTime(item.value)"
                 :color="item.value == rotationTimeValue ? 'primary' : ''"
                 class="ma-1"
                 >{{ item.name }}
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-divider></v-divider>
+          <v-list-subheader> 音 </v-list-subheader>
+
+          <v-list-item>
+            <v-btn @click="toggleAudio" v-model="audio">
+              <v-icon
+                :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'"
+              ></v-icon
+            ></v-btn>
+          </v-list-item>
+
+          <v-list-subheader> 結果発表の効果音 </v-list-subheader>
+          <v-list-item>
+            <v-list-item-action v-for="item in audioResultTypes">
+              <v-btn
+                @click="setAudioResult(item)"
+                class="ma-1"
+                :color="item == audioResultType ? 'primary' : ''"
+              >
+                {{ item }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -54,25 +75,45 @@ export default {
     dialog: boolean;
     rotationTimes: rotationTime[];
     rotationTimeValue: number;
+    audio: boolean;
+    audioResultType: number;
+    audioResultTypes: number[];
   } {
     return {
       dialog: false,
       rotationTimes: rotationTimes,
       rotationTimeValue: 0,
+      audio: false,
+      audioResultType: 1,
+      audioResultTypes: [1, 2, 3],
     };
   },
   methods: {
     showDialog() {
       this.dialog = true;
+      this.$audio.click();
     },
     setRotationTime(num: number) {
       this.$params.rotationTime = this.rotationTimeValue = num;
+      this.$audio.click();
       localStorage.setItem("rotationTime", `${num}`);
+    },
+    toggleAudio() {
+      this.audio = !this.audio;
+      localStorage.setItem("audio", `${this.audio}`);
+      this.$audio.click();
+    },
+    setAudioResult(num: number) {
+      this.audioResultType = num;
+      localStorage.setItem("audioResultType", `${num}`);
+      this.$audio.result();
     },
   },
   mounted() {
     this.$params.rotationTime = this.rotationTimeValue =
       localStorage.getItem("rotationTime") ?? 8000;
+    this.audio = localStorage.getItem("audio") == "true";
+    this.audioResultType = localStorage.getItem("audioResultType") ?? 1;
   },
 };
 </script>

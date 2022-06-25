@@ -108,6 +108,7 @@ export default {
         (i: RouletteItem) => i.id == id
       );
       this.$refs.resultDialog.showDialog(result.name, result.color);
+      this.$audio.result();
     },
     async setItems(items) {
       this.$db.rouletteItem.clear();

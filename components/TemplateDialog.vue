@@ -13,16 +13,19 @@
           </v-btn>
           <v-toolbar-title>テンプレート</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn text @click="dialog = false"> 保存 </v-btn>
-          </v-toolbar-items>
         </v-toolbar>
 
         <v-divider></v-divider>
         <v-list>
           <v-list-item v-for="(template, index) in templates">
-            {{ template.name }}
-            <v-btn @click="selectTemplate(index)"></v-btn>
+            <v-row>
+              <v-col>
+                {{ template.name }}
+              </v-col>
+              <v-col>
+                <v-btn @click="selectTemplate(index)"></v-btn>
+              </v-col>
+            </v-row>
           </v-list-item>
         </v-list>
       </v-card>
@@ -31,19 +34,7 @@
 </template>
 
 <script lang="ts">
-const templates = [
-  {
-    name: "サイコロ",
-    items: [
-      { name: "1", rate: 1, color: "#ff9e9e" },
-      { name: "2", rate: 1, color: "#ff9eff" },
-      { name: "3", rate: 1, color: "#9e9eff" },
-      { name: "4", rate: 1, color: "#9effff" },
-      { name: "5", rate: 1, color: "#9eff9e" },
-      { name: "6", rate: 1, color: "#ffff9e" },
-    ],
-  },
-];
+import { templates } from "~~/consts/templates";
 
 export default {
   data(): {
@@ -58,11 +49,13 @@ export default {
   methods: {
     showDialog() {
       this.dialog = true;
+      this.$audio.click();
     },
     selectTemplate(index: number) {
       const items = JSON.parse(JSON.stringify(templates[index].items));
       if (items) {
         this.$emit("selectTemplate", items);
+        this.$audio.click();
         this.dialog = false;
       }
     },

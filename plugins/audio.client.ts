@@ -8,7 +8,7 @@ export default function (context: Context, inject: Inject): void {
 class AudioUtil {
   click() {
     if (localStorage.getItem("audio") != "true") return;
-    new Audio("/audio/click.wav").play();
+    play(buffs["click.wav"]);
   }
   result() {
     if (localStorage.getItem("audio") != "true") return;
@@ -16,13 +16,41 @@ class AudioUtil {
     const type = localStorage.getItem("audioResultType");
     switch (type) {
       case "1":
-        return new Audio("/audio/result_1.wav").play();
+        return play(buffs["result_1.wav"]);
       case "2":
-        return new Audio("/audio/result_2.wav").play();
+        return play(buffs["result_2.wav"]);
       case "3":
-        return new Audio("/audio/result_3.wav").play();
+        return play(buffs["result_3.wav"]);
       default:
-        return new Audio("/audio/result_1.wav").play();
+        return play(buffs["result_1.wav"]);
     }
   }
+}
+
+const audioContext = new AudioContext();
+const fileNames: string[] = [
+  "click.wav",
+  "result_1.wav",
+  "result_2.wav",
+  "result_3.wav",
+];
+const buffs: AudioBuffer[] = [];
+
+(async () => {
+  fileNames.forEach(async (item) => {
+    const response = await fetch(`/audio/${item}`);
+    const buffer = await response.arrayBuffer();
+    buffs[item] = await audioContext.decodeAudioData(buffer);
+  });
+})();
+
+function createSourceNode(audioBuffer: AudioBuffer): AudioBufferSourceNode {
+  const sourceNode = audioContext.createBufferSource();
+  sourceNode.buffer = audioBuffer;
+  sourceNode.connect(audioContext.destination);
+  return sourceNode;
+}
+
+function play(audioBuffer: AudioBuffer) {
+  createSourceNode(audioBuffer).start(0);
 }

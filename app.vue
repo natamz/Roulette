@@ -23,7 +23,9 @@
         <v-divider></v-divider>
 
         <v-card-text>
-          {{ new Date().getFullYear() }} — <strong>nata</strong>
+          <v-btn href="https://github.com/natamz/Roulette" variant="flat">
+            <v-icon>mdi-github</v-icon>
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-footer>

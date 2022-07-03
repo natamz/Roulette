@@ -77,9 +77,10 @@ export default {
   },
   methods: {
     async add() {
+      const _colors = colors.flat();
       this.$db.rouletteItem.add({
         name: "",
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: _colors[Math.floor(Math.random() * _colors.length)],
         rate: 1,
       });
       this.items = await this.$db.rouletteItem.getAll();

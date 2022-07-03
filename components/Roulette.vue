@@ -18,48 +18,58 @@
     </v-col>
 
     <v-col cols="12" sm="6">
-      <v-row v-for="item in items" :key="item.id">
-        <v-col cols="2">
-          <v-btn
-            class="ma-1"
-            block
-            @click="$refs.colorPalette.showDialog(item.id)"
-            :style="'background-color:' + item.color"
-            :disabled="isRunning"
-          ></v-btn>
-        </v-col>
+      <responsive :isRunning="isRunning">
+        <template v-slot:content>
+          <v-container>
+            <v-row v-for="item in items" :key="item.id">
+              <v-col cols="2">
+                <v-btn
+                  class="ma-1"
+                  block
+                  @click="$refs.colorPalette.showDialog(item.id)"
+                  :style="'background-color:' + item.color"
+                  :disabled="isRunning"
+                ></v-btn>
+              </v-col>
 
-        <v-col cols="6">
-          <v-text-field
-            v-model="item.name"
-            :disabled="isRunning"
-          ></v-text-field>
-        </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="item.name"
+                  :disabled="isRunning"
+                ></v-text-field>
+              </v-col>
 
-        <v-col cols="2">
-          <v-select
-            :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-            v-model="item.rate"
-            :disabled="isRunning"
-            density="compact"
-          ></v-select>
-        </v-col>
+              <v-col cols="2">
+                <v-select
+                  :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                  v-model="item.rate"
+                  :disabled="isRunning"
+                  density="compact"
+                ></v-select>
+              </v-col>
 
-        <v-col cols="2">
-          <v-btn
-            size="x-small"
-            block
-            color="error"
-            @click="remove(item.id)"
-            :disabled="isRunning"
-            >x</v-btn
-          >
-        </v-col>
-      </v-row>
-
-      <v-btn @click="add" block elevation="2" class="ma-1" :disabled="isRunning"
-        >add</v-btn
-      >
+              <v-col cols="2">
+                <v-btn
+                  size="x-small"
+                  block
+                  color="error"
+                  @click="remove(item.id)"
+                  :disabled="isRunning"
+                  >x</v-btn
+                >
+              </v-col>
+            </v-row>
+            <v-btn
+              @click="add"
+              block
+              elevation="2"
+              class="ma-1"
+              :disabled="isRunning"
+              >add</v-btn
+            >
+          </v-container>
+        </template>
+      </responsive>
     </v-col>
   </v-row>
 </template>

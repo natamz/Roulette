@@ -43,4 +43,8 @@ export default {
 .v-card-actions {
   background-color: #cfd8dc;
 }
+
+.v-card {
+  background: rgba(255, 255, 255, 0.85);
+}
 </style>

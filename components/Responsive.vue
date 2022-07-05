@@ -5,7 +5,7 @@
 
   <div class="hidden-sm-and-up">
     <v-row justify="center" class="mt-2">
-      <v-btn :disabled="isRunning" @click="dialog = true">
+      <v-btn :disabled="isRunning" @click="showDialog">
         <v-icon size="30">mdi-chevron-up</v-icon>
       </v-btn>
     </v-row>
@@ -35,6 +35,12 @@ export default {
   },
   props: {
     isRunning: { type: Boolean, default: false },
+  },
+  methods: {
+    showDialog() {
+      this.dialog = true;
+      this.$audio.click_B();
+    },
   },
 };
 </script>

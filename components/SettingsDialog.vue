@@ -51,6 +51,15 @@
                 {{ item }}
               </v-btn>
             </v-list-item-action>
+            <v-list-item-action>
+              <v-btn
+                @click="setAudioResult(99)"
+                class="ma-1"
+                :color="99 == audioResultType ? 'primary' : ''"
+              >
+                ？
+              </v-btn>
+            </v-list-item-action>
           </v-list-item>
         </v-list>
       </v-card>

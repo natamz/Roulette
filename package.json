@@ -3,6 +3,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "devo": "nuxt dev -o",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "storybook": "start-storybook"

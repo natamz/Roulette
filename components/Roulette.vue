@@ -110,6 +110,7 @@ export default {
         return;
       }
       this.isRunning = true;
+      this.$audio.start();
       this.$refs.wheel.start();
     },
     stopped(id: number) {

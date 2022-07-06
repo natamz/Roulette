@@ -119,10 +119,13 @@ export default {
     },
   },
   mounted() {
-    this.$params.rotationTime = this.rotationTimeValue =
-      localStorage.getItem("rotationTime") ?? 8000;
+    this.rotationTimeValue = localStorage.getItem("rotationTime") ?? 8000;
+    localStorage.setItem("rotationTime", this.rotationTimeValue);
+
     this.audio = localStorage.getItem("audio") == "true";
+
     this.audioResultType = localStorage.getItem("audioResultType") ?? 1;
+    localStorage.setItem("audioResultType", this.audioResultType);
   },
 };
 </script>

@@ -82,7 +82,7 @@ export default {
       this.isRunning = true;
 
       // 回転時間
-      const time = this.$params.rotationTime;
+      const time = Number(localStorage.getItem("rotationTime"));
       const startTime = GetTime();
 
       const num = Math.random() * 360;
@@ -125,8 +125,7 @@ export default {
     },
   },
   mounted() {
-    this.canvas = this.$refs.canvas;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.$refs.canvas.getContext("2d");
 
     this.ctx_label = this.$refs.canvas_label.getContext("2d");
     this.ctx_label.font = "32px serif";

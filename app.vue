@@ -49,12 +49,12 @@ useHead({
   charset: "utf-8",
   meta: [{ name: "description", content: "roulette web application" }],
   link: [
-    { rel: "icon", href: "/favicons/favicon.ico" },
-    { rel: "icon", type: "image/png", href: "/favicons/icon-192x192.png" },
+    { rel: "icon", href: "./favicons/favicon.ico" },
+    { rel: "icon", type: "image/png", href: "./favicons/icon-192x192.png" },
     {
       rel: "apple-touch-icon",
       type: "image/png",
-      href: "/favicons/apple-touch-icon-180x180.png",
+      href: "./favicons/apple-touch-icon-180x180.png",
     },
   ],
 });

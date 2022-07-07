@@ -66,7 +66,7 @@ const buffs: AudioBuffer[] = [];
 
 (async () => {
   fileNames.forEach(async (item) => {
-    const response = await fetch(`/audio/${item}`);
+    const response = await fetch(`./audio/${item}`);
     const buffer = await response.arrayBuffer();
     buffs[item] = await audioContext.decodeAudioData(buffer);
   });

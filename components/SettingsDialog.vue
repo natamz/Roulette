@@ -103,7 +103,7 @@ export default {
       this.$audio.click();
     },
     setRotationTime(num: number) {
-      this.$params.rotationTime = this.rotationTimeValue = num;
+      this.rotationTimeValue = num;
       this.$audio.click();
       localStorage.setItem("rotationTime", `${num}`);
     },

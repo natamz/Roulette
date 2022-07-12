@@ -1,5 +1,9 @@
 # Roulette
-roulette app
+Nuxt3勉強用に作成したルーレットのWEBアプリケーションです。
+
+## Demo
+
+<https://happy-water-032c8bb00.1.azurestaticapps.net/>
 
 ## Setup
 

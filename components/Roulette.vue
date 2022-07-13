@@ -13,7 +13,7 @@
         elevation="2"
         size="large"
         :disabled="isRunning"
-        >start
+        >開始
       </v-btn>
     </v-col>
 
@@ -55,8 +55,9 @@
                   color="error"
                   @click="remove(item.id)"
                   :disabled="isRunning"
-                  >x</v-btn
                 >
+                  <v-icon> mdi-close </v-icon>
+                </v-btn>
               </v-col>
             </v-row>
             <v-btn
@@ -65,8 +66,9 @@
               elevation="2"
               class="ma-1"
               :disabled="isRunning"
-              >add</v-btn
             >
+              <v-icon>mdi-card-plus-outline</v-icon>
+            </v-btn>
           </v-container>
         </template>
       </responsive>

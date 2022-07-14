@@ -7,9 +7,13 @@
 
   <v-app>
     <v-app-bar elevation="1">
-      <v-app-bar-title>roulette</v-app-bar-title>
-      <v-btn @click="$refs.templateDialog.showDialog()">テンプレート</v-btn>
-      <v-btn @click="$refs.settingsDialog.showDialog()">設定</v-btn>
+      <v-app-bar-title>ルーレット</v-app-bar-title>
+      <v-btn @click="$refs.templateDialog.showDialog()" icon>
+        <v-icon>mdi-database</v-icon>
+      </v-btn>
+      <v-btn @click="$refs.settingsDialog.showDialog()" icon>
+        <v-icon>mdi-cog-outline</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>

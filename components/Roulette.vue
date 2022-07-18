@@ -21,40 +21,43 @@
       <responsive :isRunning="isRunning">
         <template v-slot:content>
           <v-container>
-            <v-row v-for="item in items" :key="item.id">
-              <v-col cols="2">
+            <v-row v-for="item in items" :key="item.id" class="my-1">
+              <v-col cols="2" class="px-1 d-flex flex-column justify-center">
                 <v-btn
-                  class="ma-1"
                   block
                   @click="$refs.colorPalette.showDialog(item.id)"
                   :style="'background-color:' + item.color"
                   :disabled="isRunning"
+                  class="my-3"
                 ></v-btn>
               </v-col>
 
-              <v-col cols="6">
+              <v-col cols="6" class="px-1">
                 <v-text-field
                   v-model="item.name"
                   :disabled="isRunning"
+                  hide-details="auto"
+                  clearable
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="2">
+              <v-col cols="2" class="px-1">
                 <v-select
                   :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
                   v-model="item.rate"
                   :disabled="isRunning"
                   density="compact"
+                  hide-details="auto"
                 ></v-select>
               </v-col>
 
-              <v-col cols="2">
+              <v-col cols="2" class="px-1">
                 <v-btn
                   size="x-small"
-                  block
-                  color="error"
+                  icon
                   @click="remove(item.id)"
                   :disabled="isRunning"
+                  class="remove-btn"
                 >
                   <v-icon> mdi-close </v-icon>
                 </v-btn>
@@ -149,3 +152,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.v-select {
+  * :not(.v-field__append-inner *) {
+    height: 56px;
+  }
+}
+
+.remove-btn {
+  background-color: #e34c26;
+  color: rgba(255, 255, 255, 0.85);
+}
+</style>

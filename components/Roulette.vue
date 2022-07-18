@@ -112,11 +112,13 @@ export default {
         return;
       }
       this.isRunning = true;
+      this.$emit("stateChange", true);
       this.$audio.start();
       this.$refs.wheel.start();
     },
     stopped(id: number) {
       this.isRunning = false;
+      this.$emit("stateChange", false);
 
       const result: RouletteItem = this.items.find(
         (i: RouletteItem) => i.id == id

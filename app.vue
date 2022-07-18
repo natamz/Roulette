@@ -9,20 +9,32 @@
   <v-app>
     <v-app-bar elevation="1">
       <v-app-bar-title>ルーレット</v-app-bar-title>
-      <v-btn @click="$refs.tutorialDialog.showDialog()" icon>
+      <v-btn
+        @click="$refs.tutorialDialog.showDialog()"
+        icon
+        :disabled="isRunning"
+      >
         <v-icon>mdi-help-circle-outline</v-icon>
       </v-btn>
-      <v-btn @click="$refs.templateDialog.showDialog()" icon>
+      <v-btn
+        @click="$refs.templateDialog.showDialog()"
+        icon
+        :disabled="isRunning"
+      >
         <v-icon>mdi-database</v-icon>
       </v-btn>
-      <v-btn @click="$refs.settingsDialog.showDialog()" icon>
+      <v-btn
+        @click="$refs.settingsDialog.showDialog()"
+        icon
+        :disabled="isRunning"
+      >
         <v-icon>mdi-cog-outline</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container>
-        <roulette ref="roulette"></roulette>
+        <roulette ref="roulette" @stateChange="stateChange"></roulette>
       </v-container>
     </v-main>
 
@@ -42,9 +54,17 @@
 
 <script lang="ts">
 export default {
+  data() {
+    return {
+      isRunning: false,
+    };
+  },
   methods: {
     selectTemplate(items) {
       this.$refs.roulette.setItems(items);
+    },
+    stateChange(isRunning: boolean) {
+      this.isRunning = isRunning;
     },
   },
 };

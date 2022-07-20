@@ -9,7 +9,7 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "@mdi/font": "6.9.96",
+    "@mdi/font": "7.0.96",
     "dexie": "3.2.2",
     "nuxt": "3.0.0-rc.6",
     "sass": "1.53.0",

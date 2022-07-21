@@ -6,9 +6,9 @@ export interface Db {
   rouletteItem: RouletteItemRepository;
 }
 
-export default function (context: Context, inject: Inject): void {
+export default defineNuxtPlugin((nuxtApp) => {
   const db: Db = {
     rouletteItem: new RouletteItemRepository(),
   };
-  inject("db", db);
-}
+  nuxtApp.provide("db", db);
+});

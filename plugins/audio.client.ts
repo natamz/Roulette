@@ -1,9 +1,9 @@
 import { Context } from "@nuxt/types";
 import { Inject } from "@nuxt/types/app";
 
-export default function (context: Context, inject: Inject): void {
-  inject("audio", new AudioUtil());
-}
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.provide("audio", new AudioUtil());
+});
 
 class AudioUtil {
   click() {

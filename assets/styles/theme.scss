@@ -1,0 +1,46 @@
+$dark-background: #0e2436;
+$dark-color: #c5ccca;
+.dark-mode {
+  #__nuxt {
+    > div,
+    header,
+    footer,
+    input,
+    .v-card,
+    .v-btn,
+    .v-input {
+      background-color: $dark-background;
+      color: $dark-color;
+      transition-duration: 0.28s;
+    }
+    background-color: $dark-background;
+  }
+  .v-overlay__content {
+    > div,
+    > div > div {
+      background-color: $dark-background;
+      color: $dark-color;
+    }
+  }
+
+  .remove-btn {
+    background-color: #ad3a1d;
+    color: rgba(228, 179, 179, 0.85);
+  }
+
+  .bg-primary {
+    background-color: #4d2c99 !important;
+    color: $dark-color !important;
+  }
+}
+
+// ダイアログ内の背景色がゆっくり変わるようにする
+.settintgs-dialog {
+  .v-list,
+  .v-list * {
+    transition-duration: 0.28s !important;
+    i {
+      transition-duration: 0s !important;
+    }
+  }
+}

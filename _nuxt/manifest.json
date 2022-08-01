@@ -1,16 +1,53 @@
 {
   "node_modules/nuxt/dist/app/entry.mjs": {
-    "file": "entry-6752e7df.mjs",
+    "file": "entry-e1d993ae.mjs",
     "src": "node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
+    "dynamicImports": [
+      "virtual:nuxt:/home/runner/work/Roulette/Roulette/.nuxt/error-component.mjs"
+    ],
     "css": [
-      "entry.b403032c.css"
+      "entry.3b034d69.css"
     ],
     "assets": [
-      "materialdesignicons-webfont.5be9e9d7.eot",
-      "materialdesignicons-webfont.633d596f.woff2",
-      "materialdesignicons-webfont.7f3afe9b.woff",
-      "materialdesignicons-webfont.948fce52.ttf"
+      "materialdesignicons-webfont.861aea05.eot",
+      "materialdesignicons-webfont.e52d60f6.woff2",
+      "materialdesignicons-webfont.48d3eec6.woff",
+      "materialdesignicons-webfont.bd725a7a.ttf"
+    ]
+  },
+  "virtual:nuxt:/home/runner/work/Roulette/Roulette/.nuxt/error-component.mjs": {
+    "file": "error-component-0aa19a95.mjs",
+    "src": "virtual:nuxt:/home/runner/work/Roulette/Roulette/.nuxt/error-component.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.mjs"
+    ],
+    "dynamicImports": [
+      "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+      "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
+    ]
+  },
+  "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
+    "file": "error-404-63656ccc.mjs",
+    "src": "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.mjs"
+    ],
+    "css": [
+      "error-404.6337bac3.css"
+    ]
+  },
+  "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
+    "file": "error-500-446e7fea.mjs",
+    "src": "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.mjs"
+    ],
+    "css": [
+      "error-500.000824c9.css"
     ]
   }
 }

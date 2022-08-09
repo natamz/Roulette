@@ -34,10 +34,12 @@
 
               <v-col cols="6" class="px-1">
                 <v-text-field
+                  ref="textFields"
                   v-model="item.name"
                   :disabled="isRunning"
                   hide-details="auto"
                   clearable
+                  @keypress.enter="onKeypressEnter(item.id)"
                 ></v-text-field>
               </v-col>
 
@@ -135,6 +137,13 @@ export default {
         await this.$db.rouletteItem.add(item);
       }
       this.items = items;
+    },
+    async onKeypressEnter(id: number) {
+      const maxId = Math.max(...this.items.map((i: RouletteItem) => i.id));
+      if (id === maxId) {
+        await this.add();
+        this.$refs.textFields[this.$refs.textFields.length - 1].focus();
+      }
     },
   },
   async mounted() {

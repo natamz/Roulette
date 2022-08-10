@@ -2,7 +2,6 @@ import { defineNuxtConfig } from "nuxt";
 
 const baseURL = process.env.baseURL;
 
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
   modules: ["@nuxtjs/color-mode"],
@@ -43,6 +42,11 @@ export default defineNuxtConfig({
           href: `${baseURL}/favicons/apple-touch-icon-180x180.png`,
         },
       ],
+    },
+  },
+  runtimeConfig: {
+    public: {
+      gaid: "",
     },
   },
 });

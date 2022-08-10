@@ -11,6 +11,7 @@ on:
 
 env:
   baseURL: ''
+  NUXT_PUBLIC_GAID: ${{ secrets.NUXT_PUBLIC_GAID }}
 
 jobs:
   build_and_deploy_job:

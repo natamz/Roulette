@@ -1,14 +1,10 @@
-import { defineNuxtPlugin } from "#app";
-import VueGtag from "vue-gtag";
+import VueGtag from "vue-gtag-next";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(
-    VueGtag,
-    {
-      appName: "roulette",
-      pageTrackerScreenviewEnabled: true,
-      config: { id: "G-5C5ZTVTD0H" },
+  const config = useRuntimeConfig();
+  nuxtApp.vueApp.use(VueGtag, {
+    property: {
+      id: config.public.gaid,
     },
-    useRouter()
-  );
+  });
 });

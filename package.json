@@ -14,7 +14,7 @@
     "dexie": "3.2.2",
     "dotenv": "16.0.1",
     "nuxt": "3.0.0-rc.6",
-    "sass": "1.54.3",
+    "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "vue-gtag-next": "1.14.0",
     "vuetify": "3.0.0-beta.4"

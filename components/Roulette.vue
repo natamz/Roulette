@@ -21,50 +21,77 @@
       <responsive :isRunning="isRunning">
         <template v-slot:content>
           <v-container>
-            <v-row v-for="item in items" :key="item.id" class="my-1">
-              <v-col cols="2" class="px-1 d-flex flex-column justify-center">
-                <v-btn
-                  block
-                  @click="$refs.colorPalette.showDialog(item.id)"
-                  :style="'background-color:' + item.color"
-                  :disabled="isRunning"
-                  class="my-3"
-                ></v-btn>
-              </v-col>
+            <draggable
+              class="list-group"
+              :list="items"
+              v-bind="dragOptions"
+              item-key="id"
+              handle=".handle"
+              @start="drag = true"
+              @end="drag = false"
+              :component-data="{
+                tag: 'div',
+                type: 'transition-group',
+                name: !drag ? 'flip-list' : null,
+              }"
+            >
+              <template #item="{ element, index }">
+                <v-row :key="element.id" class="my-1">
+                  <v-col
+                    cols="1"
+                    class="px-1 d-flex flex-column justify-center"
+                  >
+                    <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
+                  </v-col>
 
-              <v-col cols="6" class="px-1">
-                <v-text-field
-                  ref="textFields"
-                  v-model="item.name"
-                  :disabled="isRunning"
-                  hide-details="auto"
-                  clearable
-                  @keypress.enter="onKeypressEnter(item.id)"
-                ></v-text-field>
-              </v-col>
+                  <v-col
+                    cols="1"
+                    class="px-1 d-flex flex-column justify-center"
+                  >
+                    <v-btn
+                      block
+                      @click="$refs.colorPalette.showDialog(element.id)"
+                      :style="'background-color:' + element.color"
+                      :disabled="isRunning"
+                      class="my-3"
+                    ></v-btn>
+                  </v-col>
 
-              <v-col cols="2" class="px-1">
-                <v-select
-                  :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                  v-model="item.rate"
-                  :disabled="isRunning"
-                  density="compact"
-                  hide-details="auto"
-                ></v-select>
-              </v-col>
+                  <v-col cols="6" class="px-1">
+                    <v-text-field
+                      ref="textFields"
+                      v-model="element.name"
+                      :disabled="isRunning"
+                      hide-details="auto"
+                      clearable
+                      @keypress.enter="onKeypressEnter(index)"
+                    ></v-text-field>
+                  </v-col>
 
-              <v-col cols="2" class="px-1">
-                <v-btn
-                  size="x-small"
-                  icon
-                  @click="remove(item.id)"
-                  :disabled="isRunning"
-                  class="remove-btn"
-                >
-                  <v-icon> mdi-close </v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
+                  <v-col cols="2" class="px-1">
+                    <v-select
+                      :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                      v-model="element.rate"
+                      :disabled="isRunning"
+                      density="compact"
+                      hide-details="auto"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="2" class="px-1">
+                    <v-btn
+                      size="x-small"
+                      icon
+                      @click="remove(element.id)"
+                      :disabled="isRunning"
+                      class="remove-btn"
+                    >
+                      <v-icon> mdi-close </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </template>
+            </draggable>
             <v-btn
               @click="add"
               block
@@ -83,34 +110,37 @@
 
 <script lang="ts">
 import { colors } from "@/consts/colors";
+import { table } from "console";
 import { RouletteItem } from "~~/models/entities/RouletteItem";
 
 export default {
-  data(): { items: RouletteItem[]; isRunning: boolean } {
+  data(): { items: RouletteItem[]; isRunning: boolean; drag: boolean } {
     return {
       items: [],
       isRunning: false,
+      drag: false,
     };
   },
   methods: {
     async add() {
       const _colors = colors.flat();
-      this.$db.rouletteItem.add({
+      let item = {
         name: "",
         color: _colors[Math.floor(Math.random() * _colors.length)],
         rate: 1,
-      });
-      this.items = await this.$db.rouletteItem.getAll();
+        order: this.items.length,
+      };
+      await this.$db.rouletteItem.add(item);
+      this.items.push(item);
     },
     async remove(id: number) {
+      this.items = this.items.filter((item: RouletteItem) => item.id !== id);
       this.$db.rouletteItem.remove(id);
-      this.items = await this.$db.rouletteItem.getAll();
     },
     async changeColor({ id, color }) {
-      const item = await this.$db.rouletteItem.get(id);
-      item.color = color;
-      this.$db.rouletteItem.update(item);
-      this.items = await this.$db.rouletteItem.getAll();
+      this.items = this.items.map((item: RouletteItem) =>
+        item.id === id ? { ...item, color: color } : item
+      );
     },
     start() {
       if (this.items.length < 1) {
@@ -131,32 +161,42 @@ export default {
       this.$refs.resultDialog.showDialog(result.name, result.color);
       this.$audio.result();
     },
-    async setItems(items) {
+    async setItems(items: RouletteItem[]) {
       this.$db.rouletteItem.clear();
-      for (const item of items) {
-        await this.$db.rouletteItem.add(item);
-      }
       this.items = items;
     },
-    async onKeypressEnter(id: number) {
-      const maxId = Math.max(...this.items.map((i: RouletteItem) => i.id));
-      if (id === maxId) {
+    async onKeypressEnter(index: number) {
+      if (index === this.items.length - 1) {
         await this.add();
-        this.$refs.textFields[this.$refs.textFields.length - 1].focus();
       }
+      this.$refs.textFields[index].focus();
     },
   },
   async mounted() {
-    this.items = await this.$db.rouletteItem.getAll();
+    const item = await this.$db.rouletteItem.getAll();
+    this.items = item.sort(
+      (a: RouletteItem, b: RouletteItem) => a.order - b.order
+    );
   },
   watch: {
     items: {
       async handler(newItems: RouletteItem[]) {
+        let order = 0;
         for (const item of newItems) {
-          await this.$db.rouletteItem.put(item);
+          await this.$db.rouletteItem.put({ ...item, order: order++ });
         }
       },
       deep: true,
+    },
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
     },
   },
 };

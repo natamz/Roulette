@@ -3,5 +3,6 @@ export class RouletteItem {
   name: string;
   color: string;
   rate: number;
+  order: number;
   constructor() {}
 }

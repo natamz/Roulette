@@ -1,7 +1,7 @@
 import Dexie from "dexie";
 import { RouletteItem } from "~~/models/entities/RouletteItem";
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 const DB_NAME = "roulette-db";
 
 interface DexieDatabase extends Dexie {
@@ -10,7 +10,7 @@ interface DexieDatabase extends Dexie {
 
 const db = new Dexie(DB_NAME) as DexieDatabase;
 db.version(SCHEMA_VERSION).stores({
-  RouletteItems: "++id,name,color,rate",
+  RouletteItems: "++id,name,color,rate,order",
 });
 
 export default db;

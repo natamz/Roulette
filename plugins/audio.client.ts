@@ -1,6 +1,3 @@
-import { Context } from "@nuxt/types";
-import { Inject } from "@nuxt/types/app";
-
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide("audio", new AudioUtil());
 });

@@ -1,5 +1,3 @@
-import { Context } from "@nuxt/types";
-import { Inject } from "@nuxt/types/app";
 import { RouletteItemRepository } from "~~/models/repositories/RouletteItemRepository";
 
 export interface Db {

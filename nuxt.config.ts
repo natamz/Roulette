@@ -24,6 +24,10 @@ export default defineNuxtConfig({
           content: "width=device-width, initial-scale=1, maximum-scale=1",
         },
         { name: "description", content: "roulette web application" },
+        {
+          name: "google-site-verification",
+          content: "p6tyJpuorBw-qfK70bDg9BSVnUU7i6zai-yiAwH-BG0",
+        },
       ],
       link: [
         {

@@ -1,6 +1,6 @@
 {
   "node_modules/nuxt/dist/app/entry.mjs": {
-    "file": "entry-d278da0f.mjs",
+    "file": "entry-7c30f069.mjs",
     "src": "node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
@@ -17,7 +17,7 @@
     ]
   },
   "virtual:nuxt:/home/runner/work/Roulette/Roulette/.nuxt/error-component.mjs": {
-    "file": "error-component-ac65815f.mjs",
+    "file": "error-component-a00ceeb1.mjs",
     "src": "virtual:nuxt:/home/runner/work/Roulette/Roulette/.nuxt/error-component.mjs",
     "isDynamicEntry": true,
     "imports": [
@@ -29,7 +29,7 @@
     ]
   },
   "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
-    "file": "error-404-62ad0bc5.mjs",
+    "file": "error-404-ab2490f1.mjs",
     "src": "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -40,7 +40,7 @@
     ]
   },
   "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
-    "file": "error-500-cd65f899.mjs",
+    "file": "error-500-6cbcc6f3.mjs",
     "src": "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
     "isDynamicEntry": true,
     "imports": [

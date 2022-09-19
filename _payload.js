@@ -1,1 +1,0 @@
-export default (function(a){return {data:{},state:{"$scolor-mode":{preference:a,value:a,unknown:true,forced:false}},prerenderedAt:1663570135703}}("system"))

@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     define: {
       "process.env.DEBUG": false,
     },
+    build: {
+      chunkSizeWarningLimit: 1000,
+    },
   },
   app: {
     baseURL: baseURL,

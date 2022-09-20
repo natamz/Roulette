@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
-    "@nuxtjs/color-mode": "3.1.5",
+    "@nuxtjs/color-mode": "3.1.4",
     "dexie": "3.2.2",
     "dotenv": "16.0.1",
-    "nuxt": "3.0.0-rc.10",
+    "nuxt": "3.0.0-rc.7",
     "sass": "1.54.9",
     "sass-loader": "13.0.2",
     "vue-gtag-next": "1.14.0",
     "vuedraggable": "4.1.0",
-    "vuetify": "3.0.0-beta.11"
+    "vuetify": "3.0.0-beta.4"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "6.5.10",

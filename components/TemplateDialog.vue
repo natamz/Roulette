@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      max-width="800px"
-      fullscreen
-      v-model="dialog"
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog max-width="800px" fullscreen v-model="dialog" transition="dialog-bottom-transition">
       <v-card>
         <v-toolbar color="primary">
           <v-btn icon @click="dialog = false">
@@ -23,7 +18,7 @@
                 {{ template.name }}
               </v-col>
               <v-col>
-                <v-btn @click="selectTemplate(index)"></v-btn>
+                <v-btn class="ma-1" @click="selectTemplate(index)"></v-btn>
               </v-col>
             </v-row>
           </v-list-item>

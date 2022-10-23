@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      max-width="800px"
-      fullscreen
-      v-model="dialog"
-      transition="dialog-bottom-transition"
-      class="settintgs-dialog"
-    >
+    <v-dialog max-width="800px" fullscreen v-model="dialog" transition="dialog-bottom-transition" class="settintgs-dialog">
       <v-card>
         <v-toolbar color="primary">
           <v-btn icon @click="dialog = false">
@@ -20,11 +14,8 @@
         <v-list>
           <v-list-subheader>回転時間</v-list-subheader>
           <v-list-item>
-            <v-list-item-action v-for="item in rotationTimes">
-              <v-btn
-                @click="setRotationTime(item.value)"
-                :color="item.value == rotationTimeValue ? 'primary' : ''"
-                class="ma-1"
+            <v-list-item-action>
+              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1"
                 >{{ item.name }}
               </v-btn>
             </v-list-item-action>
@@ -34,32 +25,16 @@
           <v-list-subheader> 音 </v-list-subheader>
 
           <v-list-item>
-            <v-btn @click="toggleAudio" v-model="audio">
-              <v-icon
-                :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'"
-              ></v-icon
-            ></v-btn>
+            <v-btn class="ma-1" @click="toggleAudio" v-model="audio"> <v-icon :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'"></v-icon></v-btn>
           </v-list-item>
 
           <v-list-subheader> 結果発表の効果音 </v-list-subheader>
           <v-list-item>
-            <v-list-item-action v-for="item in audioResultTypes">
-              <v-btn
-                @click="setAudioResult(item)"
-                class="ma-1"
-                :color="item == audioResultType ? 'primary' : ''"
-              >
+            <v-list-item-action>
+              <v-btn v-for="item in audioResultTypes" @click="setAudioResult(item)" class="ma-1" :color="item == audioResultType ? 'primary' : ''">
                 {{ item }}
               </v-btn>
-            </v-list-item-action>
-            <v-list-item-action>
-              <v-btn
-                @click="setAudioResult(99)"
-                class="ma-1"
-                :color="99 == audioResultType ? 'primary' : ''"
-              >
-                ？
-              </v-btn>
+              <v-btn @click="setAudioResult(99)" class="ma-1" :color="99 == audioResultType ? 'primary' : ''"> ？ </v-btn>
             </v-list-item-action>
           </v-list-item>
 

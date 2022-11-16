@@ -1,5 +1,3 @@
-import { defineNuxtConfig } from "nuxt";
-
 const baseURL = process.env.baseURL;
 
 export default defineNuxtConfig({

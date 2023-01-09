@@ -113,6 +113,8 @@ import { colors } from "@/consts/colors";
 import { table } from "console";
 import { RouletteItem } from "~~/models/entities/RouletteItem";
 
+const colorList: string[] = colors.flat();
+
 export default {
   data(): { items: RouletteItem[]; isRunning: boolean; drag: boolean } {
     return {
@@ -123,7 +125,11 @@ export default {
   },
   methods: {
     async add() {
-      const _colors = colors.flat();
+      const _colors = colorList.filter((item) => !this.items.some((i) => i.color === item));
+      if (_colors.length === 0) {
+        _colors.push(...colorList);
+      }
+
       let item = {
         name: "",
         color: _colors[Math.floor(Math.random() * _colors.length)],

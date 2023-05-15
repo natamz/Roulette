@@ -46,6 +46,7 @@
           <v-btn href="https://github.com/natamz/Roulette" variant="flat">
             <v-icon>mdi-github</v-icon>
           </v-btn>
+          <share-button />
         </v-card-text>
       </v-card>
     </v-footer>

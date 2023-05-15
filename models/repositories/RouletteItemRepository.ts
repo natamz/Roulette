@@ -12,6 +12,15 @@ export class RouletteItemRepository {
         throw new Error(e);
       });
   }
+  async addRange(items: RouletteItem[]) {
+    await db.RouletteItems.bulkAdd(items)
+      .then(async (num: number | undefined) => {
+        return num;
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
+  }
 
   async update(item: RouletteItem): Promise<RouletteItem> {
     await db.RouletteItems.update(item.id, item);

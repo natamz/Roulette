@@ -179,10 +179,18 @@ export default {
     },
   },
   async mounted() {
+    const query = this.$route.query.q;
+    if (query) {
+      const rouletteItems = this.$share.import(query);
+      history.replaceState("", "", location.protocol + "//" + location.host + location.pathname);
+      if (rouletteItems.length) {
+        await this.$db.rouletteItem.clear();
+        await this.$db.rouletteItem.addRange(rouletteItems);
+      }
+    }
+
     const item = await this.$db.rouletteItem.getAll();
-    this.items = item.sort(
-      (a: RouletteItem, b: RouletteItem) => a.order - b.order
-    );
+    this.items = item.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
   },
   watch: {
     items: {

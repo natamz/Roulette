@@ -16,7 +16,58 @@
 <link rel="icon" type="image/png" href="/Roulette/favicons/favicon.ico">
 <link rel="icon" type="image/png" href="/Roulette/favicons/icon-192x192.png">
 <link rel="apple-touch-icon" type="image/png" href="/Roulette/favicons/apple-touch-icon-180x180.png">
-<style type="text/css" id="vuetify-theme-stylesheet">.v-theme--light {
+<style id="vuetify-theme-stylesheet">:root {
+      --v-theme-background: 255,255,255;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 255,255,255;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-variant: 66,66,66;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 238,238,238;
+      --v-theme-primary: 98,0,238;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 55,0,179;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 3,218,198;
+      --v-theme-secondary-overlay-multiplier: 1;
+      --v-theme-secondary-darken-1: 1,135,134;
+      --v-theme-secondary-darken-1-overlay-multiplier: 1;
+      --v-theme-error: 176,0,32;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 33,150,243;
+      --v-theme-info-overlay-multiplier: 1;
+      --v-theme-success: 76,175,80;
+      --v-theme-success-overlay-multiplier: 1;
+      --v-theme-warning: 251,140,0;
+      --v-theme-warning-overlay-multiplier: 1;
+      --v-theme-on-background: 0,0,0;
+      --v-theme-on-surface: 0,0,0;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 0,0,0;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 255,255,255;
+      --v-border-color: 0, 0, 0;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 0.87;
+      --v-medium-emphasis-opacity: 0.6;
+      --v-disabled-opacity: 0.38;
+      --v-idle-opacity: 0.04;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.12;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
+    }
+    .v-theme--light {
       color-scheme: normal;
       --v-theme-background: 255,255,255;
       --v-theme-background-overlay-multiplier: 1;
@@ -63,9 +114,10 @@
       --v-activated-opacity: 0.12;
       --v-pressed-opacity: 0.12;
       --v-dragged-opacity: 0.08;
-      --v-kbd-background-color: 33, 37, 41;
-      --v-kbd-color: 255, 255, 255;
-      --v-code-background-color: 194, 194, 194;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
     }
     .v-theme--dark {
       color-scheme: dark;
@@ -104,9 +156,9 @@
       --v-theme-on-warning: 255,255,255;
       --v-border-color: 255, 255, 255;
       --v-border-opacity: 0.12;
-      --v-high-emphasis-opacity: 0.87;
-      --v-medium-emphasis-opacity: 0.6;
-      --v-disabled-opacity: 0.38;
+      --v-high-emphasis-opacity: 1;
+      --v-medium-emphasis-opacity: 0.7;
+      --v-disabled-opacity: 0.5;
       --v-idle-opacity: 0.1;
       --v-hover-opacity: 0.04;
       --v-focus-opacity: 0.12;
@@ -114,63 +166,64 @@
       --v-activated-opacity: 0.12;
       --v-pressed-opacity: 0.16;
       --v-dragged-opacity: 0.08;
-      --v-kbd-background-color: 33, 37, 41;
-      --v-kbd-color: 255, 255, 255;
-      --v-code-background-color: 183, 183, 183;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 52, 52, 52;
+      --v-theme-on-code: 204, 204, 204;
     }
     .bg-background {
       --v-theme-overlay-multiplier: var(--v-theme-background-overlay-multiplier);
-      background: rgb(var(--v-theme-background)) !important;
+      background-color: rgb(var(--v-theme-background)) !important;
       color: rgb(var(--v-theme-on-background)) !important;
     }
     .bg-surface {
       --v-theme-overlay-multiplier: var(--v-theme-surface-overlay-multiplier);
-      background: rgb(var(--v-theme-surface)) !important;
+      background-color: rgb(var(--v-theme-surface)) !important;
       color: rgb(var(--v-theme-on-surface)) !important;
     }
     .bg-surface-variant {
       --v-theme-overlay-multiplier: var(--v-theme-surface-variant-overlay-multiplier);
-      background: rgb(var(--v-theme-surface-variant)) !important;
+      background-color: rgb(var(--v-theme-surface-variant)) !important;
       color: rgb(var(--v-theme-on-surface-variant)) !important;
     }
     .bg-primary {
       --v-theme-overlay-multiplier: var(--v-theme-primary-overlay-multiplier);
-      background: rgb(var(--v-theme-primary)) !important;
+      background-color: rgb(var(--v-theme-primary)) !important;
       color: rgb(var(--v-theme-on-primary)) !important;
     }
     .bg-primary-darken-1 {
       --v-theme-overlay-multiplier: var(--v-theme-primary-darken-1-overlay-multiplier);
-      background: rgb(var(--v-theme-primary-darken-1)) !important;
+      background-color: rgb(var(--v-theme-primary-darken-1)) !important;
       color: rgb(var(--v-theme-on-primary-darken-1)) !important;
     }
     .bg-secondary {
       --v-theme-overlay-multiplier: var(--v-theme-secondary-overlay-multiplier);
-      background: rgb(var(--v-theme-secondary)) !important;
+      background-color: rgb(var(--v-theme-secondary)) !important;
       color: rgb(var(--v-theme-on-secondary)) !important;
     }
     .bg-secondary-darken-1 {
       --v-theme-overlay-multiplier: var(--v-theme-secondary-darken-1-overlay-multiplier);
-      background: rgb(var(--v-theme-secondary-darken-1)) !important;
+      background-color: rgb(var(--v-theme-secondary-darken-1)) !important;
       color: rgb(var(--v-theme-on-secondary-darken-1)) !important;
     }
     .bg-error {
       --v-theme-overlay-multiplier: var(--v-theme-error-overlay-multiplier);
-      background: rgb(var(--v-theme-error)) !important;
+      background-color: rgb(var(--v-theme-error)) !important;
       color: rgb(var(--v-theme-on-error)) !important;
     }
     .bg-info {
       --v-theme-overlay-multiplier: var(--v-theme-info-overlay-multiplier);
-      background: rgb(var(--v-theme-info)) !important;
+      background-color: rgb(var(--v-theme-info)) !important;
       color: rgb(var(--v-theme-on-info)) !important;
     }
     .bg-success {
       --v-theme-overlay-multiplier: var(--v-theme-success-overlay-multiplier);
-      background: rgb(var(--v-theme-success)) !important;
+      background-color: rgb(var(--v-theme-success)) !important;
       color: rgb(var(--v-theme-on-success)) !important;
     }
     .bg-warning {
       --v-theme-overlay-multiplier: var(--v-theme-warning-overlay-multiplier);
-      background: rgb(var(--v-theme-warning)) !important;
+      background-color: rgb(var(--v-theme-warning)) !important;
       color: rgb(var(--v-theme-on-warning)) !important;
     }
     .text-background {
@@ -272,7 +325,7 @@
     .on-warning {
       color: rgb(var(--v-theme-on-warning)) !important;
     }
-</style><link rel="modulepreload" href="/Roulette/_payload.js"><link rel="modulepreload" as="script" crossorigin href="/Roulette/_nuxt/entry.296210d9.js"><link rel="preload" as="style" href="/Roulette/_nuxt/entry.d735d143.css"><link rel="prefetch" as="script" crossorigin href="/Roulette/_nuxt/error-component.3c843eb4.js"><link rel="stylesheet" href="/Roulette/_nuxt/entry.d735d143.css"><style>.v-select * :not(.v-field__append-inner *){height:56px}.remove-btn{background-color:#e34c26;color:hsla(0,0%,100%,.85)}</style><style>div#color[data-v-dd4f64ce]{border-radius:5px;display:block;height:2em;margin-top:10px;width:100%}</style><style>.canvas_container[data-v-335a677c]{box-sizing:content-box;padding:0;position:relative}.canvas_container[data-v-335a677c]:before{content:"";display:block;padding-top:100%}canvas[data-v-335a677c]{box-sizing:content-box;height:auto;left:0;margin:0;padding:0;position:absolute;top:0;width:100%}</style><style>.v-card-actions[data-v-d209e328]{background-color:#cfd8dc}.v-card[data-v-d209e328]{background:hsla(0,0%,100%,.85)}</style><script>const w=window,de=document.documentElement,knownColorSchemes=["dark","light"],preference=window.localStorage.getItem("nuxt-color-mode")||"system";let value=preference==="system"?getColorScheme():preference;const forcedColorMode=de.getAttribute("data-color-mode-forced");forcedColorMode&&(value=forcedColorMode),addColorScheme(value),w["__NUXT_COLOR_MODE__"]={preference,value,getColorScheme,addColorScheme,removeColorScheme};function addColorScheme(e){const o=""+e+"-mode",t="";de.classList?de.classList.add(o):de.className+=" "+o,de.setAttribute("data-"+t,e)}function removeColorScheme(e){const o=""+e+"-mode",t="";de.classList?de.classList.remove(o):de.className=de.className.replace(new RegExp(o,"g"),""),de.removeAttribute("data-"+t)}function prefersColorScheme(e){return w.matchMedia("(prefers-color-scheme"+e+")")}function getColorScheme(){if(w.matchMedia&&prefersColorScheme("").media!=="not all"){for(const e of knownColorSchemes)if(prefersColorScheme(":"+e).matches)return e}return"light"}
+</style><link rel="modulepreload" href="/Roulette/_payload.js"><link rel="modulepreload" as="script" crossorigin href="/Roulette/_nuxt/entry.9a4c87e7.js"><link rel="preload" as="style" href="/Roulette/_nuxt/entry.436082b2.css"><link rel="prefetch" as="script" crossorigin href="/Roulette/_nuxt/error-component.e6983dde.js"><link rel="stylesheet" href="/Roulette/_nuxt/entry.436082b2.css"><style>.v-select * :not(.v-field__append-inner *){height:56px}.remove-btn{background-color:#e34c26;color:hsla(0,0%,100%,.85)}</style><style>div#color[data-v-dd4f64ce]{border-radius:5px;display:block;height:2em;margin-top:10px;width:100%}</style><style>.canvas_container[data-v-335a677c]{box-sizing:content-box;padding:0;position:relative}.canvas_container[data-v-335a677c]:before{content:"";display:block;padding-top:100%}canvas[data-v-335a677c]{box-sizing:content-box;height:auto;left:0;margin:0;padding:0;position:absolute;top:0;width:100%}</style><style>.v-card-actions[data-v-d209e328]{background-color:#cfd8dc}.v-card[data-v-d209e328]{background:hsla(0,0%,100%,.85)}</style><script>const w=window,de=document.documentElement,knownColorSchemes=["dark","light"],preference=window.localStorage.getItem("nuxt-color-mode")||"system";let value=preference==="system"?getColorScheme():preference;const forcedColorMode=de.getAttribute("data-color-mode-forced");forcedColorMode&&(value=forcedColorMode),addColorScheme(value),w["__NUXT_COLOR_MODE__"]={preference,value,getColorScheme,addColorScheme,removeColorScheme};function addColorScheme(e){const o=""+e+"-mode",t="";de.classList?de.classList.add(o):de.className+=" "+o,de.setAttribute("data-"+t,e)}function removeColorScheme(e){const o=""+e+"-mode",t="";de.classList?de.classList.remove(o):de.className=de.className.replace(new RegExp(o,"g"),""),de.removeAttribute("data-"+t)}function prefersColorScheme(e){return w.matchMedia("(prefers-color-scheme"+e+")")}function getColorScheme(){if(w.matchMedia&&prefersColorScheme("").media!=="not all"){for(const e of knownColorSchemes)if(prefersColorScheme(":"+e).matches)return e}return"light"}
 </script></head>
-<body ><div id="__nuxt"><!--[--><div><!--[--><!----><!----><!--]--></div><div><!--[--><!----><!----><!--]--></div><div><!--[--><!----><!----><!--]--></div><div class="v-application v-theme--light v-layout v-layout--full-height v-locale--is-ltr" style="z-index:1000;"><div class="v-application__wrap"><!--[--><header class="v-toolbar v-toolbar--density-default elevation-1 v-theme--light v-app-bar" style="top:0;z-index:1004;transform:translateY(0%);position:fixed;"><!----><div class="v-toolbar__content" style="height:64px;"><!----><!----><!--[--><div class="v-toolbar-title v-app-bar-title"><div class="v-toolbar-title__placeholder"><!----><!--[-->ルーレット<!--]--></div></div><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-help-circle-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-database mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-cog-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><!--]--><!----></div><!----></header><main class="v-main" style="--v-layout-left:0px;--v-layout-right:0px;--v-layout-top:0px;--v-layout-bottom:0px;transition:none !important;"><!--[--><div class="v-container"><!--[--><div><!--[--><!----><!----><!--]--></div><div data-v-dd4f64ce><!--[--><!----><!----><!--]--></div><div class="v-row"><div class="v-col-sm-6 v-col-12"><div class="canvas_container" data-v-335a677c><canvas id="canvas" width="500" height="500" data-v-335a677c></canvas><canvas width="500" height="500" data-v-335a677c></canvas></div><button type="button" class="v-btn v-btn--block v-btn--elevated v-theme--light bg-primary v-btn--density-default elevation-2 v-btn--size-large v-btn--variant-elevated" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->開始 <!--]--><!--]--></span><!----><!----></button></div><div class="v-col-sm-6 v-col-12"><!--[--><div class="hidden-xs" data-v-d209e328><!--[--><div class="v-container"><div class="list-group" tag="div" type="transition-group" name="flip-list"></div><button type="button" class="v-btn v-btn--block v-btn--elevated v-theme--light v-btn--density-default elevation-2 v-btn--size-default v-btn--variant-elevated ma-1" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-card-plus-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button></div><!--]--></div><div class="hidden-sm-and-up" data-v-d209e328><div class="v-row justify-center mt-2" data-v-d209e328><button type="button" class="v-btn v-btn--elevated v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-elevated" style="" data-v-d209e328><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-chevron-up mdi v-icon notranslate v-theme--light" style="font-size:30px;height:30px;width:30px;" aria-hidden="true" data-v-d209e328></i><!--]--><!--]--></span><!----><!----></button></div><!--[--><!----><!----><!--]--></div><!--]--></div></div><!--]--></div><!--]--></main><footer class="v-footer v-theme--light" style="_key:colorStyles;"><div class="v-card v-theme--light v-card--density-default elevation-0 rounded-0 v-card--variant-elevated text-center" style="width:100%;"><!----><div class="v-card__loader"><div class="v-progress-linear v-theme--light" style="height:0;--v-progress-linear-height:2px;" role="progressbar" aria-valuemin="0" aria-valuemax="100"><!----><div class="v-progress-linear__background" style="width:100%;"></div><div class="v-progress-linear__indeterminate"><!--[--><div class="v-progress-linear__indeterminate long" style=""></div><div class="v-progress-linear__indeterminate short" style=""></div><!--]--></div><!----></div></div><!----><!----><!--[--><hr class="v-divider v-theme--light" style="" aria-orientation="horizontal" role="separator"><div class="v-card-text"><a class="v-btn v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-flat" style="" href="https://github.com/natamz/Roulette"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-github mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></a><!--[--><button type="button" class="v-btn v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-flat" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-export-variant mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><!--[--><!----><!----><!--]--><!--]--></div><!--]--><!----><!--[--><!----><span class="v-card__underlay"></span><!--]--></div></footer><!--]--></div></div><!--]--></div><script type="module">import p from "/Roulette/_payload.js";window.__NUXT__={...p,...((function(a,b){return {state:{"$scolor-mode":{preference:a,value:a,unknown:b,forced:false}},_errors:{},serverRendered:b,config:{public:{gaid:"G-5C5ZTVTD0H"},app:{baseURL:"\u002FRoulette",buildAssetsDir:"\u002F_nuxt\u002F",cdnURL:""}},prerenderedAt:1684139276126}}("system",true)))}</script><script type="module" src="/Roulette/_nuxt/entry.296210d9.js" crossorigin></script></body>
+<body ><div id="__nuxt"><!--[--><div><!--[--><!----><!----><!--]--></div><div><!--[--><!----><!----><!--]--></div><div><!--[--><!----><!----><!--]--></div><div class="v-application v-theme--light v-layout v-layout--full-height v-locale--is-ltr" style="z-index:1000;"><div class="v-application__wrap"><!--[--><header class="v-toolbar v-toolbar--density-default elevation-1 v-theme--light v-locale--is-ltr v-app-bar" style="top:0;z-index:1004;transform:translateY(0%);position:fixed;transition:none !important;"><!----><!--[--><div class="v-toolbar__content" style="height:64px;"><!----><!----><!--[--><div class="v-toolbar-title v-app-bar-title" style=""><div class="v-toolbar-title__placeholder"><!----><!--[-->ルーレット<!--]--></div></div><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-help-circle-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-database mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><button type="button" class="v-btn v-btn--icon v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-text" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-cog-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><!--]--><!----></div><!--]--><!--[--><!----><!--]--></header><main class="v-main" style="--v-layout-left:0px;--v-layout-right:0px;--v-layout-top:0px;--v-layout-bottom:0px;transition:none !important;"><!--[--><div class="v-container v-locale--is-ltr" style=""><!--[--><div><!--[--><!----><!----><!--]--></div><div data-v-dd4f64ce><!--[--><!----><!----><!--]--></div><div class="v-row" style=""><div class="v-col-sm-6 v-col-12" style=""><div class="canvas_container" data-v-335a677c><canvas id="canvas" width="500" height="500" data-v-335a677c></canvas><canvas width="500" height="500" data-v-335a677c></canvas></div><button type="button" class="v-btn v-btn--block v-btn--elevated v-theme--light bg-primary v-btn--density-default elevation-2 v-btn--size-large v-btn--variant-elevated" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->開始 <!--]--><!--]--></span><!----><!----></button></div><div class="v-col-sm-6 v-col-12" style=""><!--[--><div class="hidden-xs" data-v-d209e328><!--[--><div class="v-container v-locale--is-ltr" style=""><div class="list-group" tag="div" type="transition-group" name="flip-list"></div><button type="button" class="v-btn v-btn--block v-btn--elevated v-theme--light v-btn--density-default elevation-2 v-btn--size-default v-btn--variant-elevated ma-1" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-card-plus-outline mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button></div><!--]--></div><div class="hidden-sm-and-up" data-v-d209e328><div class="v-row justify-center mt-2" style="" data-v-d209e328><button type="button" class="v-btn v-btn--elevated v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-elevated" style="" data-v-d209e328><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-chevron-up mdi v-icon notranslate v-theme--light" style="font-size:30px;height:30px;width:30px;" aria-hidden="true" data-v-d209e328></i><!--]--><!--]--></span><!----><!----></button></div><!--[--><!----><!----><!--]--></div><!--]--></div></div><!--]--></div><!--]--></main><footer class="v-footer v-theme--light" style=""><div class="v-card v-theme--light v-card--density-default elevation-0 rounded-0 v-card--variant-elevated text-center" style="width:100%;"><!----><div class="v-card__loader"><div class="v-progress-linear v-theme--light v-locale--is-ltr" style="top:0;height:0;--v-progress-linear-height:2px;left:50%;transform:translateX(-50%);" role="progressbar" aria-hidden="true" aria-valuemin="0" aria-valuemax="100"><!----><div class="v-progress-linear__background" style="width:100%;"></div><div class="v-progress-linear__indeterminate"><!--[--><div class="v-progress-linear__indeterminate long" style=""></div><div class="v-progress-linear__indeterminate short" style=""></div><!--]--></div><!----></div></div><!----><!----><!--[--><hr class="v-divider v-theme--light" style="" aria-orientation="horizontal" role="separator"><div class="v-card-text" style=""><a class="v-btn v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-flat" style="" href="https://github.com/natamz/Roulette"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-github mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></a><!--[--><button type="button" class="v-btn v-theme--light v-btn--density-default v-btn--size-default v-btn--variant-flat" style=""><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[--><i class="mdi-export-variant mdi v-icon notranslate v-theme--light v-icon--size-default" style="" aria-hidden="true"></i><!--]--><!--]--></span><!----><!----></button><!--[--><!----><!----><!--]--><!--]--></div><!--]--><!----><!--[--><!----><span class="v-card__underlay"></span><!--]--></div></footer><!--]--></div></div><!--]--></div><script type="module">import p from "/Roulette/_payload.js";window.__NUXT__={...p,...((function(a,b){return {state:{"$scolor-mode":{preference:a,value:a,unknown:b,forced:false}},_errors:{},serverRendered:b,prerenderedAt:1684141199761,config:{public:{gaid:"G-5C5ZTVTD0H"},app:{baseURL:"\u002FRoulette",buildAssetsDir:"\u002F_nuxt\u002F",cdnURL:""}}}}("system",true)))}</script><script type="module" src="/Roulette/_nuxt/entry.9a4c87e7.js" crossorigin></script></body>
 </html>

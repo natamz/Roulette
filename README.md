@@ -1,9 +1,11 @@
 # Roulette
-Nuxt3勉強用に作成したルーレットのWEBアプリケーションです。
+ルーレットのWEBアプリケーションです。
 
-## Demo
+## Site
 
 <https://natamz.github.io/Roulette/>
+
+![image](https://github.com/natamz/Roulette/assets/104881649/351c664b-2243-4ec1-b5a8-ca5c6b258486)
 
 ## Setup
 

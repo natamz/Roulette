@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
-    "@nuxtjs/color-mode": "3.1.6",
+    "@nuxtjs/color-mode": "3.3.2",
     "dexie": "3.2.2",
     "dotenv": "16.0.3",
     "lz-string": "1.5.0",

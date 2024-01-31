@@ -25,8 +25,8 @@
     "vuetify": "3.2.4"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "6.5.10",
-    "@storybook/builder-vite": "0.2.3",
-    "@storybook/vue3": "6.5.10"
+    "@storybook/addon-essentials": "7.6.12",
+    "@storybook/builder-vite": "7.6.12",
+    "@storybook/vue3": "7.6.12"
   }
 }

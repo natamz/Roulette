@@ -110,7 +110,6 @@
 
 <script lang="ts">
 import { colors } from "@/consts/colors";
-import { table } from "console";
 import { RouletteItem } from "~~/models/entities/RouletteItem";
 
 const colorList: string[] = colors.flat();

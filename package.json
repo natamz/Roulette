@@ -9,24 +9,24 @@
     "storybook": "start-storybook"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "dependencies": {
-    "@mdi/font": "7.0.96",
-    "@nuxtjs/color-mode": "3.1.6",
-    "dexie": "3.2.2",
-    "dotenv": "16.0.3",
+    "@mdi/font": "7.4.47",
+    "@nuxtjs/color-mode": "3.3.2",
+    "dexie": "3.2.4",
+    "dotenv": "16.4.1",
     "lz-string": "1.5.0",
-    "nuxt": "3.4.3",
-    "sass": "1.54.9",
-    "sass-loader": "13.0.2",
+    "nuxt": "3.10.0",
+    "sass": "1.70.0",
+    "sass-loader": "14.1.0",
     "vue-gtag-next": "1.14.0",
     "vuedraggable": "4.1.0",
-    "vuetify": "3.2.4"
+    "vuetify": "3.5.2"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "6.5.10",
-    "@storybook/builder-vite": "0.2.3",
-    "@storybook/vue3": "6.5.10"
+    "@storybook/addon-essentials": "7.6.12",
+    "@storybook/builder-vite": "7.6.12",
+    "@storybook/vue3": "7.6.12"
   }
 }

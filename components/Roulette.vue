@@ -167,8 +167,9 @@ export default {
       this.$audio.result();
     },
     async setItems(items: RouletteItem[]) {
-      this.$db.rouletteItem.clear();
-      this.items = items;
+      await this.$db.rouletteItem.clear();
+      await this.$db.rouletteItem.addRange(items);
+      this.items = await this.$db.rouletteItem.getAll();
     },
     async onKeypressEnter(index: number) {
       if (index === this.items.length - 1) {

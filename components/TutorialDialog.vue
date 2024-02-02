@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      max-width="800px"
-      fullscreen
-      v-model="dialog"
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog max-width="800px" fullscreen v-model="dialog" transition="dialog-bottom-transition">
       <v-card>
         <v-card-actions color="primary">
           <v-btn icon @click="dialog = false">
@@ -19,18 +14,12 @@
 
           <div class="mt-5">
             <p>抽選したい言葉を入力して・・・</p>
-            <v-img
-              :src="`${$config.app.baseURL}/images/tutorial-1.png`"
-              max-width="500px"
-            ></v-img>
+            <v-img :src="`${$config.app.baseURL}/images/tutorial-1.png`" max-width="500px"></v-img>
           </div>
 
           <div class="mt-5">
             <p>ルーレットを作成！</p>
-            <v-img
-              :src="`${$config.app.baseURL}/images/tutorial-2.png`"
-              max-width="400px"
-            ></v-img>
+            <v-img :src="`${$config.app.baseURL}/images/tutorial-2.png`" max-width="400px"></v-img>
           </div>
 
           <div class="hidden-sm-and-up">

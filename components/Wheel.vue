@@ -62,11 +62,7 @@ export default {
 
     drawLabel(deg: number, text: string) {
       const rad: number = ToRadian(deg);
-      this.ctx_label.fillText(
-        text,
-        CENTER_X + Math.cos(rad) * 100,
-        CENTER_Y + Math.sin(rad) * 100
-      );
+      this.ctx_label.fillText(text, CENTER_X + Math.cos(rad) * 100, CENTER_Y + Math.sin(rad) * 100);
     },
     drawTriangle() {
       this.ctx_label.beginPath();
@@ -116,12 +112,9 @@ export default {
     },
 
     calcSumOfItemsRate() {
-      this.sumOfItemsRate = this.items.reduce(
-        (num: number, item: RouletteItem) => {
-          return num + item.rate;
-        },
-        0
-      );
+      this.sumOfItemsRate = this.items.reduce((num: number, item: RouletteItem) => {
+        return num + item.rate;
+      }, 0);
     },
   },
   mounted() {

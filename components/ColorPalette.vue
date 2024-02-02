@@ -11,11 +11,7 @@
         <v-card-text>
           <v-row v-for="colors in colorGroups" class="mt-1 mb-5">
             <v-col v-for="color in colors" cols="3" sm="2">
-              <v-btn
-                block
-                @click="colorSubmit(color)"
-                :style="'background-color:' + color"
-              ></v-btn>
+              <v-btn block @click="colorSubmit(color)" :style="'background-color:' + color"></v-btn>
             </v-col>
           </v-row>
         </v-card-text>

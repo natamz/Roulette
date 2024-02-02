@@ -4,11 +4,7 @@
       <v-card>
         <v-card-text>
           <p>結果は・・・</p>
-          <div
-            id="color"
-            v-if="color"
-            :style="'background-color:' + color"
-          ></div>
+          <div id="color" v-if="color" :style="'background-color:' + color"></div>
           <h1>{{ result }}</h1>
         </v-card-text>
       </v-card>

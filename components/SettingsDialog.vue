@@ -15,9 +15,7 @@
           <v-list-subheader>回転時間</v-list-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1"
-                >{{ item.name }}
-              </v-btn>
+              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1">{{ item.name }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 

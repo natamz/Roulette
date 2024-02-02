@@ -6,15 +6,7 @@
     <v-col cols="12" sm="6">
       <wheel :items="items" ref="wheel" @stopped="stopped"></wheel>
 
-      <v-btn
-        @click="start"
-        block
-        color="primary"
-        elevation="2"
-        size="large"
-        :disabled="isRunning"
-        >開始
-      </v-btn>
+      <v-btn @click="start" block color="primary" elevation="2" size="large" :disabled="isRunning">開始 </v-btn>
     </v-col>
 
     <v-col cols="12" sm="6">
@@ -37,68 +29,31 @@
             >
               <template #item="{ element, index }">
                 <v-row :key="element.id" class="my-1">
-                  <v-col
-                    cols="1"
-                    class="px-1 d-flex flex-column justify-center"
-                  >
+                  <v-col cols="1" class="px-1 d-flex flex-column justify-center">
                     <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
                   </v-col>
 
-                  <v-col
-                    cols="1"
-                    class="px-1 d-flex flex-column justify-center"
-                  >
-                    <v-btn
-                      block
-                      @click="$refs.colorPalette.showDialog(element.id)"
-                      :style="'background-color:' + element.color"
-                      :disabled="isRunning"
-                      class="my-3"
-                    ></v-btn>
+                  <v-col cols="1" class="px-1 d-flex flex-column justify-center">
+                    <v-btn block @click="$refs.colorPalette.showDialog(element.id)" :style="'background-color:' + element.color" :disabled="isRunning" class="my-3"></v-btn>
                   </v-col>
 
                   <v-col cols="6" class="px-1">
-                    <v-text-field
-                      ref="textFields"
-                      v-model="element.name"
-                      :disabled="isRunning"
-                      hide-details="auto"
-                      clearable
-                      @keypress.enter="onKeypressEnter(index)"
-                    ></v-text-field>
+                    <v-text-field ref="textFields" v-model="element.name" :disabled="isRunning" hide-details="auto" clearable @keypress.enter="onKeypressEnter(index)"></v-text-field>
                   </v-col>
 
                   <v-col cols="2" class="px-1">
-                    <v-select
-                      :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                      v-model="element.rate"
-                      :disabled="isRunning"
-                      density="compact"
-                      hide-details="auto"
-                    ></v-select>
+                    <v-select :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" v-model="element.rate" :disabled="isRunning" density="compact" hide-details="auto"></v-select>
                   </v-col>
 
                   <v-col cols="2" class="px-1">
-                    <v-btn
-                      size="x-small"
-                      icon
-                      @click="remove(element.id)"
-                      :disabled="isRunning"
-                      class="remove-btn"
-                    >
+                    <v-btn size="x-small" icon @click="remove(element.id)" :disabled="isRunning" class="remove-btn">
                       <v-icon> mdi-close </v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
               </template>
             </draggable>
-            <v-btn
-              @click="add"
-              block
-              elevation="2"
-              class="ma-1"
-              :disabled="isRunning"
-            >
+            <v-btn @click="add" block elevation="2" class="ma-1" :disabled="isRunning">
               <v-icon>mdi-card-plus-outline</v-icon>
             </v-btn>
           </v-container>
@@ -143,9 +98,7 @@ export default {
       this.$db.rouletteItem.remove(id);
     },
     async changeColor({ id, color }) {
-      this.items = this.items.map((item: RouletteItem) =>
-        item.id === id ? { ...item, color: color } : item
-      );
+      this.items = this.items.map((item: RouletteItem) => (item.id === id ? { ...item, color: color } : item));
     },
     start() {
       if (this.items.length < 1) {
@@ -160,9 +113,7 @@ export default {
       this.isRunning = false;
       this.$emit("stateChange", false);
 
-      const result: RouletteItem = this.items.find(
-        (i: RouletteItem) => i.id == id
-      );
+      const result: RouletteItem = this.items.find((i: RouletteItem) => i.id == id);
       this.$refs.resultDialog.showDialog(result.name, result.color);
       this.$audio.result();
     },

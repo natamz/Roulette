@@ -31,13 +31,7 @@ class AudioUtil {
       case "5":
         return play(buffs["result_5.wav"]);
       case "99":
-        const arr = [
-          "result_1.wav",
-          "result_2.wav",
-          "result_3.wav",
-          "result_4.wav",
-          "result_5.wav",
-        ];
+        const arr = ["result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav"];
         return play(buffs[arr[Math.floor(Math.random() * arr.length)]]);
       default:
         return play(buffs["result_1.wav"]);
@@ -49,16 +43,7 @@ const audioContext = new AudioContext();
 const gain = audioContext.createGain();
 gain.connect(audioContext.destination);
 
-const fileNames: string[] = [
-  "click_A.wav",
-  "click_B.wav",
-  "result_1.wav",
-  "result_2.wav",
-  "result_3.wav",
-  "result_4.wav",
-  "result_5.wav",
-  "start.wav",
-];
+const fileNames: string[] = ["click_A.wav", "click_B.wav", "result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav", "start.wav"];
 const buffs: AudioBuffer[] = [];
 
 (async () => {

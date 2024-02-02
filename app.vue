@@ -6,13 +6,13 @@
   <v-app>
     <v-app-bar elevation="1">
       <v-app-bar-title>ルーレット</v-app-bar-title>
-      <v-btn @click="$refs.tutorialDialog.showDialog()" icon :disabled="isRunning">
+      <v-btn @click="onTutorialClick" icon :disabled="isRunning">
         <v-icon>mdi-help-circle-outline</v-icon>
       </v-btn>
-      <v-btn @click="$refs.templateDialog.showDialog()" icon :disabled="isRunning">
+      <v-btn @click="onTemplateClick" icon :disabled="isRunning">
         <v-icon>mdi-database</v-icon>
       </v-btn>
-      <v-btn @click="$refs.settingsDialog.showDialog()" icon :disabled="isRunning">
+      <v-btn @click="onSettingClick" icon :disabled="isRunning">
         <v-icon>mdi-cog-outline</v-icon>
       </v-btn>
     </v-app-bar>
@@ -39,6 +39,12 @@
 </template>
 
 <script lang="ts">
+import type TutorialDialog from "@/components/TutorialDialog.vue";
+import type TemplateDialog from "@/components/TemplateDialog.vue";
+import type SettingsDialog from "@/components/SettingsDialog.vue";
+import type Roulette from "@/components/Roulette.vue";
+import type RouletteItem from "~~/models/entities/RouletteItem";
+
 export default {
   data() {
     return {
@@ -46,11 +52,20 @@ export default {
     };
   },
   methods: {
-    selectTemplate(items) {
-      this.$refs.roulette.setItems(items);
+    selectTemplate(items: RouletteItem[]) {
+      (this.$refs.roulette as typeof Roulette).setItems(items);
     },
     stateChange(isRunning: boolean) {
       this.isRunning = isRunning;
+    },
+    onTutorialClick() {
+      (this.$refs.tutorialDialog as typeof TutorialDialog).showDialog();
+    },
+    onTemplateClick() {
+      (this.$refs.templateDialog as typeof TemplateDialog).showDialog();
+    },
+    onSettingClick() {
+      (this.$refs.settingsDialog as typeof SettingsDialog).showDialog();
     },
   },
 };

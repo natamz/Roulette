@@ -34,7 +34,7 @@
                   </v-col>
 
                   <v-col cols="1" class="px-1 d-flex flex-column justify-center">
-                    <v-btn block @click="$refs.colorPalette.showDialog(element.id)" :style="'background-color:' + element.color" :disabled="isRunning" class="my-3"></v-btn>
+                    <v-btn block @click="onColorPaletteClick(element.id)" :style="'background-color:' + element.color" :disabled="isRunning" class="my-3"></v-btn>
                   </v-col>
 
                   <v-col cols="6" class="px-1">
@@ -65,7 +65,11 @@
 
 <script lang="ts">
 import { colors } from "@/consts/colors";
-import { RouletteItem } from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~~/models/entities/RouletteItem";
+import type ColorPalette from "@/components/ColorPalette.vue";
+import type ResultDialog from "@/components/ResultDialog.vue";
+import type Wheel from "@/components/Wheel.vue";
+import type { VTextField } from "vuetify/components";
 
 const colorList: string[] = colors.flat();
 
@@ -89,7 +93,7 @@ export default {
         color: _colors[Math.floor(Math.random() * _colors.length)],
         rate: 1,
         order: this.items.length,
-      };
+      } as RouletteItem;
       await this.$db.rouletteItem.add(item);
       this.items.push(item);
     },
@@ -97,7 +101,7 @@ export default {
       this.items = this.items.filter((item: RouletteItem) => item.id !== id);
       this.$db.rouletteItem.remove(id);
     },
-    async changeColor({ id, color }) {
+    async changeColor({ id, color }: { id: number; color: string }) {
       this.items = this.items.map((item: RouletteItem) => (item.id === id ? { ...item, color: color } : item));
     },
     start() {
@@ -107,30 +111,34 @@ export default {
       this.isRunning = true;
       this.$emit("stateChange", true);
       this.$audio.start();
-      this.$refs.wheel.start();
+      (this.$refs.wheel as typeof Wheel).start();
     },
     stopped(id: number) {
       this.isRunning = false;
       this.$emit("stateChange", false);
 
-      const result: RouletteItem = this.items.find((i: RouletteItem) => i.id == id);
-      this.$refs.resultDialog.showDialog(result.name, result.color);
+      const result: RouletteItem | undefined = this.items.find((i: RouletteItem) => i.id == id);
+      (this.$refs.resultDialog as typeof ResultDialog).showDialog(result?.name, result?.color);
       this.$audio.result();
     },
     async setItems(items: RouletteItem[]) {
       await this.$db.rouletteItem.clear();
       await this.$db.rouletteItem.addRange(items);
-      this.items = await this.$db.rouletteItem.getAll();
+      const getItems = (await this.$db.rouletteItem.getAll()) ?? [];
+      this.items = getItems;
     },
     async onKeypressEnter(index: number) {
       if (index === this.items.length - 1) {
         await this.add();
       }
-      this.$refs.textFields[index].focus();
+      (this.$refs.textFields as typeof VTextField)[index].focus();
+    },
+    onColorPaletteClick(elementid: number) {
+      (this.$refs.colorPalette as typeof ColorPalette).showDialog(elementid);
     },
   },
   async mounted() {
-    const query = this.$route.query.q;
+    const query = this.$route.query.q as string;
     if (query) {
       const rouletteItems = this.$share.import(query);
       history.replaceState("", "", location.protocol + "//" + location.host + location.pathname);
@@ -140,7 +148,7 @@ export default {
       }
     }
 
-    const item = await this.$db.rouletteItem.getAll();
+    const item = (await this.$db.rouletteItem.getAll()) ?? [];
     this.items = item.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
   },
   watch: {

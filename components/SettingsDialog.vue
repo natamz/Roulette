@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-class rotationTime {
+interface rotationTime {
   name: string;
   value: number;
 }
@@ -98,13 +98,13 @@ export default {
     },
   },
   mounted() {
-    this.rotationTimeValue = localStorage.getItem("rotationTime") ?? 8000;
-    localStorage.setItem("rotationTime", this.rotationTimeValue);
+    this.rotationTimeValue = Number(localStorage.getItem("rotationTime")) ?? 8000;
+    localStorage.setItem("rotationTime", String(this.rotationTimeValue));
 
     this.audio = localStorage.getItem("audio") == "true";
 
-    this.audioResultType = localStorage.getItem("audioResultType") ?? 1;
-    localStorage.setItem("audioResultType", this.audioResultType);
+    this.audioResultType = Number(localStorage.getItem("audioResultType")) ?? 1;
+    localStorage.setItem("audioResultType", String(this.audioResultType));
   },
 };
 </script>

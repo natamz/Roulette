@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 import db from "~~/data/dexie";
-import { RouletteItem } from "../entities/RouletteItem";
+import type RouletteItem from "~~/models/entities/RouletteItem";
 
 export class RouletteItemRepository {
   async add(item: RouletteItem) {
@@ -22,7 +22,7 @@ export class RouletteItemRepository {
       });
   }
 
-  async update(item: RouletteItem): Promise<RouletteItem> {
+  async update(item: RouletteItem): Promise<RouletteItem | undefined> {
     await db.RouletteItems.update(item.id, item);
     return await this.get(item.id);
   }

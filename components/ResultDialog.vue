@@ -16,9 +16,13 @@
 export default {
   data(): {
     dialog: boolean;
+    color: string;
+    result: string;
   } {
     return {
       dialog: false,
+      color: "",
+      result: "",
     };
   },
   methods: {

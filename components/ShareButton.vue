@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     async shareRoulette() {
-      const item = await this.$db.rouletteItem.getAll();
+      const item = (await this.$db.rouletteItem.getAll()) ?? [];
       this.url = this.$share.export(item);
       this.dialog = true;
       this.copied = false;

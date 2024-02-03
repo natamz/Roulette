@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  baseURL: "/Roulette"
+  NUXT_APP_BASE_URL: "/Roulette/"
   NUXT_PUBLIC_GAID: ${{ secrets.NUXT_PUBLIC_GAID }}
 
 jobs:

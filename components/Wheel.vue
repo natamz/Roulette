@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { RouletteItem } from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~~/models/entities/RouletteItem";
 
 // canvasの中心座標
 const CENTER_X: number = 250;
@@ -23,20 +23,22 @@ function GetTime() {
 }
 
 export default {
-  data(): { result: string; isRunning: boolean; sumOfItemsRate: number } {
+  data(): { result: string; isRunning: boolean; sumOfItemsRate: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",
       isRunning: false,
       sumOfItemsRate: 0,
+      ctx: null,
+      ctx_label: null,
     };
   },
   props: {
-    items: { type: Object as () => RouletteItem, default: [] },
+    items: { type: Object as () => RouletteItem[], default: [] },
   },
   methods: {
     draw(start_deg: number = 0) {
-      this.ctx.clearRect(0, 0, 500, 500);
-      this.ctx_label.clearRect(0, 0, 500, 500);
+      this.ctx?.clearRect(0, 0, 500, 500);
+      this.ctx_label?.clearRect(0, 0, 500, 500);
 
       const deg: number = 359.9 / this.sumOfItemsRate;
 
@@ -53,27 +55,27 @@ export default {
       const start_rad: number = ToRadian(start_deg);
       const end_rad: number = ToRadian(end_deg);
 
-      this.ctx.beginPath();
-      this.ctx.moveTo(CENTER_X, CENTER_Y);
-      this.ctx.fillStyle = element.color;
-      this.ctx.arc(CENTER_X, CENTER_Y, 200, start_rad, end_rad);
-      this.ctx.fill();
+      if (this.ctx) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(CENTER_X, CENTER_Y);
+        this.ctx.fillStyle = element.color;
+        this.ctx.arc(CENTER_X, CENTER_Y, 200, start_rad, end_rad);
+        this.ctx.fill();
+      }
     },
 
     drawLabel(deg: number, text: string) {
       const rad: number = ToRadian(deg);
-      this.ctx_label.fillText(
-        text,
-        CENTER_X + Math.cos(rad) * 100,
-        CENTER_Y + Math.sin(rad) * 100
-      );
+      this.ctx_label?.fillText(text, CENTER_X + Math.cos(rad) * 100, CENTER_Y + Math.sin(rad) * 100);
     },
     drawTriangle() {
-      this.ctx_label.beginPath();
-      this.ctx_label.moveTo(250, 50);
-      this.ctx_label.lineTo(230, 10);
-      this.ctx_label.lineTo(270, 10);
-      this.ctx_label.fill();
+      if (this.ctx_label) {
+        this.ctx_label.beginPath();
+        this.ctx_label.moveTo(250, 50);
+        this.ctx_label.lineTo(230, 10);
+        this.ctx_label.lineTo(270, 10);
+        this.ctx_label.fill();
+      }
     },
 
     start() {
@@ -113,24 +115,22 @@ export default {
           return item.id;
         }
       }
+      return 0;
     },
 
     calcSumOfItemsRate() {
-      this.sumOfItemsRate = this.items.reduce(
-        (num: number, item: RouletteItem) => {
-          return num + item.rate;
-        },
-        0
-      );
+      this.sumOfItemsRate = this.items.reduce((num: number, item: RouletteItem) => {
+        return num + item.rate;
+      }, 0);
     },
   },
   mounted() {
-    this.ctx = this.$refs.canvas.getContext("2d");
+    this.ctx = (this.$refs.canvas as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
 
-    this.ctx_label = this.$refs.canvas_label.getContext("2d");
+    this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
     this.ctx_label.font = "32px serif";
     this.ctx_label.fillStyle = "#000000";
-    this.ctx_label.textBaseline = "center";
+    this.ctx_label.textBaseline = "middle";
     this.ctx_label.textAlign = "center";
 
     this.calcSumOfItemsRate();

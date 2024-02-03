@@ -1,4 +1,4 @@
-import { RouletteItem } from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~~/models/entities/RouletteItem";
 import LZString from "lz-string";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -11,7 +11,7 @@ class ExportRouletteItem {
   r: number = 0;
 }
 
-class RouletteShareUtil {
+export class RouletteShareUtil {
   export(items: RouletteItem[]): string {
     const array = items
       .sort((a: RouletteItem, b: RouletteItem) => a.order - b.order)

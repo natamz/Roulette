@@ -1,5 +1,5 @@
 import Dexie from "dexie";
-import { RouletteItem } from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~~/models/entities/RouletteItem";
 
 const SCHEMA_VERSION = 3;
 const DB_NAME = "roulette-db";

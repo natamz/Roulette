@@ -1,5 +1,14 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide("audio", new AudioUtil());
+
+  const config = useRuntimeConfig();
+  (async () => {
+    for (const item of fileNames) {
+      const response = await fetch(`${config.app.baseURL}audio/${item}`);
+      const buffer = await response.arrayBuffer();
+      buffs[item] = await audioContext.decodeAudioData(buffer);
+    }
+  })();
 });
 
 export class AudioUtil {
@@ -45,14 +54,6 @@ gain.connect(audioContext.destination);
 
 const fileNames: string[] = ["click_A.wav", "click_B.wav", "result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav", "start.wav"];
 const buffs: { [key: string]: AudioBuffer } = {};
-
-(async () => {
-  for (const item of fileNames) {
-    const response = await fetch(`./audio/${item}`);
-    const buffer = await response.arrayBuffer();
-    buffs[item] = await audioContext.decodeAudioData(buffer);
-  }
-})();
 
 function createSourceNode(audioBuffer: AudioBuffer): AudioBufferSourceNode {
   const sourceNode = audioContext.createBufferSource();

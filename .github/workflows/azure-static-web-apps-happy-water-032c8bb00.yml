@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  baseURL: ''
+  NUXT_APP_BASE_URL: "/"
   NUXT_PUBLIC_GAID: ${{ secrets.NUXT_PUBLIC_GAID }}
 
 jobs:

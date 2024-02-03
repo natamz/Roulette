@@ -1,4 +1,4 @@
-const baseURL = process.env.baseURL;
+const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
   css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: baseURL,
     head: {
       htmlAttrs: {
         lang: "ja",
@@ -37,9 +36,9 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       link: [
-        { rel: "icon", type: "image/png", href: `${baseURL}/favicons/favicon.ico` },
-        { rel: "icon", type: "image/png", href: `${baseURL}/favicons/icon-192x192.png` },
-        { rel: "apple-touch-icon", type: "image/png", href: `${baseURL}/favicons/apple-touch-icon-180x180.png` },
+        { rel: "icon", type: "image/png", href: `${baseURL}favicons/favicon.ico` },
+        { rel: "icon", type: "image/png", href: `${baseURL}favicons/icon-192x192.png` },
+        { rel: "apple-touch-icon", type: "image/png", href: `${baseURL}favicons/apple-touch-icon-180x180.png` },
       ],
     },
   },

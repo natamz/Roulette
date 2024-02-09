@@ -1,0 +1,19 @@
+{
+  "title": "roulette",
+  "code": "en",
+  "name": "English",
+  "tutorial_title": "how to use",
+  "tutorial_1": "This is a web application that allows you to create a roulette with your favorite words.",
+  "tutorial_2": "Type in the word you want to draw and...",
+  "tutorial_3": "Create a roulette!",
+  "start": "start",
+  "result": "The result is...",
+  "setting_title": "settings",
+  "setting_rotation_time": "rotation time",
+  "setting_sound_type": "Sound effect of result",
+  "close": "close",
+  "template_title": "template",
+  "share_title": "share",
+  "share_message": "You can share roulette",
+  "share_clicked": "Copied!"
+}

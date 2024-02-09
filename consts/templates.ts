@@ -4,13 +4,16 @@ interface templateItem {
   color: string;
 }
 interface template {
-  name: string;
+  name: { [key: string]: string };
   items: templateItem[];
 }
 
 export const templates: ReadonlyArray<template> = [
   {
-    name: "6面サイコロ",
+    name: {
+      ja: "6面さいころ",
+      en: "6-sided dice",
+    },
     items: [
       { name: "1", rate: 1, color: "#ff9e9e" },
       { name: "2", rate: 1, color: "#ff9eff" },
@@ -21,7 +24,10 @@ export const templates: ReadonlyArray<template> = [
     ],
   },
   {
-    name: "10面サイコロ",
+    name: {
+      ja: "10面さいころ",
+      en: "10-sided dice",
+    },
     items: [
       { name: "1", rate: 1, color: "#ff9e9e" },
       { name: "2", rate: 1, color: "#ff9eff" },
@@ -36,7 +42,10 @@ export const templates: ReadonlyArray<template> = [
     ],
   },
   {
-    name: "〇X",
+    name: {
+      ja: "〇X",
+      en: "〇X",
+    },
     items: [
       { name: "〇", rate: 1, color: "#ff6347" },
       { name: "X", rate: 1, color: "#4169e1" },
@@ -47,11 +56,14 @@ export const templates: ReadonlyArray<template> = [
     ],
   },
   {
-    name: "じゃんけん",
+    name: {
+      ja: "じゃんけん",
+      en: "Rock, paper, scissors",
+    },
     items: [
-      { name: "✊グー", rate: 1, color: "#ffbf7f" },
-      { name: "✌チョキ", rate: 1, color: "#bfff7f" },
-      { name: "✋パー", rate: 1, color: "#7fbfff" },
+      { name: "✊", rate: 1, color: "#ffbf7f" },
+      { name: "✋", rate: 1, color: "#7fbfff" },
+      { name: "✌", rate: 1, color: "#bfff7f" },
     ],
   },
 ];

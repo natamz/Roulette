@@ -3,7 +3,7 @@
     <v-dialog width="100%" v-model="dialog">
       <v-card>
         <v-card-text>
-          <p>結果は・・・</p>
+          <p>{{ $t("result") }}</p>
           <div id="color" v-if="color" :style="'background-color:' + color"></div>
           <h1>{{ result }}</h1>
         </v-card-text>

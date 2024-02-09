@@ -1,0 +1,19 @@
+{
+  "title": "ルーレット",
+  "code": "ja",
+  "name": "日本語",
+  "tutorial_title": "使い方",
+  "tutorial_1": "好きな言葉でルーレットを作成できるWebアプリです。",
+  "tutorial_2": "抽選したい言葉を入力して・・・",
+  "tutorial_3": "ルーレットを作成！",
+  "start": "開始",
+  "result": "結果は・・・",
+  "setting_title": "設定",
+  "setting_rotation_time": "回転時間",
+  "setting_sound_type": "結果発表の効果音",
+  "close": "閉じる",
+  "template_title": "テンプレート",
+  "share_title": "共有",
+  "share_message": "URLでルーレットを共有できます",
+  "share_clicked": "コピーしました！"
+}

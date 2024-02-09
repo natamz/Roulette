@@ -2,7 +2,7 @@ const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
   css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
-  modules: ["@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/color-mode", "@nuxtjs/i18n"],
   build: {
     transpile: ["vuetify"],
   },

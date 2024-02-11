@@ -47,4 +47,16 @@ export default defineNuxtConfig({
       gaid: "",
     },
   },
+  i18n: {
+    locales: [
+      { code: "ja", iso: "ja", file: "ja.json", name: "日本語" },
+      { code: "en", iso: "en", file: "en.json", name: "English" },
+    ],
+    lazy: true,
+    langDir: "locales/",
+    fallbackLocale: ["ja"],
+    defaultLocale: "ja",
+    strategy: "no_prefix",
+    detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },
+  },
 });

@@ -7,6 +7,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("tutorial_title") }}</v-toolbar-title>
+          <language-switch></language-switch>
         </v-card-actions>
         <v-divider></v-divider>
         <v-card-text>

@@ -29,5 +29,8 @@
     "@storybook/addon-essentials": "7.6.12",
     "@storybook/builder-vite": "7.6.12",
     "@storybook/vue3": "7.6.12"
+  },
+  "resolutions": {
+    "string-width": "4.2.3"
   }
 }

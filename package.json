@@ -14,7 +14,7 @@
   "dependencies": {
     "@mdi/font": "7.4.47",
     "@nuxtjs/color-mode": "3.3.2",
-    "@nuxtjs/i18n": "8.0.1",
+    "@nuxtjs/i18n": "8.1.1",
     "dexie": "3.2.4",
     "dotenv": "16.4.1",
     "lz-string": "1.5.0",

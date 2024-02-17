@@ -6,27 +6,26 @@
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>設定</v-toolbar-title>
+          <v-toolbar-title>{{ $t("setting_title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
 
         <v-divider></v-divider>
         <v-list>
-          <v-list-subheader>回転時間</v-list-subheader>
+          <v-list-subheader>{{ $t("setting_rotation_time") }}</v-list-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1">{{ item.name }} </v-btn>
+              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1">{{ item.name[$i18n.locale] }} </v-btn>
             </v-list-item-action>
           </v-list-item>
 
           <v-divider></v-divider>
-          <v-list-subheader> 音 </v-list-subheader>
 
           <v-list-item>
             <v-btn class="ma-1" @click="toggleAudio" v-model="audio"> <v-icon :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'"></v-icon></v-btn>
           </v-list-item>
 
-          <v-list-subheader> 結果発表の効果音 </v-list-subheader>
+          <v-list-subheader> {{ $t("setting_sound_type") }} </v-list-subheader>
           <v-list-item>
             <v-list-item-action>
               <v-btn v-for="item in audioResultTypes" @click="setAudioResult(item)" class="ma-1" :color="item == audioResultType ? 'primary' : ''">
@@ -48,14 +47,14 @@
 
 <script lang="ts">
 interface rotationTime {
-  name: string;
+  name: { [key: string]: string };
   value: number;
 }
 const rotationTimes: rotationTime[] = [
-  { name: "一瞬", value: 0 },
-  { name: "短い", value: 1000 },
-  { name: "普通", value: 8000 },
-  { name: "長い", value: 10000 },
+  { name: { ja: "一瞬", en: "moment" }, value: 0 },
+  { name: { ja: "短い", en: "short" }, value: 1000 },
+  { name: { ja: "普通", en: "normal" }, value: 8000 },
+  { name: { ja: "長い", en: "long" }, value: 10000 },
 ];
 
 export default {

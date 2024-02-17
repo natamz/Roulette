@@ -6,29 +6,23 @@
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>使い方</v-toolbar-title>
+          <v-toolbar-title>{{ $t("tutorial_title") }}</v-toolbar-title>
+          <language-switch></language-switch>
         </v-card-actions>
         <v-divider></v-divider>
         <v-card-text>
-          <p>好きな言葉でルーレットを作成できるWebアプリです。</p>
+          <p>{{ $t("tutorial_1") }}</p>
 
           <div class="mt-5">
-            <p>抽選したい言葉を入力して・・・</p>
+            <p>{{ $t("tutorial_2") }}</p>
             <v-img :src="`${$config.app.baseURL}images/tutorial-1.png`" max-width="500px"></v-img>
           </div>
 
           <div class="mt-5">
-            <p>ルーレットを作成！</p>
+            <p>{{ $t("tutorial_3") }}</p>
             <v-img :src="`${$config.app.baseURL}images/tutorial-2.png`" max-width="400px"></v-img>
           </div>
-
-          <div class="hidden-sm-and-up">
-            ルーレットの編集画面は
-            <v-icon size="30">mdi-chevron-up</v-icon>
-            をタップすると表示されます。
-          </div>
-
-          <v-btn class="my-5" block @click="dialog = false">閉じる</v-btn>
+          <v-btn class="my-5" block @click="dialog = false">{{ $t("close") }}</v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>

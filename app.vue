@@ -5,10 +5,11 @@
 
   <v-app>
     <v-app-bar elevation="1">
-      <v-app-bar-title>ルーレット</v-app-bar-title>
+      <v-app-bar-title>{{ $t("title") }}</v-app-bar-title>
       <v-btn @click="onTutorialClick" icon :disabled="isRunning">
         <v-icon>mdi-help-circle-outline</v-icon>
       </v-btn>
+      <language-switch></language-switch>
       <v-btn @click="onTemplateClick" icon :disabled="isRunning">
         <v-icon>mdi-database</v-icon>
       </v-btn>

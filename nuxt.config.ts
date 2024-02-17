@@ -2,7 +2,7 @@ const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
   css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
-  modules: ["@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/color-mode", "@nuxtjs/i18n"],
   build: {
     transpile: ["vuetify"],
   },
@@ -46,5 +46,17 @@ export default defineNuxtConfig({
     public: {
       gaid: "",
     },
+  },
+  i18n: {
+    locales: [
+      { code: "ja", iso: "ja", file: "ja.json", name: "日本語" },
+      { code: "en", iso: "en", file: "en.json", name: "English" },
+    ],
+    lazy: true,
+    langDir: "locales/",
+    fallbackLocale: ["ja"],
+    defaultLocale: "ja",
+    strategy: "no_prefix",
+    detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },
   },
 });

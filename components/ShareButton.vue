@@ -9,18 +9,18 @@
         <v-btn icon @click="dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>共有</v-toolbar-title>
+        <v-toolbar-title>{{ $t("share_title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
 
-      <v-card-text> URLでルーレットを共有できます </v-card-text>
+      <v-card-text>{{ $t("share_message") }}</v-card-text>
 
       <v-text-field readonly hide-details="auto" v-model="url"></v-text-field>
 
       <v-btn @click="copyUrl">
         <span v-if="copied">
           <v-icon>mdi-check-outline</v-icon>
-          コピーしました！
+          {{ $t("share_clicked") }}
         </span>
         <span v-if="!copied">
           <v-icon>mdi-content-copy</v-icon>

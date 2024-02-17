@@ -6,7 +6,7 @@
     <v-col cols="12" sm="6">
       <wheel :items="items" ref="wheel" @stopped="stopped"></wheel>
 
-      <v-btn @click="start" block color="primary" elevation="2" size="large" :disabled="isRunning">開始 </v-btn>
+      <v-btn @click="start" block color="primary" elevation="2" size="large" :disabled="isRunning">{{ $t("start") }}</v-btn>
     </v-col>
 
     <v-col cols="12" sm="6">

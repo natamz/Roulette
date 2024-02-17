@@ -6,7 +6,7 @@
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>テンプレート</v-toolbar-title>
+          <v-toolbar-title>{{ $t("template_title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
 
@@ -15,7 +15,7 @@
           <v-list-item v-for="(template, index) in templates">
             <v-row>
               <v-col>
-                {{ template.name }}
+                {{ template.name[$i18n.locale] }}
               </v-col>
               <v-col>
                 <v-btn class="ma-1" @click="selectTemplate(index)"></v-btn>

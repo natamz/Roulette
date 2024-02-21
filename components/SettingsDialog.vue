@@ -15,7 +15,9 @@
           <v-list-subheader>{{ $t("setting_rotation_time") }}</v-list-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" class="ma-1">{{ item.name[$i18n.locale] }} </v-btn>
+              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" :slim="true" class="ma-1" style="text-transform: none"
+                >{{ item.name[$i18n.locale] }}
+              </v-btn>
             </v-list-item-action>
           </v-list-item>
 
@@ -51,10 +53,10 @@ interface rotationTime {
   value: number;
 }
 const rotationTimes: rotationTime[] = [
-  { name: { ja: "一瞬", en: "moment" }, value: 0 },
-  { name: { ja: "短い", en: "short" }, value: 1000 },
-  { name: { ja: "普通", en: "normal" }, value: 8000 },
-  { name: { ja: "長い", en: "long" }, value: 10000 },
+  { name: { ja: "一瞬", en: "Moment" }, value: 0 },
+  { name: { ja: "短い", en: "Short" }, value: 1000 },
+  { name: { ja: "普通", en: "Normal" }, value: 8000 },
+  { name: { ja: "長い", en: "Long" }, value: 10000 },
 ];
 
 export default {

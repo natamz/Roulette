@@ -26,9 +26,9 @@
     "vuetify": "3.5.2"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "7.6.12",
-    "@storybook/builder-vite": "7.6.12",
-    "@storybook/vue3": "7.6.12"
+    "@storybook/addon-essentials": "7.6.20",
+    "@storybook/builder-vite": "7.6.20",
+    "@storybook/vue3": "7.6.20"
   },
   "resolutions": {
     "string-width": "4.2.3"

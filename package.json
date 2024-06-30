@@ -31,6 +31,6 @@
     "@storybook/vue3": "7.6.12"
   },
   "resolutions": {
-    "string-width": "4.2.3"
+    "string-width": "7.2.0"
   }
 }

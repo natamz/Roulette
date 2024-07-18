@@ -18,7 +18,7 @@
     "dexie": "3.2.4",
     "dotenv": "16.4.1",
     "lz-string": "1.5.0",
-    "nuxt": "3.10.0",
+    "nuxt": "3.12.4",
     "sass": "1.70.0",
     "sass-loader": "14.1.0",
     "vue-gtag-next": "1.14.0",

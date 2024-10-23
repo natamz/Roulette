@@ -19,7 +19,7 @@
     "dotenv": "16.4.1",
     "lz-string": "1.5.0",
     "nuxt": "3.10.0",
-    "sass": "1.70.0",
+    "sass": "1.80.4",
     "sass-loader": "14.1.0",
     "vue-gtag-next": "1.14.0",
     "vuedraggable": "4.1.0",

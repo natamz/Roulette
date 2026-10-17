@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import type RouletteItem from "~~/models/entities/RouletteItem";
+import { decayDistance, pickItemId, sumRates } from "~~/utils/wheel";
 
 // canvasの中心座標
 const CENTER_X: number = 250;
@@ -120,11 +121,9 @@ export default {
 
       const num = Math.random() * 360;
 
-      const a = 1e-4 ** (1 / time);
-
       const timer = setInterval(() => {
         const t = GetTime() - startTime;
-        const d = 10000 * a ** t;
+        const d = decayDistance(t, time);
         this.draw(-num - d - 90);
 
         if (d < 0.5) {
@@ -138,21 +137,11 @@ export default {
     },
 
     getResult(deg: number): number {
-      const i = Math.floor(deg / (360 / this.sumOfItemsRate));
-      let a = 0;
-      for (const item of this.items) {
-        a += item.rate;
-        if (a > i) {
-          return item.id;
-        }
-      }
-      return 0;
+      return pickItemId(this.items, deg);
     },
 
     calcSumOfItemsRate() {
-      this.sumOfItemsRate = this.items.reduce((num: number, item: RouletteItem) => {
-        return num + item.rate;
-      }, 0);
+      this.sumOfItemsRate = sumRates(this.items);
     },
   },
 };

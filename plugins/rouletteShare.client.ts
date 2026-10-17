@@ -20,12 +20,14 @@ export class RouletteShareUtil {
 
     return location.protocol + "//" + location.host + location.pathname + "?q=" + str;
   }
+
   import(data: string): RouletteItem[] {
     try {
       const dec = LZString.decompressFromEncodedURIComponent(data);
       const parsed = JSON.parse(dec) as ExportRouletteItem[];
       return parsed.map((x: ExportRouletteItem) => ({ name: x.n, color: x.c, rate: x.r })) as RouletteItem[];
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e);
       return [];
     }

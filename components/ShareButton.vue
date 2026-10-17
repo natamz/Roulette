@@ -1,21 +1,35 @@
 <template>
-  <v-btn @click="shareRoulette" variant="flat">
+  <v-btn
+    variant="flat"
+    @click="shareRoulette"
+  >
     <v-icon>mdi-export-variant</v-icon>
   </v-btn>
 
-  <v-dialog max-width="800px" v-model="dialog" transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="dialog"
+    max-width="800px"
+    transition="dialog-bottom-transition"
+  >
     <v-card>
       <v-toolbar color="primary">
-        <v-btn icon @click="dialog = false">
+        <v-btn
+          icon
+          @click="dialog = false"
+        >
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t("share_title") }}</v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
       </v-toolbar>
 
       <v-card-text>{{ $t("share_message") }}</v-card-text>
 
-      <v-text-field readonly hide-details="auto" v-model="url"></v-text-field>
+      <v-text-field
+        v-model="url"
+        readonly
+        hide-details="auto"
+      />
 
       <v-btn @click="copyUrl">
         <span v-if="copied">

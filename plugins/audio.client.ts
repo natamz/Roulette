@@ -16,14 +16,17 @@ export class AudioUtil {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["click_A.wav"]);
   }
+
   click_B() {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["click_B.wav"]);
   }
+
   start() {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["start.wav"]);
   }
+
   result() {
     if (localStorage.getItem("audio") != "true") return;
 

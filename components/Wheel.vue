@@ -1,7 +1,16 @@
 <template>
   <div class="canvas_container">
-    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
-    <canvas ref="canvas_label" width="500" height="500"></canvas>
+    <canvas
+      id="canvas"
+      ref="canvas"
+      width="500"
+      height="500"
+    />
+    <canvas
+      ref="canvas_label"
+      width="500"
+      height="500"
+    />
   </div>
 </template>
 
@@ -23,6 +32,9 @@ function GetTime() {
 }
 
 export default {
+  props: {
+    items: { type: Object as () => RouletteItem[], default: [] },
+  },
   data(): { result: string; isRunning: boolean; sumOfItemsRate: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",
@@ -32,8 +44,26 @@ export default {
       ctx_label: null,
     };
   },
-  props: {
-    items: { type: Object as () => RouletteItem[], default: [] },
+  watch: {
+    items: {
+      handler() {
+        this.calcSumOfItemsRate();
+        this.draw();
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.ctx = (this.$refs.canvas as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+
+    this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+    this.ctx_label.font = "32px serif";
+    this.ctx_label.fillStyle = "#000000";
+    this.ctx_label.textBaseline = "middle";
+    this.ctx_label.textAlign = "center";
+
+    this.calcSumOfItemsRate();
+    this.draw();
   },
   methods: {
     draw(start_deg: number = 0) {
@@ -91,7 +121,7 @@ export default {
 
       const a = 1e-4 ** (1 / time);
 
-      let timer = setInterval(() => {
+      const timer = setInterval(() => {
         const t = GetTime() - startTime;
         const d = 10000 * a ** t;
         this.draw(-num - d - 90);
@@ -122,27 +152,6 @@ export default {
       this.sumOfItemsRate = this.items.reduce((num: number, item: RouletteItem) => {
         return num + item.rate;
       }, 0);
-    },
-  },
-  mounted() {
-    this.ctx = (this.$refs.canvas as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
-
-    this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
-    this.ctx_label.font = "32px serif";
-    this.ctx_label.fillStyle = "#000000";
-    this.ctx_label.textBaseline = "middle";
-    this.ctx_label.textAlign = "center";
-
-    this.calcSumOfItemsRate();
-    this.draw();
-  },
-  watch: {
-    items: {
-      handler() {
-        this.calcSumOfItemsRate();
-        this.draw();
-      },
-      deep: true,
     },
   },
 };

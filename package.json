@@ -5,8 +5,7 @@
     "dev": "nuxt dev",
     "devo": "nuxt dev -o",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "storybook": "start-storybook"
+    "preview": "nuxt preview"
   },
   "engines": {
     "node": "24.x"
@@ -25,11 +24,7 @@
     "vuedraggable": "4.1.0",
     "vuetify": "3.5.2"
   },
-  "devDependencies": {
-    "@storybook/addon-essentials": "7.6.12",
-    "@storybook/builder-vite": "7.6.12",
-    "@storybook/vue3": "7.6.12"
-  },
+  "devDependencies": {},
   "resolutions": {
     "string-width": "4.2.3"
   }

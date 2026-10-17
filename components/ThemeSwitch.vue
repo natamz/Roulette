@@ -1,5 +1,9 @@
 <template>
-  <v-switch v-model="dark" hide-details="auto" :prepend-icon="themeIcon"></v-switch>
+  <v-switch
+    v-model="dark"
+    hide-details="auto"
+    :prepend-icon="themeIcon"
+  />
 </template>
 
 <script lang="ts">

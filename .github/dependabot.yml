@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      nuxt:
+        patterns:
+          - "nuxt"
+          - "nuxi"
+          - "@nuxt/*"
+          - "@nuxtjs/*"
+      vuetify:
+        patterns:
+          - "vuetify"
+          - "vite-plugin-vuetify"
+          - "@mdi/font"
+      lint-test:
+        patterns:
+          - "eslint"
+          - "@nuxt/eslint-config"
+          - "typescript"
+          - "vue-tsc"
+          - "vitest"
+          - "fake-indexeddb"
+          - "@playwright/test"
+          - "serve"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"

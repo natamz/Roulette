@@ -1,24 +1,39 @@
 <template>
   <div class="hidden-xs">
-    <slot name="content"></slot>
+    <slot name="content" />
   </div>
 
   <div class="hidden-sm-and-up">
-    <v-row justify="center" class="mt-2">
-      <v-btn :disabled="isRunning" @click="showDialog">
-        <v-icon size="30">mdi-chevron-up</v-icon>
+    <v-row
+      justify="center"
+      class="mt-2"
+    >
+      <v-btn
+        :disabled="isRunning"
+        @click="showDialog"
+      >
+        <v-icon size="30">
+          mdi-chevron-up
+        </v-icon>
       </v-btn>
     </v-row>
 
-    <v-dialog width="100%" fullscreen v-model="dialog">
+    <v-dialog
+      v-model="dialog"
+      width="100%"
+      fullscreen
+    >
       <v-card>
         <v-card-actions>
-          <v-btn icon @click="dialog = false">
+          <v-btn
+            icon
+            @click="dialog = false"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-actions>
 
-        <slot name="content"></slot>
+        <slot name="content" />
       </v-card>
     </v-dialog>
   </div>
@@ -26,15 +41,15 @@
 
 <script lang="ts">
 export default {
+  props: {
+    isRunning: { type: Boolean, default: false },
+  },
   data(): {
     dialog: boolean;
   } {
     return {
       dialog: false,
     };
-  },
-  props: {
-    isRunning: { type: Boolean, default: false },
   },
   methods: {
     showDialog() {

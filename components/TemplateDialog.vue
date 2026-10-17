@@ -1,24 +1,38 @@
 <template>
   <div>
-    <v-dialog max-width="800px" fullscreen v-model="dialog" transition="dialog-bottom-transition">
+    <v-dialog
+      v-model="dialog"
+      max-width="800px"
+      fullscreen
+      transition="dialog-bottom-transition"
+    >
       <v-card>
         <v-toolbar color="primary">
-          <v-btn icon @click="dialog = false">
+          <v-btn
+            icon
+            @click="dialog = false"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("template_title") }}</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-toolbar>
 
-        <v-divider></v-divider>
+        <v-divider />
         <v-list>
-          <v-list-item v-for="(template, index) in templates">
+          <v-list-item
+            v-for="(template, index) in templates"
+            :key="index"
+          >
             <v-row>
               <v-col>
                 {{ template.name[$i18n.locale] }}
               </v-col>
               <v-col>
-                <v-btn class="ma-1" @click="selectTemplate(index)"></v-btn>
+                <v-btn
+                  class="ma-1"
+                  @click="selectTemplate(index)"
+                />
               </v-col>
             </v-row>
           </v-list-item>
@@ -32,9 +46,10 @@
 import { templates } from "~~/consts/templates";
 
 export default {
+  emits: ["selectTemplate"],
   data(): {
     dialog: boolean;
-    templates: any;
+    templates: typeof templates;
   } {
     return {
       dialog: false,

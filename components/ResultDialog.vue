@@ -1,10 +1,17 @@
 <template>
   <div>
-    <v-dialog width="100%" v-model="dialog">
+    <v-dialog
+      v-model="dialog"
+      width="100%"
+    >
       <v-card>
         <v-card-text>
           <p>{{ $t("result") }}</p>
-          <div id="color" v-if="color" :style="'background-color:' + color"></div>
+          <div
+            v-if="color"
+            id="color"
+            :style="'background-color:' + color"
+          />
           <h1>{{ result }}</h1>
         </v-card-text>
       </v-card>

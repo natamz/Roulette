@@ -1,12 +1,22 @@
 <template>
   <div class="canvas_container">
-    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
-    <canvas ref="canvas_label" width="500" height="500"></canvas>
+    <canvas
+      id="canvas"
+      ref="canvas"
+      width="500"
+      height="500"
+    />
+    <canvas
+      ref="canvas_label"
+      width="500"
+      height="500"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import type RouletteItem from "~~/models/entities/RouletteItem";
+import { decayDistance, pickItemId, sumRates } from "~~/utils/wheel";
 
 // canvasの中心座標
 const CENTER_X: number = 250;
@@ -23,6 +33,10 @@ function GetTime() {
 }
 
 export default {
+  props: {
+    items: { type: Array as () => RouletteItem[], default: () => [] },
+  },
+  emits: ["stopped"],
   data(): { result: string; isRunning: boolean; sumOfItemsRate: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",
@@ -32,8 +46,26 @@ export default {
       ctx_label: null,
     };
   },
-  props: {
-    items: { type: Object as () => RouletteItem[], default: [] },
+  watch: {
+    items: {
+      handler() {
+        this.calcSumOfItemsRate();
+        this.draw();
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.ctx = (this.$refs.canvas as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+
+    this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+    this.ctx_label.font = "32px serif";
+    this.ctx_label.fillStyle = "#000000";
+    this.ctx_label.textBaseline = "middle";
+    this.ctx_label.textAlign = "center";
+
+    this.calcSumOfItemsRate();
+    this.draw();
   },
   methods: {
     draw(start_deg: number = 0) {
@@ -89,11 +121,9 @@ export default {
 
       const num = Math.random() * 360;
 
-      const a = 1e-4 ** (1 / time);
-
-      let timer = setInterval(() => {
+      const timer = setInterval(() => {
         const t = GetTime() - startTime;
-        const d = 10000 * a ** t;
+        const d = decayDistance(t, time);
         this.draw(-num - d - 90);
 
         if (d < 0.5) {
@@ -107,42 +137,11 @@ export default {
     },
 
     getResult(deg: number): number {
-      const i = Math.floor(deg / (360 / this.sumOfItemsRate));
-      let a = 0;
-      for (const item of this.items) {
-        a += item.rate;
-        if (a > i) {
-          return item.id;
-        }
-      }
-      return 0;
+      return pickItemId(this.items, deg);
     },
 
     calcSumOfItemsRate() {
-      this.sumOfItemsRate = this.items.reduce((num: number, item: RouletteItem) => {
-        return num + item.rate;
-      }, 0);
-    },
-  },
-  mounted() {
-    this.ctx = (this.$refs.canvas as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
-
-    this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
-    this.ctx_label.font = "32px serif";
-    this.ctx_label.fillStyle = "#000000";
-    this.ctx_label.textBaseline = "middle";
-    this.ctx_label.textAlign = "center";
-
-    this.calcSumOfItemsRate();
-    this.draw();
-  },
-  watch: {
-    items: {
-      handler() {
-        this.calcSumOfItemsRate();
-        this.draw();
-      },
-      deep: true,
+      this.sumOfItemsRate = sumRates(this.items);
     },
   },
 };

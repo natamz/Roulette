@@ -16,6 +16,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
       components,
       directives,
-    })
+    }),
   );
 });

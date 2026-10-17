@@ -1,19 +1,7 @@
 const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
-  css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
   modules: ["@nuxtjs/color-mode", "@nuxtjs/i18n"],
-  build: {
-    transpile: ["vuetify"],
-  },
-  vite: {
-    define: {
-      "process.env.DEBUG": false,
-    },
-    build: {
-      chunkSizeWarningLimit: 1000,
-    },
-  },
   app: {
     head: {
       htmlAttrs: {
@@ -42,9 +30,21 @@ export default defineNuxtConfig({
       ],
     },
   },
+  css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
   runtimeConfig: {
     public: {
       gaid: "",
+    },
+  },
+  build: {
+    transpile: ["vuetify"],
+  },
+  vite: {
+    define: {
+      "process.env.DEBUG": false,
+    },
+    build: {
+      chunkSizeWarningLimit: 1000,
     },
   },
   i18n: {
@@ -54,7 +54,6 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     langDir: "locales/",
-    fallbackLocale: ["ja"],
     defaultLocale: "ja",
     strategy: "no_prefix",
     detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },

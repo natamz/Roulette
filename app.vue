@@ -1,35 +1,61 @@
 <template>
-  <settings-dialog ref="settingsDialog"></settings-dialog>
-  <template-dialog ref="templateDialog" @selectTemplate="selectTemplate"></template-dialog>
-  <tutorial-dialog ref="tutorialDialog"></tutorial-dialog>
+  <settings-dialog ref="settingsDialog" />
+  <template-dialog
+    ref="templateDialog"
+    @select-template="selectTemplate"
+  />
+  <tutorial-dialog ref="tutorialDialog" />
 
   <v-app>
     <v-app-bar elevation="1">
       <v-app-bar-title>{{ $t("title") }}</v-app-bar-title>
-      <v-btn @click="onTutorialClick" icon :disabled="isRunning">
+      <v-btn
+        icon
+        :disabled="isRunning"
+        @click="onTutorialClick"
+      >
         <v-icon>mdi-help-circle-outline</v-icon>
       </v-btn>
-      <language-switch></language-switch>
-      <v-btn @click="onTemplateClick" icon :disabled="isRunning">
+      <language-switch />
+      <v-btn
+        icon
+        :disabled="isRunning"
+        @click="onTemplateClick"
+      >
         <v-icon>mdi-database</v-icon>
       </v-btn>
-      <v-btn @click="onSettingClick" icon :disabled="isRunning">
+      <v-btn
+        icon
+        :disabled="isRunning"
+        @click="onSettingClick"
+      >
         <v-icon>mdi-cog-outline</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container>
-        <roulette ref="roulette" @stateChange="stateChange"></roulette>
+        <roulette
+          ref="roulette"
+          @state-change="stateChange"
+        />
       </v-container>
     </v-main>
 
     <v-footer>
-      <v-card elevation="0" rounded="0" width="100%" class="text-center">
-        <v-divider></v-divider>
+      <v-card
+        elevation="0"
+        rounded="0"
+        width="100%"
+        class="text-center"
+      >
+        <v-divider />
 
         <v-card-text>
-          <v-btn href="https://github.com/natamz/Roulette" variant="flat">
+          <v-btn
+            href="https://github.com/natamz/Roulette"
+            variant="flat"
+          >
             <v-icon>mdi-github</v-icon>
           </v-btn>
           <share-button />

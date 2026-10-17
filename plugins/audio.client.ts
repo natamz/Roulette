@@ -16,14 +16,17 @@ export class AudioUtil {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["click_A.wav"]);
   }
+
   click_B() {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["click_B.wav"]);
   }
+
   start() {
     if (localStorage.getItem("audio") != "true") return;
     play(buffs["start.wav"]);
   }
+
   result() {
     if (localStorage.getItem("audio") != "true") return;
 
@@ -39,9 +42,10 @@ export class AudioUtil {
         return play(buffs["result_4.wav"]);
       case "5":
         return play(buffs["result_5.wav"]);
-      case "99":
+      case "99": {
         const arr = ["result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav"];
         return play(buffs[arr[Math.floor(Math.random() * arr.length)]]);
+      }
       default:
         return play(buffs["result_1.wav"]);
     }

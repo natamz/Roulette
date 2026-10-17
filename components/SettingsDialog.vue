@@ -1,45 +1,80 @@
 <template>
   <div>
-    <v-dialog max-width="800px" fullscreen v-model="dialog" transition="dialog-bottom-transition" class="settintgs-dialog">
+    <v-dialog
+      v-model="dialog"
+      max-width="800px"
+      fullscreen
+      transition="dialog-bottom-transition"
+      class="settintgs-dialog"
+    >
       <v-card>
         <v-toolbar color="primary">
-          <v-btn icon @click="dialog = false">
+          <v-btn
+            icon
+            @click="dialog = false"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("setting_title") }}</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-toolbar>
 
-        <v-divider></v-divider>
+        <v-divider />
         <v-list>
           <v-list-subheader>{{ $t("setting_rotation_time") }}</v-list-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-btn v-for="item in rotationTimes" @click="setRotationTime(item.value)" :color="item.value == rotationTimeValue ? 'primary' : ''" :slim="true" class="ma-1" style="text-transform: none"
-                >{{ item.name[$i18n.locale] }}
+              <v-btn
+                v-for="item in rotationTimes"
+                :key="item.value"
+                :color="item.value == rotationTimeValue ? 'primary' : ''"
+                :slim="true"
+                class="ma-1"
+                style="text-transform: none"
+                @click="setRotationTime(item.value)"
+              >
+                {{ item.name[$i18n.locale] }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-          <v-divider></v-divider>
+          <v-divider />
 
           <v-list-item>
-            <v-btn class="ma-1" @click="toggleAudio" v-model="audio"> <v-icon :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'"></v-icon></v-btn>
+            <v-btn
+              v-model="audio"
+              class="ma-1"
+              @click="toggleAudio"
+            >
+              <v-icon :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'" />
+            </v-btn>
           </v-list-item>
 
           <v-list-subheader> {{ $t("setting_sound_type") }} </v-list-subheader>
           <v-list-item>
             <v-list-item-action>
-              <v-btn v-for="item in audioResultTypes" @click="setAudioResult(item)" class="ma-1" :color="item == audioResultType ? 'primary' : ''">
+              <v-btn
+                v-for="item in audioResultTypes"
+                :key="item"
+                class="ma-1"
+                :color="item == audioResultType ? 'primary' : ''"
+                @click="setAudioResult(item)"
+              >
                 {{ item }}
               </v-btn>
-              <v-btn @click="setAudioResult(99)" class="ma-1" :color="99 == audioResultType ? 'primary' : ''"> ？ </v-btn>
+              <v-btn
+                class="ma-1"
+                :color="99 == audioResultType ? 'primary' : ''"
+                @click="setAudioResult(99)"
+              >
+                ？
+              </v-btn>
             </v-list-item-action>
           </v-list-item>
 
-          <v-divider></v-divider>
+          <v-divider />
           <v-list-item>
-            <theme-switch></theme-switch>
+            <theme-switch />
           </v-list-item>
         </v-list>
       </v-card>
@@ -77,6 +112,17 @@ export default {
       audioResultTypes: [1, 2, 3],
     };
   },
+  mounted() {
+    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
+    this.rotationTimeValue = Number(localStorage.getItem("rotationTime")) ?? 8000;
+    localStorage.setItem("rotationTime", String(this.rotationTimeValue));
+
+    this.audio = localStorage.getItem("audio") == "true";
+
+    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
+    this.audioResultType = Number(localStorage.getItem("audioResultType")) ?? 1;
+    localStorage.setItem("audioResultType", String(this.audioResultType));
+  },
   methods: {
     showDialog() {
       this.dialog = true;
@@ -97,15 +143,6 @@ export default {
       localStorage.setItem("audioResultType", `${num}`);
       this.$audio.result();
     },
-  },
-  mounted() {
-    this.rotationTimeValue = Number(localStorage.getItem("rotationTime")) ?? 8000;
-    localStorage.setItem("rotationTime", String(this.rotationTimeValue));
-
-    this.audio = localStorage.getItem("audio") == "true";
-
-    this.audioResultType = Number(localStorage.getItem("audioResultType")) ?? 1;
-    localStorage.setItem("audioResultType", String(this.audioResultType));
   },
 };
 </script>

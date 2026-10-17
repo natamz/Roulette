@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { decayDistance, pickItemId, sumRates } from "~~/utils/wheel";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import { decayDistance, pickItemId, sumRates } from "~/utils/wheel";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 function item(id: number, rate: number): RouletteItem {
   return { id, name: `item${id}`, color: "#000000", rate, order: id };

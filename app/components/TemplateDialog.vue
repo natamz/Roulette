@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { templates } from "~~/consts/templates";
+import { templates } from "~/consts/templates";
 
 export default {
   emits: ["selectTemplate"],
@@ -62,7 +62,9 @@ export default {
       this.$audio.click();
     },
     selectTemplate(index: number) {
-      const items = JSON.parse(JSON.stringify(templates[index].items));
+      const template = templates[index];
+      if (!template) return;
+      const items = JSON.parse(JSON.stringify(template.items));
       if (items) {
         this.$emit("selectTemplate", items);
         this.$audio.click();

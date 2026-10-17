@@ -137,11 +137,11 @@
 </template>
 
 <script lang="ts">
-import { colors } from "@/consts/colors";
-import type RouletteItem from "~~/models/entities/RouletteItem";
-import type ColorPalette from "@/components/ColorPalette.vue";
-import type ResultDialog from "@/components/ResultDialog.vue";
-import type Wheel from "@/components/Wheel.vue";
+import { colors } from "~/consts/colors";
+import type RouletteItem from "~/models/entities/RouletteItem";
+import type ColorPalette from "~/components/ColorPalette.vue";
+import type ResultDialog from "~/components/ResultDialog.vue";
+import type Wheel from "~/components/Wheel.vue";
 import type { VTextField } from "vuetify/components";
 
 const colorList: string[] = colors.flat();

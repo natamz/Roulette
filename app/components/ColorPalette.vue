@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { colors } from "@/consts/colors";
+import { colors } from "~/consts/colors";
 
 export default {
   emits: ["colorSubmit"],

@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import type RouletteItem from "~~/models/entities/RouletteItem";
-import { decayDistance, pickItemId, sumRates } from "~~/utils/wheel";
+import type RouletteItem from "~/models/entities/RouletteItem";
+import { decayDistance, pickItemId, sumRates } from "~/utils/wheel";
 
 // canvasの中心座標
 const CENTER_X: number = 250;

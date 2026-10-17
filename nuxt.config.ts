@@ -30,7 +30,10 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
+  css: ["vuetify/lib/styles/main.sass", "~/assets/styles/theme.scss"],
+  colorMode: {
+    classSuffix: "-mode",
+  },
   runtimeConfig: {
     public: {
       gaid: "",
@@ -47,13 +50,19 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 1000,
     },
   },
+  typescript: {
+    tsConfig: {
+      include: ["../tests/unit/**/*"],
+    },
+    nodeTsConfig: {
+      include: ["../tests/e2e/**/*", "../tests/fixtures/**/*", "../vitest.config.mts", "../playwright.config.ts"],
+    },
+  },
   i18n: {
     locales: [
-      { code: "ja", iso: "ja", file: "ja.json", name: "日本語" },
-      { code: "en", iso: "en", file: "en.json", name: "English" },
+      { code: "ja", language: "ja", file: "ja.json", name: "日本語" },
+      { code: "en", language: "en", file: "en.json", name: "English" },
     ],
-    lazy: true,
-    langDir: "locales/",
     defaultLocale: "ja",
     strategy: "no_prefix",
     detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },

@@ -1,5 +1,5 @@
-import type RouletteItem from "~~/models/entities/RouletteItem";
-import { encodeItems, decodeItems } from "~~/utils/share";
+import type RouletteItem from "~/models/entities/RouletteItem";
+import { encodeItems, decodeItems } from "~/utils/share";
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide("share", new RouletteShareUtil());

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { decodeItems, encodeItems } from "~~/utils/share";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import { decodeItems, encodeItems } from "~/utils/share";
+import type RouletteItem from "~/models/entities/RouletteItem";
 import { legacyShareItems, legacyShareQuery } from "../fixtures/share";
 
 const items: RouletteItem[] = [

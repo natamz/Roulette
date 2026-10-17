@@ -20,11 +20,9 @@
     "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/i18n": "8.1.1",
     "dexie": "3.2.4",
-    "dotenv": "16.4.1",
     "lz-string": "1.5.0",
     "nuxt": "3.21.11",
     "sass": "1.70.0",
-    "sass-loader": "14.1.0",
     "vue-gtag": "3.7.1",
     "vuedraggable": "4.1.0",
     "vuetify": "3.7.19"

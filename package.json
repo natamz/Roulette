@@ -7,7 +7,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxi typecheck"
   },
   "engines": {
     "node": "24.x"
@@ -29,7 +30,8 @@
   "devDependencies": {
     "@nuxt/eslint-config": "1.17.0",
     "eslint": "9.39.5",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vue-tsc": "2.2.12"
   },
   "resolutions": {
     "string-width": "4.2.3"

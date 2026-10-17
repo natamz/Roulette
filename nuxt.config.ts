@@ -54,7 +54,6 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     langDir: "locales/",
-    fallbackLocale: ["ja"],
     defaultLocale: "ja",
     strategy: "no_prefix",
     detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },

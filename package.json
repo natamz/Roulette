@@ -23,7 +23,7 @@
     "dexie": "4.4.6",
     "lz-string": "1.5.0",
     "nuxt": "4.6.2",
-    "sass": "1.70.0",
+    "sass": "1.105.2",
     "vue-gtag": "3.7.1",
     "vuedraggable": "4.1.0",
     "vuetify": "3.13.7"

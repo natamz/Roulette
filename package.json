@@ -9,7 +9,7 @@
     "storybook": "start-storybook"
   },
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "dependencies": {
     "@mdi/font": "7.4.47",

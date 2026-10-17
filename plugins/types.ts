@@ -11,7 +11,7 @@ declare module "#app" {
     $share: RouletteShareUtil;
   }
 }
-declare module "@vue/runtime-core" {
+declare module "vue" {
   interface ComponentCustomProperties {
     $audio: AudioUtil;
     $db: Db;

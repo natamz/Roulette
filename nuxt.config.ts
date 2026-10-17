@@ -1,7 +1,7 @@
 const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/color-mode", "@nuxtjs/i18n"],
+  modules: ["@nuxt/eslint", "@nuxtjs/color-mode", "@nuxtjs/i18n"],
   app: {
     head: {
       htmlAttrs: {
@@ -56,6 +56,16 @@ export default defineNuxtConfig({
     },
     nodeTsConfig: {
       include: ["../tests/e2e/**/*", "../tests/fixtures/**/*", "../vitest.config.mts", "../playwright.config.ts"],
+    },
+  },
+  eslint: {
+    config: {
+      // 既存コードのスタイル（ダブルクォート・セミコロンあり）に合わせる
+      stylistic: {
+        indent: 2,
+        quotes: "double",
+        semi: true,
+      },
     },
   },
   i18n: {

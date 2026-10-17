@@ -5,7 +5,9 @@
     "dev": "nuxt dev",
     "devo": "nuxt dev -o",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "engines": {
     "node": "24.x"
@@ -24,7 +26,11 @@
     "vuedraggable": "4.1.0",
     "vuetify": "3.5.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@nuxt/eslint-config": "1.17.0",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3"
+  },
   "resolutions": {
     "string-width": "4.2.3"
   }

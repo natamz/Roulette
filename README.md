@@ -10,8 +10,7 @@
 ## Setup
 
 ```bash
-# yarn
-yarn install
+npm install
 ```
 
 ## Development Server
@@ -19,5 +18,5 @@ yarn install
 Start the development server on http://localhost:3000
 
 ```bash
-yarn dev
+npm run dev
 ```

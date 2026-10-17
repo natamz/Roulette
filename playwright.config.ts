@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = 4173;
 
-// 本番と同じ静的成果物（yarn generate）に対してテストする
+// 本番と同じ静的成果物（nuxt generate）に対してテストする
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,

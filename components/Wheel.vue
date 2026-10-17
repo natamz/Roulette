@@ -33,8 +33,9 @@ function GetTime() {
 
 export default {
   props: {
-    items: { type: Object as () => RouletteItem[], default: [] },
+    items: { type: Array as () => RouletteItem[], default: () => [] },
   },
+  emits: ["stopped"],
   data(): { result: string; isRunning: boolean; sumOfItemsRate: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",

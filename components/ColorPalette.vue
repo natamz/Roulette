@@ -16,11 +16,13 @@
 
         <v-card-text>
           <v-row
-            v-for="colors in colorGroups"
+            v-for="(colors, i) in colorGroups"
+            :key="i"
             class="mt-1 mb-5"
           >
             <v-col
               v-for="color in colors"
+              :key="color"
               cols="3"
               sm="2"
             >
@@ -41,6 +43,7 @@
 import { colors } from "@/consts/colors";
 
 export default {
+  emits: ["colorSubmit"],
   data(): {
     id: number;
     dialog: boolean;

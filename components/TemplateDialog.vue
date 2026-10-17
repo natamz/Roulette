@@ -20,7 +20,10 @@
 
         <v-divider />
         <v-list>
-          <v-list-item v-for="(template, index) in templates">
+          <v-list-item
+            v-for="(template, index) in templates"
+            :key="index"
+          >
             <v-row>
               <v-col>
                 {{ template.name[$i18n.locale] }}
@@ -43,9 +46,10 @@
 import { templates } from "~~/consts/templates";
 
 export default {
+  emits: ["selectTemplate"],
   data(): {
     dialog: boolean;
-    templates: any;
+    templates: typeof templates;
   } {
     return {
       dialog: false,

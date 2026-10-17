@@ -26,6 +26,7 @@
             <v-list-item-action>
               <v-btn
                 v-for="item in rotationTimes"
+                :key="item.value"
                 :color="item.value == rotationTimeValue ? 'primary' : ''"
                 :slim="true"
                 class="ma-1"
@@ -54,6 +55,7 @@
             <v-list-item-action>
               <v-btn
                 v-for="item in audioResultTypes"
+                :key="item"
                 class="ma-1"
                 :color="item == audioResultType ? 'primary' : ''"
                 @click="setAudioResult(item)"
@@ -111,11 +113,13 @@ export default {
     };
   },
   mounted() {
+    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
     this.rotationTimeValue = Number(localStorage.getItem("rotationTime")) ?? 8000;
     localStorage.setItem("rotationTime", String(this.rotationTimeValue));
 
     this.audio = localStorage.getItem("audio") == "true";
 
+    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
     this.audioResultType = Number(localStorage.getItem("audioResultType")) ?? 1;
     localStorage.setItem("audioResultType", String(this.audioResultType));
   },

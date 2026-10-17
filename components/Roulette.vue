@@ -147,6 +147,7 @@ import type { VTextField } from "vuetify/components";
 const colorList: string[] = colors.flat();
 
 export default {
+  emits: ["stateChange"],
   data(): { items: RouletteItem[]; isRunning: boolean; drag: boolean } {
     return {
       items: [],

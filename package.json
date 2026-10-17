@@ -26,7 +26,7 @@
     "sass": "1.70.0",
     "vue-gtag": "3.7.1",
     "vuedraggable": "4.1.0",
-    "vuetify": "3.7.19"
+    "vuetify": "3.13.7"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "1.17.0",

@@ -55,12 +55,6 @@
           <v-divider />
 
           <v-card-text>
-            <v-btn
-              href="https://github.com/natamz/Roulette"
-              variant="text"
-            >
-              <v-icon>mdi-github</v-icon>
-            </v-btn>
             <share-button />
           </v-card-text>
         </v-card>

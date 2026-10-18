@@ -23,6 +23,25 @@ export function itemInputs(page: Page) {
   return page.locator(".list-group .v-text-field:not(.v-select) input");
 }
 
+// IndexedDB に保存されている項目の名前（order 順）
+// 名前の変更は非同期で保存されるので、リロードの前はこれが期待どおりになるのを待つ
+export async function storedNames(page: Page) {
+  return page.evaluate(() => new Promise<string[]>((resolve, reject) => {
+    const open = indexedDB.open("roulette-db");
+    open.onerror = () => reject(open.error);
+    open.onsuccess = () => {
+      const db = open.result;
+      const request = db.transaction("RouletteItems").objectStore("RouletteItems").getAll();
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        db.close();
+        const items = request.result as { name: string; order: number }[];
+        resolve(items.sort((a, b) => a.order - b.order).map(item => item.name));
+      };
+    };
+  }));
+}
+
 // 項目を追加して名前を入力する
 export async function addItems(page: Page, names: string[]) {
   for (const name of names) {

@@ -15,6 +15,19 @@ export function localeHeadLinks<T extends { href?: string; hreflang?: string }>(
   return fixed.map(link => (link.hreflang === "x-default" && en ? { ...link, href: en } : link));
 }
 
+// 構造化データ（JSON-LD）。評価やレビューが無いのでリッチリザルトの対象にはならないが、何のページかを伝える
+// https://developers.google.com/search/docs/appearance/structured-data/software-app
+export function webApplicationJsonLd(page: { name: string; description: string; url: string; inLanguage: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    ...page,
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": 0 },
+  };
+}
+
 // useLocaleHead() の meta（og:url / og:locale）を直す
 export function localeHeadMeta<T extends { property?: string; content?: unknown }>(meta: T[]): T[] {
   return meta.map((m) => {

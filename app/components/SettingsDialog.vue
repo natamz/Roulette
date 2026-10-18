@@ -89,7 +89,7 @@ interface rotationTime {
   value: number;
 }
 const rotationTimes: rotationTime[] = [
-  { name: { ja: "一瞬", en: "Moment" }, value: 0 },
+  { name: { ja: "一瞬", en: "Instant" }, value: 0 },
   { name: { ja: "短い", en: "Short" }, value: 1000 },
   { name: { ja: "普通", en: "Normal" }, value: 8000 },
   { name: { ja: "長い", en: "Long" }, value: 10000 },

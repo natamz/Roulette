@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { localeHeadLinks, localeHeadMeta, withTrailingSlash } from "~/utils/seo";
+import { localeHeadLinks, localeHeadMeta, webApplicationJsonLd, withTrailingSlash } from "~/utils/seo";
 
 const ja = "https://natamz.github.io/Roulette/";
 const en = "https://natamz.github.io/Roulette/en/";
@@ -47,5 +47,19 @@ describe("localeHeadMeta", () => {
       { id: "i18n-og", property: "og:locale", content: "ja_JP" },
       { id: "i18n-og-alt-en", property: "og:locale:alternate", content: "en_US" },
     ]);
+  });
+});
+
+describe("webApplicationJsonLd", () => {
+  it("WebApplication の JSON-LD を返す", () => {
+    const page = { name: "webルーレット", description: "説明", url: ja, inLanguage: "ja" };
+    expect(webApplicationJsonLd(page)).toEqual({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      ...page,
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": 0 },
+    });
   });
 });

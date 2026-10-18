@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        lang: "ja",
         prefix: "og:http://ogp.me/ns#",
       },
       title: "webルーレット",
@@ -16,7 +15,6 @@ export default defineNuxtConfig({
         { name: "google-site-verification", content: "p6tyJpuorBw-qfK70bDg9BSVnUU7i6zai-yiAwH-BG0" },
         { property: "og:site_name", content: "webルーレット" },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://natamz.github.io/Roulette" },
         { property: "og:title", content: "webルーレット" },
         { property: "og:description", content: "ルーレットのwebアプリケーションです" },
         { property: "og:image", content: "サイトイメージ" },
@@ -69,12 +67,17 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
+    // hreflang / canonical の絶対 URL に使う。app.baseURL（/Roulette/）は i18n が後ろに足すので、オリジンだけを書く
+    baseUrl: "https://natamz.github.io",
     locales: [
       { code: "ja", language: "ja", file: "ja.json", name: "日本語" },
       { code: "en", language: "en", file: "en.json", name: "English" },
     ],
     defaultLocale: "ja",
-    strategy: "no_prefix",
-    detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },
+    // / が日本語、/en/ が英語。GitHub Pages が返す URL に合わせて末尾に / を付ける
+    strategy: "prefix_except_default",
+    trailingSlash: true,
+    // 言語は URL で決める。ブラウザの言語で飛ばすと、クローラーがどちらかの言語しか見られなくなる
+    detectBrowserLanguage: false,
   },
 });

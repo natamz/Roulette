@@ -1,100 +1,16 @@
 <template>
-  <settings-dialog ref="settingsDialog" />
-  <template-dialog
-    ref="templateDialog"
-    @select-template="selectTemplate"
-  />
-  <tutorial-dialog ref="tutorialDialog" />
-
-  <v-app>
-    <v-app-bar elevation="1">
-      <v-app-bar-title>{{ $t("title") }}</v-app-bar-title>
-      <v-btn
-        icon
-        :disabled="isRunning"
-        @click="onTutorialClick"
-      >
-        <v-icon>mdi-help-circle-outline</v-icon>
-      </v-btn>
-      <language-switch />
-      <v-btn
-        icon
-        :disabled="isRunning"
-        @click="onTemplateClick"
-      >
-        <v-icon>mdi-database</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        :disabled="isRunning"
-        @click="onSettingClick"
-      >
-        <v-icon>mdi-cog-outline</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <v-container>
-        <roulette
-          ref="roulette"
-          @state-change="stateChange"
-        />
-      </v-container>
-    </v-main>
-
-    <v-footer color="background">
-      <v-card
-        color="background"
-        elevation="0"
-        rounded="0"
-        width="100%"
-        class="text-center"
-      >
-        <v-divider />
-
-        <v-card-text>
-          <v-btn
-            href="https://github.com/natamz/Roulette"
-            variant="text"
-          >
-            <v-icon>mdi-github</v-icon>
-          </v-btn>
-          <share-button />
-        </v-card-text>
-      </v-card>
-    </v-footer>
-  </v-app>
+  <!-- 言語の切り替え（/ と /en/）でページを作り直さない。開いているダイアログや回転中の状態を残す -->
+  <nuxt-page page-key="index" />
 </template>
 
-<script lang="ts">
-import type TutorialDialog from "~/components/TutorialDialog.vue";
-import type TemplateDialog from "~/components/TemplateDialog.vue";
-import type SettingsDialog from "~/components/SettingsDialog.vue";
-import type Roulette from "~/components/Roulette.vue";
-import type RouletteItem from "~/models/entities/RouletteItem";
+<script setup lang="ts">
+import { localeHeadLinks, localeHeadMeta } from "~/utils/seo";
 
-export default {
-  data() {
-    return {
-      isRunning: false,
-    };
-  },
-  methods: {
-    selectTemplate(items: RouletteItem[]) {
-      (this.$refs.roulette as typeof Roulette).setItems(items);
-    },
-    stateChange(isRunning: boolean) {
-      this.isRunning = isRunning;
-    },
-    onTutorialClick() {
-      (this.$refs.tutorialDialog as typeof TutorialDialog).showDialog();
-    },
-    onTemplateClick() {
-      (this.$refs.templateDialog as typeof TemplateDialog).showDialog();
-    },
-    onSettingClick() {
-      (this.$refs.settingsDialog as typeof SettingsDialog).showDialog();
-    },
-  },
-};
+// lang / canonical / hreflang / og:url / og:locale
+const localeHead = useLocaleHead();
+useHead(() => ({
+  htmlAttrs: localeHead.value.htmlAttrs,
+  link: localeHeadLinks(localeHead.value.link),
+  meta: localeHeadMeta(localeHead.value.meta),
+}));
 </script>

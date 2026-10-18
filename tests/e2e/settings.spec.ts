@@ -38,3 +38,11 @@ test("ダークテーマへの切り替えがリロード後も残る", async ({
   await page.reload();
   await expect(page.locator("html")).toHaveClass(/dark-mode/);
 });
+
+test("効果音の種類が未設定のときは 1 になる（#137）", async ({ page }) => {
+  await page.goto("/");
+  const dialog = await openSettings(page);
+
+  await expect(dialog.getByRole("button", { name: "1", exact: true })).toHaveClass(/bg-primary/);
+  expect(await page.evaluate(() => localStorage.getItem("audioResultType"))).toBe("1");
+});

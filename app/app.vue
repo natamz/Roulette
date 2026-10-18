@@ -42,8 +42,9 @@
       </v-container>
     </v-main>
 
-    <v-footer>
+    <v-footer color="background">
       <v-card
+        color="background"
         elevation="0"
         rounded="0"
         width="100%"
@@ -54,7 +55,7 @@
         <v-card-text>
           <v-btn
             href="https://github.com/natamz/Roulette"
-            variant="flat"
+            variant="text"
           >
             <v-icon>mdi-github</v-icon>
           </v-btn>

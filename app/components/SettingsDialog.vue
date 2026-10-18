@@ -2,7 +2,6 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="800px"
       fullscreen
       transition="dialog-bottom-transition"
       class="settintgs-dialog"

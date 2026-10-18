@@ -9,7 +9,7 @@ test("項目の追加・削除がリロード後も残る", async ({ page }) => 
   await expect(itemInputs(page)).toHaveCount(3);
   await expect(itemInputs(page).nth(1)).toHaveValue("みかん");
 
-  await page.locator(".remove-btn").nth(1).click();
+  await page.locator(".list-group button:has(.mdi-close)").nth(1).click();
   await expect(itemInputs(page)).toHaveCount(2);
 
   await page.reload();

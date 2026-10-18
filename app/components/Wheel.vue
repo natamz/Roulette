@@ -46,7 +46,16 @@ export default {
       ctx_label: null,
     };
   },
+  computed: {
+    // 指針は背景の上に描くので、テーマの文字色に合わせる
+    pointerColor(): string {
+      return this.$vuetify.theme.current.colors["on-background"] ?? "#000000";
+    },
+  },
   watch: {
+    pointerColor() {
+      this.draw();
+    },
     items: {
       handler() {
         this.calcSumOfItemsRate();
@@ -60,7 +69,6 @@ export default {
 
     this.ctx_label = (this.$refs.canvas_label as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
     this.ctx_label.font = "32px serif";
-    this.ctx_label.fillStyle = "#000000";
     this.ctx_label.textBaseline = "middle";
     this.ctx_label.textAlign = "center";
 
@@ -71,6 +79,9 @@ export default {
     draw(start_deg: number = 0) {
       this.ctx?.clearRect(0, 0, 500, 500);
       this.ctx_label?.clearRect(0, 0, 500, 500);
+
+      // ラベルは扇形の上に描くので黒。指針の色は drawTriangle() で変える
+      if (this.ctx_label) this.ctx_label.fillStyle = "#000000";
 
       const deg: number = 359.9 / this.sumOfItemsRate;
 
@@ -102,6 +113,7 @@ export default {
     },
     drawTriangle() {
       if (this.ctx_label) {
+        this.ctx_label.fillStyle = this.pointerColor;
         this.ctx_label.beginPath();
         this.ctx_label.moveTo(250, 50);
         this.ctx_label.lineTo(230, 10);

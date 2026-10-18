@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    variant="flat"
+    variant="text"
     @click="shareRoulette"
   >
     <v-icon>mdi-export-variant</v-icon>

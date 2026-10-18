@@ -77,7 +77,8 @@
                   </v-col>
 
                   <v-col
-                    cols="6"
+                    cols="5"
+                    md="6"
                     class="px-1"
                   >
                     <v-text-field
@@ -91,7 +92,8 @@
                   </v-col>
 
                   <v-col
-                    cols="2"
+                    cols="3"
+                    md="2"
                     class="px-1"
                   >
                     <v-select
@@ -110,8 +112,8 @@
                     <v-btn
                       size="x-small"
                       icon
+                      color="error"
                       :disabled="isRunning"
-                      class="remove-btn"
                       @click="remove(element.id)"
                     >
                       <v-icon> mdi-close </v-icon>
@@ -254,10 +256,5 @@ export default {
   * :not(.v-field__append-inner *) {
     height: 56px;
   }
-}
-
-.remove-btn {
-  background-color: #e34c26;
-  color: rgba(255, 255, 255, 0.85);
 }
 </style>

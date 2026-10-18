@@ -39,9 +39,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // ダークモードの切り替えは @nuxtjs/color-mode が持つので、Vuetify のテーマをそれに合わせる
   const colorMode = useColorMode();
-  watch(
-    () => colorMode.value,
-    value => vuetify.theme.change(value === "dark" ? "dark" : "light"),
-    { immediate: true },
-  );
+  const syncTheme = () => {
+    watch(
+      () => colorMode.value,
+      value => vuetify.theme.change(value === "dark" ? "dark" : "light"),
+      { immediate: true },
+    );
+  };
+  // 静的 HTML はライトのテーマで出力される。ハイドレーション中にテーマを変えると、
+  // 食い違った class が本番では直されずライトのまま残るので、マウント後に合わせる
+  if (nuxtApp.isHydrating) {
+    nuxtApp.hook("app:mounted", syncTheme);
+  }
+  else {
+    syncTheme();
+  }
 });

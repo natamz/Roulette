@@ -70,6 +70,19 @@ test.describe("ダークテーマ", () => {
   });
 });
 
+test.describe("OS の設定がダーク", () => {
+  // 設定を保存していない初回訪問。color-mode はハイドレーション前に dark を決める
+  test.use({ colorScheme: "dark" });
+
+  test("画面の背景が暗い", async ({ page }) => {
+    await page.goto("/");
+
+    await expectDark(page.locator(".v-application"));
+    await expectDark(page.locator("header"));
+    await expectDark(page.locator("footer"));
+  });
+});
+
 test("全画面のダイアログが画面幅いっぱいに広がる", async ({ page }) => {
   await page.goto("/");
   const width = page.viewportSize()!.width;

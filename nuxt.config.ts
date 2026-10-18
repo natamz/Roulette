@@ -1,7 +1,7 @@
 const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/color-mode", "@nuxtjs/i18n"],
+  modules: ["@nuxt/eslint", "@nuxtjs/color-mode", "@nuxtjs/i18n"],
   app: {
     head: {
       htmlAttrs: {
@@ -14,13 +14,13 @@ export default defineNuxtConfig({
         { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
         { name: "description", content: "ルーレットのwebアプリケーションです" },
         { name: "google-site-verification", content: "p6tyJpuorBw-qfK70bDg9BSVnUU7i6zai-yiAwH-BG0" },
-        { hid: "og:site_name", property: "og:site_name", content: "webルーレット" },
-        { hid: "og:type", property: "og:type", content: "website" },
-        { hid: "og:url", property: "og:url", content: "https://natamz.github.io/Roulette" },
-        { hid: "og:title", property: "og:title", content: "webルーレット" },
-        { hid: "og:description", property: "og:description", content: "ルーレットのwebアプリケーションです" },
-        { hid: "og:image", property: "og:image", content: "サイトイメージ" },
-        { hid: "twitter:image", name: "twitter:image", content: "サイトイメージ" },
+        { property: "og:site_name", content: "webルーレット" },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://natamz.github.io/Roulette" },
+        { property: "og:title", content: "webルーレット" },
+        { property: "og:description", content: "ルーレットのwebアプリケーションです" },
+        { property: "og:image", content: "サイトイメージ" },
+        { name: "twitter:image", content: "サイトイメージ" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
       link: [
@@ -30,7 +30,10 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["vuetify/lib/styles/main.sass", "@/assets/styles/theme.scss"],
+  css: ["vuetify/lib/styles/main.sass", "~/assets/styles/theme.scss"],
+  colorMode: {
+    classSuffix: "-mode",
+  },
   runtimeConfig: {
     public: {
       gaid: "",
@@ -47,13 +50,29 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 1000,
     },
   },
+  typescript: {
+    tsConfig: {
+      include: ["../tests/unit/**/*"],
+    },
+    nodeTsConfig: {
+      include: ["../tests/e2e/**/*", "../tests/fixtures/**/*", "../vitest.config.mts", "../playwright.config.ts"],
+    },
+  },
+  eslint: {
+    config: {
+      // 既存コードのスタイル（ダブルクォート・セミコロンあり）に合わせる
+      stylistic: {
+        indent: 2,
+        quotes: "double",
+        semi: true,
+      },
+    },
+  },
   i18n: {
     locales: [
-      { code: "ja", iso: "ja", file: "ja.json", name: "日本語" },
-      { code: "en", iso: "en", file: "en.json", name: "English" },
+      { code: "ja", language: "ja", file: "ja.json", name: "日本語" },
+      { code: "en", language: "en", file: "en.json", name: "English" },
     ],
-    lazy: true,
-    langDir: "locales/",
     defaultLocale: "ja",
     strategy: "no_prefix",
     detectBrowserLanguage: { useCookie: true, cookieKey: "i18n_redirected", redirectOn: "root", alwaysRedirect: true },

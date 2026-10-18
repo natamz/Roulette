@@ -66,11 +66,11 @@
 </template>
 
 <script lang="ts">
-import type TutorialDialog from "@/components/TutorialDialog.vue";
-import type TemplateDialog from "@/components/TemplateDialog.vue";
-import type SettingsDialog from "@/components/SettingsDialog.vue";
-import type Roulette from "@/components/Roulette.vue";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import type TutorialDialog from "~/components/TutorialDialog.vue";
+import type TemplateDialog from "~/components/TemplateDialog.vue";
+import type SettingsDialog from "~/components/SettingsDialog.vue";
+import type Roulette from "~/components/Roulette.vue";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 export default {
   data() {

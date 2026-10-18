@@ -1,4 +1,4 @@
-import { RouletteItemRepository } from "~~/models/repositories/RouletteItemRepository";
+import { RouletteItemRepository } from "~/models/repositories/RouletteItemRepository";
 
 export interface Db {
   rouletteItem: RouletteItemRepository;

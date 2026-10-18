@@ -11,6 +11,9 @@ updates:
           - "nuxi"
           - "@nuxt/*"
           - "@nuxtjs/*"
+        exclude-patterns:
+          # lint-test グループで更新する
+          - "@nuxt/eslint"
       vuetify:
         patterns:
           - "vuetify"
@@ -19,7 +22,7 @@ updates:
       lint-test:
         patterns:
           - "eslint"
-          - "@nuxt/eslint-config"
+          - "@nuxt/eslint"
           - "typescript"
           - "vue-tsc"
           - "vitest"

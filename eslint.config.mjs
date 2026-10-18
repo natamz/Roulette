@@ -1,16 +1,7 @@
 // @ts-check
-import { createConfigForNuxt } from "@nuxt/eslint-config";
+import withNuxt from "./.nuxt/eslint.config.mjs";
 
-export default createConfigForNuxt({
-  features: {
-    // 既存コードのスタイル（ダブルクォート・セミコロンあり）に合わせる
-    stylistic: {
-      indent: 2,
-      quotes: "double",
-      semi: true,
-    },
-  },
-}).append({
+export default withNuxt({
   rules: {
     // 既存のコンポーネント名（Roulette / Wheel / Responsive）を維持する
     "vue/multi-word-component-names": "off",

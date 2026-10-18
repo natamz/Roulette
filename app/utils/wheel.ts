@@ -1,4 +1,4 @@
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 // 当選確率の重み（rate）の合計
 export function sumRates(items: RouletteItem[]): number {

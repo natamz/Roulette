@@ -44,7 +44,7 @@ export class AudioUtil {
         return play(buffs["result_5.wav"]);
       case "99": {
         const arr = ["result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav"];
-        return play(buffs[arr[Math.floor(Math.random() * arr.length)]]);
+        return play(buffs[arr[Math.floor(Math.random() * arr.length)] ?? "result_1.wav"]);
       }
       default:
         return play(buffs["result_1.wav"]);
@@ -65,7 +65,9 @@ function createSourceNode(audioBuffer: AudioBuffer): AudioBufferSourceNode {
   return sourceNode;
 }
 
-function play(audioBuffer: AudioBuffer) {
+// 音声の読み込みが終わる前に呼ばれたときは鳴らさない
+function play(audioBuffer: AudioBuffer | undefined) {
+  if (!audioBuffer) return;
   const source = createSourceNode(audioBuffer);
   gain.gain.value = 0.5;
   source.connect(gain);

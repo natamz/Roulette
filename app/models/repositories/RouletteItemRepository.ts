@@ -1,6 +1,6 @@
 import Dexie from "dexie";
-import db from "~~/data/dexie";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import db from "~/data/dexie";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 export class RouletteItemRepository {
   async add(item: RouletteItem) {

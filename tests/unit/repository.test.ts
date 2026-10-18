@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { RouletteItemRepository } from "~~/models/repositories/RouletteItemRepository";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import { RouletteItemRepository } from "~/models/repositories/RouletteItemRepository";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 const repo = new RouletteItemRepository();
 

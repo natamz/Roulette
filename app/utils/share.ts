@@ -1,5 +1,5 @@
 import LZString from "lz-string";
-import type RouletteItem from "~~/models/entities/RouletteItem";
+import type RouletteItem from "~/models/entities/RouletteItem";
 
 // 共有URL（?q=）の形式。既存の共有URLを壊さないよう、キー名と構造は変えない
 type ExportRouletteItem = {

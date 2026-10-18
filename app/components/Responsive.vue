@@ -59,13 +59,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.v-card-actions {
-  background-color: #cfd8dc;
-}
-
-.v-card {
-  background: rgba(255, 255, 255, 0.85);
-}
-</style>

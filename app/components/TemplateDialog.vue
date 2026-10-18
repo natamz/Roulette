@@ -2,7 +2,6 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="800px"
       fullscreen
       transition="dialog-bottom-transition"
     >
@@ -31,6 +30,7 @@
               <v-col>
                 <v-btn
                   class="ma-1"
+                  icon="mdi-check"
                   @click="selectTemplate(index)"
                 />
               </v-col>

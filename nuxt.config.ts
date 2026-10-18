@@ -30,7 +30,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["vuetify/lib/styles/main.sass", "~/assets/styles/theme.scss"],
+  css: ["vuetify/lib/styles/main.sass"],
   colorMode: {
     classSuffix: "-mode",
   },

@@ -2,12 +2,11 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="800px"
       fullscreen
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-card-actions color="primary">
+        <v-toolbar color="primary">
           <v-btn
             icon
             @click="dialog = false"
@@ -16,7 +15,7 @@
           </v-btn>
           <v-toolbar-title>{{ $t("tutorial_title") }}</v-toolbar-title>
           <language-switch />
-        </v-card-actions>
+        </v-toolbar>
         <v-divider />
         <v-card-text>
           <p>{{ $t("tutorial_1") }}</p>
@@ -24,7 +23,7 @@
           <div class="mt-5">
             <p>{{ $t("tutorial_2") }}</p>
             <v-img
-              :src="`${$config.app.baseURL}images/tutorial-1.png`"
+              :src="`${$config.app.baseURL}images/tutorial-1${imageSuffix}.png`"
               max-width="500px"
             />
           </div>
@@ -32,7 +31,7 @@
           <div class="mt-5">
             <p>{{ $t("tutorial_3") }}</p>
             <v-img
-              :src="`${$config.app.baseURL}images/tutorial-2.png`"
+              :src="`${$config.app.baseURL}images/tutorial-2${imageSuffix}.png`"
               max-width="400px"
             />
           </div>
@@ -57,6 +56,12 @@ export default {
     return {
       dialog: false,
     };
+  },
+  computed: {
+    // ダークのときはダークモードで撮った画像を出す
+    imageSuffix(): string {
+      return this.$vuetify.theme.current.dark ? "-dark" : "";
+    },
   },
   mounted() {
     if (localStorage.getItem("t") != "true") {

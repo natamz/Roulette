@@ -209,8 +209,9 @@ export default {
       this.items.push(item);
     },
     async remove(id: number) {
+      // add() と同じく、DB に反映してから画面を変える
+      await this.$db.rouletteItem.remove(id);
       this.items = this.items.filter((item: RouletteItem) => item.id !== id);
-      this.$db.rouletteItem.remove(id);
     },
     async changeColor({ id, color }: { id: number; color: string }) {
       this.items = this.items.map((item: RouletteItem) => (item.id === id ? { ...item, color: color } : item));

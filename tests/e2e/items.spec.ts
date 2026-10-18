@@ -1,9 +1,10 @@
-import { addItems, expect, itemInputs, test } from "./fixtures";
+import { addItems, expect, itemInputs, storedNames, test } from "./fixtures";
 
 test("項目の追加・削除がリロード後も残る", async ({ page }) => {
   await page.goto("/");
   await addItems(page, ["りんご", "みかん", "ぶどう"]);
   await expect(itemInputs(page)).toHaveCount(3);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご", "みかん", "ぶどう"]);
 
   await page.reload();
   await expect(itemInputs(page)).toHaveCount(3);
@@ -11,6 +12,7 @@ test("項目の追加・削除がリロード後も残る", async ({ page }) => 
 
   await page.locator(".list-group button:has(.mdi-close)").nth(1).click();
   await expect(itemInputs(page)).toHaveCount(2);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご", "ぶどう"]);
 
   await page.reload();
   await expect(itemInputs(page)).toHaveCount(2);

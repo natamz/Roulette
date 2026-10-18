@@ -13,15 +13,35 @@ export function decayDistance(t: number, time: number): number {
   return 10000 * a ** t;
 }
 
+// 角度を [0, 360) に正規化する。0〜360 の角度は誤差なくそのまま返す
+export function normalizeDeg(deg: number): number {
+  const d = deg % 360;
+  if (d === 0) return 0; // -0 を 0 にする
+  if (d > 0) return d;
+  // -1e-14 のような値は +360 で丸められて 360 になるので 0 に寄せる
+  return d + 360 < 360 ? d + 360 : 0;
+}
+
+export interface ItemSector {
+  item: RouletteItem;
+  start: number;
+  end: number;
+}
+
+// 各項目の扇形の範囲（度）。0° から rate に比例した幅で隙間なく並び、360° で終わる
+export function itemSectors(items: RouletteItem[]): ItemSector[] {
+  const sum = sumRates(items);
+  let rate = 0;
+  return items.map((item: RouletteItem) => {
+    const start = (rate * 360) / sum;
+    rate += item.rate;
+    return { item, start, end: (rate * 360) / sum };
+  });
+}
+
 // 指針の位置（ホイール上の角度）から当選した項目の id を返す
 export function pickItemId(items: RouletteItem[], deg: number): number {
-  const i = Math.floor(deg / (360 / sumRates(items)));
-  let a = 0;
-  for (const item of items) {
-    a += item.rate;
-    if (a > i) {
-      return item.id;
-    }
-  }
-  return 0;
+  const d = normalizeDeg(deg);
+  const sector = itemSectors(items).find(s => s.start <= d && d < s.end);
+  return sector?.item.id ?? 0;
 }

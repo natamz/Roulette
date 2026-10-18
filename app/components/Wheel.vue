@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import type RouletteItem from "~/models/entities/RouletteItem";
-import { decayDistance, pickItemId, sumRates } from "~/utils/wheel";
+import { decayDistance, itemSectors, pickItemId } from "~/utils/wheel";
 
 // canvasの中心座標
 const CENTER_X: number = 250;
@@ -24,7 +24,7 @@ const CENTER_Y: number = 250;
 
 // radianに変換
 function ToRadian(deg: number): number {
-  return ((deg % 360) * Math.PI) / 180;
+  return (deg * Math.PI) / 180;
 }
 
 // 時刻をミリ秒で返す
@@ -37,11 +37,10 @@ export default {
     items: { type: Array as () => RouletteItem[], default: () => [] },
   },
   emits: ["stopped"],
-  data(): { result: string; isRunning: boolean; sumOfItemsRate: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
+  data(): { result: string; isRunning: boolean; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",
       isRunning: false,
-      sumOfItemsRate: 0,
       ctx: null,
       ctx_label: null,
     };
@@ -58,7 +57,6 @@ export default {
     },
     items: {
       handler() {
-        this.calcSumOfItemsRate();
         this.draw();
       },
       deep: true,
@@ -72,7 +70,6 @@ export default {
     this.ctx_label.textBaseline = "middle";
     this.ctx_label.textAlign = "center";
 
-    this.calcSumOfItemsRate();
     this.draw();
   },
   methods: {
@@ -83,13 +80,10 @@ export default {
       // ラベルは扇形の上に描くので黒。指針の色は drawTriangle() で変える
       if (this.ctx_label) this.ctx_label.fillStyle = "#000000";
 
-      const deg: number = 359.9 / this.sumOfItemsRate;
-
-      this.items.forEach((element: RouletteItem) => {
-        const element_deg = deg * element.rate;
-        this.drawPart(start_deg, start_deg + element_deg, element);
-        this.drawLabel((start_deg * 2 + element_deg) / 2, element.name);
-        start_deg += element_deg;
+      // 扇形の範囲は判定（pickItemId）と同じものを使う
+      itemSectors(this.items).forEach(({ item, start, end }) => {
+        this.drawPart(start_deg + start, start_deg + end, item);
+        this.drawLabel(start_deg + (start + end) / 2, item.name);
       });
       this.drawTriangle();
     },
@@ -150,10 +144,6 @@ export default {
 
     getResult(deg: number): number {
       return pickItemId(this.items, deg);
-    },
-
-    calcSumOfItemsRate() {
-      this.sumOfItemsRate = sumRates(this.items);
     },
   },
 };

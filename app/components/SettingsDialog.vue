@@ -82,6 +82,8 @@
 </template>
 
 <script lang="ts">
+import { parseNumberSetting } from "~/utils/settings";
+
 interface rotationTime {
   name: { [key: string]: string };
   value: number;
@@ -112,14 +114,12 @@ export default {
     };
   },
   mounted() {
-    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
-    this.rotationTimeValue = Number(localStorage.getItem("rotationTime")) ?? 8000;
+    this.rotationTimeValue = parseNumberSetting(localStorage.getItem("rotationTime"), 8000);
     localStorage.setItem("rotationTime", String(this.rotationTimeValue));
 
     this.audio = localStorage.getItem("audio") == "true";
 
-    // eslint-disable-next-line no-constant-binary-expression -- 既知のバグ #137
-    this.audioResultType = Number(localStorage.getItem("audioResultType")) ?? 1;
+    this.audioResultType = parseNumberSetting(localStorage.getItem("audioResultType"), 1);
     localStorage.setItem("audioResultType", String(this.audioResultType));
   },
   methods: {

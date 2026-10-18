@@ -7,18 +7,12 @@ export default defineNuxtConfig({
       htmlAttrs: {
         prefix: "og:http://ogp.me/ns#",
       },
-      title: "webルーレット",
+      // 言語で変わる title / description / OGP は app.vue で出す
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
-        { name: "description", content: "ルーレットのwebアプリケーションです" },
         { name: "google-site-verification", content: "p6tyJpuorBw-qfK70bDg9BSVnUU7i6zai-yiAwH-BG0" },
-        { property: "og:site_name", content: "webルーレット" },
         { property: "og:type", content: "website" },
-        { property: "og:title", content: "webルーレット" },
-        { property: "og:description", content: "ルーレットのwebアプリケーションです" },
-        { property: "og:image", content: "サイトイメージ" },
-        { name: "twitter:image", content: "サイトイメージ" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
       link: [

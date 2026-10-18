@@ -12,7 +12,7 @@ export const templates: ReadonlyArray<template> = [
   {
     name: {
       ja: "6面さいころ",
-      en: "6-sided dice",
+      en: "6-sided die",
     },
     items: [
       { name: "1", rate: 1, color: "#ff9e9e" },
@@ -26,7 +26,7 @@ export const templates: ReadonlyArray<template> = [
   {
     name: {
       ja: "10面さいころ",
-      en: "10-sided dice",
+      en: "10-sided die",
     },
     items: [
       { name: "1", rate: 1, color: "#ff9e9e" },
@@ -44,7 +44,7 @@ export const templates: ReadonlyArray<template> = [
   {
     name: {
       ja: "〇X",
-      en: "〇X",
+      en: "Yes or no (O / X)",
     },
     items: [
       { name: "〇", rate: 1, color: "#ff6347" },

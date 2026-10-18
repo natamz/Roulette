@@ -14,11 +14,11 @@ test("言語を切り替えると URL と表示が変わり、項目はそのま
 
   await switchLanguage(page, "English");
   await expect(page).toHaveURL("/en/");
-  await expect(page.getByRole("button", { name: "start" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
   await expect(itemInputs(page).first()).toHaveValue("カレー");
 
   await page.reload();
-  await expect(page.getByRole("button", { name: "start" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
   await expect(itemInputs(page).first()).toHaveValue("カレー");
 
   await switchLanguage(page, "日本語");
@@ -29,5 +29,5 @@ test("言語を切り替えると URL と表示が変わり、項目はそのま
 test("/en/ を直接開くと英語で表示される", async ({ page }) => {
   await page.goto("/en/");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("button", { name: "start" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
 });

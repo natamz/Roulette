@@ -15,19 +15,32 @@ function tags(html: string, name: "link" | "meta") {
   );
 }
 
-test("生成された HTML に title / meta / OGP と本文が入っている", async ({ request }) => {
-  const html = await getHtml(request, "/");
+const pages = [
+  { path: "/", lang: "ja", ogLocale: "ja_JP", title: "webルーレット｜無料で作れる抽選ルーレット", body: "開始" },
+  { path: "/en/", lang: "en", ogLocale: "en_US", title: "Wheel Spinner – Free Random Picker Wheel", body: "Spin" },
+];
 
-  expect(html).toContain("<title>webルーレット</title>");
-  expect(html).toMatch(/<meta name="description" content="[^"]+"/);
-  expect(html).toMatch(/<meta property="og:title" content="[^"]+"/);
-  expect(html).toContain("開始");
-});
+for (const { path, lang, ogLocale, title, body } of pages) {
+  test(`${path} の title / description / OGP と本文`, async ({ request }) => {
+    const html = await getHtml(request, path);
+    const meta = tags(html, "meta");
+    const content = (key: string) => meta.find(m => m.name === key || m.property === key)?.content;
 
-for (const { path, lang, ogLocale } of [
-  { path: "/", lang: "ja", ogLocale: "ja_JP" },
-  { path: "/en/", lang: "en", ogLocale: "en_US" },
-]) {
+    expect(html).toContain(`<title>${title}</title>`);
+    expect(content("description")).toBeTruthy();
+    expect(content("og:title")).toBe(title);
+    expect(content("og:description")).toBe(content("description"));
+    expect(content("og:site_name")).toBeTruthy();
+    expect(html).toContain(`>${body}<`);
+
+    // og:image は絶対 URL で、その画像が返る
+    const image = content("og:image")!;
+    expect(image).toMatch(new RegExp(`^https://.+/images/ogp-${lang}\\.png$`));
+    expect(content("twitter:image")).toBe(image);
+    expect(content("og:image:alt")).toBeTruthy();
+    expect((await request.get(new URL(image).pathname)).ok()).toBeTruthy();
+  });
+
   test(`${path} の lang / canonical / hreflang / og:url`, async ({ request }) => {
     const html = await getHtml(request, path);
     const links = tags(html, "link");
@@ -48,4 +61,25 @@ for (const { path, lang, ogLocale } of [
     expect(pathOf(hreflang("en"))).toBe("/en/");
     expect(hreflang("x-default")).toBe(hreflang("en"));
   });
+
+  test(`${path} の構造化データ`, async ({ request }) => {
+    const html = await getHtml(request, path);
+    const json = html.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)?.[1];
+    const data = JSON.parse(json!);
+    const canonical = tags(html, "link").find(link => link.rel === "canonical")?.href;
+
+    expect(data["@type"]).toBe("WebApplication");
+    expect(data.url).toBe(canonical);
+    expect(data.inLanguage).toBe(lang);
+    expect(data.offers.price).toBe(0);
+  });
 }
+
+test("sitemap.xml に両方の言語の URL が入っている", async ({ request }) => {
+  const res = await request.get("/sitemap.xml");
+  expect(res.ok()).toBeTruthy();
+  const xml = await res.text();
+  expect(xml).toContain("<loc>https://natamz.github.io/Roulette/</loc>");
+  expect(xml).toContain("<loc>https://natamz.github.io/Roulette/en/</loc>");
+  expect(xml).toContain(`hreflang="x-default" href="https://natamz.github.io/Roulette/en/"`);
+});

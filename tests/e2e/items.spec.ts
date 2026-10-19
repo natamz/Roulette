@@ -64,13 +64,29 @@ test("Enter で次の項目の名前に移り、最後の項目では項目を�
   await expect(itemInputs(page).nth(2)).toBeFocused();
 });
 
+test("項目リストは1つだけ描く（#181）", async ({ page }) => {
+  await page.goto("/");
+  await addItems(page, ["りんご"]);
+  await expect(page.locator(".list-group")).toHaveCount(1);
+});
+
 test.describe("スマホ幅", () => {
   test.use({ viewport: { width: 390, height: 844 } });
+
+  test("項目リストは、ダイアログを開いたときだけ描く（#181）", async ({ page }) => {
+    await page.goto("/");
+    // ハイドレーションまでは CSS で隠したリストもあるが、マウントしたら消す
+    await expect(page.locator(".list-group")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await expect(page.locator(".list-group")).toHaveCount(1);
+    await expect(page.locator(".v-overlay--active .list-group")).toHaveCount(1);
+  });
 
   test("項目リストのダイアログでも、Enter で次の項目の名前に移る（#82）", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "項目を編集" }).click();
-    // スマホ幅では項目リストがダイアログの中にも描かれる（隠れている側のリストもある）ので、ダイアログの中だけを見る
+    // スマホ幅では項目リストがダイアログの中に描かれる
     const dialog = page.locator(".v-overlay--active");
     const inputs = dialog.locator(".list-group .v-text-field:not(.v-select) input");
     await dialog.getByRole("button", { name: "項目を追加" }).click();

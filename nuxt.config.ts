@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        prefix: "og:http://ogp.me/ns#",
+        prefix: "og: https://ogp.me/ns#",
       },
       // 言語で変わる title / description / OGP は app.vue で出す
       meta: [
@@ -18,8 +18,9 @@ export default defineNuxtConfig({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       link: [
-        { rel: "icon", type: "image/png", href: `${baseURL}favicons/favicon.ico` },
-        { rel: "icon", type: "image/png", href: `${baseURL}favicons/icon-192x192.png` },
+        // ブラウザが用途に合う大きさの方を選べるよう、sizes を書く（favicon.ico の中身は 32×32 の ICO）
+        { rel: "icon", sizes: "32x32", href: `${baseURL}favicons/favicon.ico` },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: `${baseURL}favicons/icon-192x192.png` },
         { rel: "apple-touch-icon", type: "image/png", href: `${baseURL}favicons/apple-touch-icon-180x180.png` },
       ],
     },

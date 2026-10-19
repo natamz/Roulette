@@ -168,17 +168,6 @@ export default {
       };
     },
   },
-  watch: {
-    items: {
-      async handler(newItems: RouletteItem[]) {
-        let order = 0;
-        for (const item of newItems) {
-          await this.$db.rouletteItem.put({ ...item, order: order++ });
-        }
-      },
-      deep: true,
-    },
-  },
   async mounted() {
     const rouletteItems = this.$share.sharedItems();
     if (rouletteItems.length) {
@@ -188,6 +177,13 @@ export default {
 
     const item = (await this.$db.rouletteItem.getAll()) ?? [];
     this.items = item.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
+
+    // 画面の項目が変わったら、並び順を振り直して DB に保存する
+    // DB から読んだ項目をそのまま書き戻さないよう、読んだあとに見始める
+    // 全件を1つのトランザクションで書く。1件ずつ await で書くと、途中に削除が割り込み、消した項目を書き戻してしまう（#180）
+    this.$watch("items", (newItems: RouletteItem[]) => {
+      this.$db.rouletteItem.putRange(newItems.map((item, order) => ({ ...item, order })));
+    }, { deep: true });
   },
   methods: {
     async add() {

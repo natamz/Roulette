@@ -20,6 +20,25 @@ test("項目の追加・削除がリロード後も残る", async ({ page }) => 
   await expect(itemInputs(page).nth(1)).toHaveValue("ぶどう");
 });
 
+test("名前を入力した直後に項目を削除しても、リロード後に戻らない（#180）", async ({ page }) => {
+  await page.goto("/");
+  await addItems(page, ["りんご", "みかん", "ぶどう"]);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご", "みかん", "ぶどう"]);
+
+  // 入力で始まった保存が終わる前に、別のタスクで削除を押す
+  await page.evaluate(() => {
+    const input = document.querySelector<HTMLInputElement>(".list-group .v-text-field:not(.v-select) input")!;
+    input.value = "りんご2";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    setTimeout(() => document.querySelectorAll<HTMLButtonElement>(".list-group button[aria-label='項目を削除']")[2]!.click());
+  });
+  await expect(itemInputs(page)).toHaveCount(2);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご2", "みかん"]);
+
+  await page.reload();
+  await expect(itemInputs(page)).toHaveCount(2);
+});
+
 test("テンプレートを選ぶと項目が置き換わる", async ({ page }) => {
   await page.goto("/");
   await addItems(page, ["消える項目"]);

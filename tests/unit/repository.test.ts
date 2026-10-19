@@ -34,6 +34,16 @@ describe("RouletteItemRepository", () => {
     expect(await repo.get(item.id)).toMatchObject({ name: "A2", order: 5 });
   });
 
+  it("putRange でまとめて上書きできる", async () => {
+    const a = newItem("A", 0);
+    const b = newItem("B", 1);
+    await repo.addRange([a, b]);
+    const [storedA, storedB] = (await repo.getAll())!;
+    await repo.putRange([{ ...storedB!, order: 0 }, { ...storedA!, name: "A2", order: 1 }]);
+    const all = (await repo.getAll())!.sort((x, y) => x.order - y.order);
+    expect(all.map(x => x.name)).toEqual(["B", "A2"]);
+  });
+
   it("update は更新後の項目を返す", async () => {
     const item = newItem("A", 0);
     await repo.add(item);

@@ -35,94 +35,85 @@
       <responsive :is-running="isRunning">
         <template #content>
           <v-container>
-            <draggable
+            <vue-draggable
+              v-model="items"
               class="list-group"
-              :list="items"
-              v-bind="dragOptions"
-              item-key="id"
               handle=".handle"
-              :component-data="{
-                tag: 'div',
-                type: 'transition-group',
-                name: !drag ? 'flip-list' : null,
-              }"
-              @start="drag = true"
-              @end="drag = false"
+              :animation="200"
             >
-              <template #item="{ element, index }">
-                <v-row
-                  :key="element.id"
-                  class="my-1"
+              <v-row
+                v-for="(element, index) in items"
+                :key="element.id"
+                class="my-1"
+              >
+                <v-col
+                  cols="1"
+                  class="px-1 d-flex flex-column justify-center"
                 >
-                  <v-col
-                    cols="1"
-                    class="px-1 d-flex flex-column justify-center"
-                  >
-                    <v-icon class="handle">
-                      $drag
-                    </v-icon>
-                  </v-col>
+                  <v-icon class="handle">
+                    $drag
+                  </v-icon>
+                </v-col>
 
-                  <v-col
-                    cols="1"
-                    class="px-1 d-flex flex-column justify-center"
-                  >
-                    <v-btn
-                      block
-                      :style="'background-color:' + element.color"
-                      :aria-label="$t('change_color')"
-                      :disabled="isRunning"
-                      class="my-3"
-                      @click="onColorPaletteClick(element.id)"
-                    />
-                  </v-col>
+                <v-col
+                  cols="1"
+                  class="px-1 d-flex flex-column justify-center"
+                >
+                  <v-btn
+                    block
+                    :style="'background-color:' + element.color"
+                    :aria-label="$t('change_color')"
+                    :disabled="isRunning"
+                    class="my-3"
+                    @click="onColorPaletteClick(element.id)"
+                  />
+                </v-col>
 
-                  <v-col
-                    cols="5"
-                    md="6"
-                    class="px-1"
-                  >
-                    <v-text-field
-                      v-model="element.name"
-                      :disabled="isRunning"
-                      hide-details="auto"
-                      clearable
-                      @keypress.enter="onKeypressEnter(index, $event)"
-                    />
-                  </v-col>
+                <v-col
+                  cols="5"
+                  md="6"
+                  class="px-1"
+                >
+                  <v-text-field
+                    v-model="element.name"
+                    :disabled="isRunning"
+                    hide-details="auto"
+                    clearable
+                    @keypress.enter="onKeypressEnter(index, $event)"
+                  />
+                </v-col>
 
-                  <v-col
-                    cols="3"
-                    md="2"
-                    class="px-1"
-                  >
-                    <v-select
-                      v-model="element.rate"
-                      :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                      :disabled="isRunning"
-                      density="compact"
-                      hide-details="auto"
-                    />
-                  </v-col>
+                <v-col
+                  cols="3"
+                  md="2"
+                  class="px-1"
+                >
+                  <v-select
+                    v-model="element.rate"
+                    :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                    :disabled="isRunning"
+                    density="compact"
+                    hide-details="auto"
+                  />
+                </v-col>
 
-                  <v-col
-                    cols="2"
-                    class="px-1"
+                <v-col
+                  cols="2"
+                  class="px-1"
+                >
+                  <v-btn
+                    size="x-small"
+                    icon
+                    color="error"
+                    :aria-label="$t('delete_item')"
+                    :disabled="isRunning"
+                    @click="remove(element.id)"
                   >
-                    <v-btn
-                      size="x-small"
-                      icon
-                      color="error"
-                      :aria-label="$t('delete_item')"
-                      :disabled="isRunning"
-                      @click="remove(element.id)"
-                    >
-                      <v-icon>$close</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </template>
-            </draggable>
+                    <v-icon>$close</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </vue-draggable>
             <v-btn
               block
               elevation="2"
@@ -146,27 +137,18 @@ import type RouletteItem from "~/models/entities/RouletteItem";
 import type ColorPalette from "~/components/ColorPalette.vue";
 import type ResultDialog from "~/components/ResultDialog.vue";
 import type Wheel from "~/components/Wheel.vue";
+import { VueDraggable } from "vue-draggable-plus";
 
 const colorList: string[] = colors.flat();
 
 export default {
+  components: { VueDraggable },
   emits: ["stateChange"],
-  data(): { items: RouletteItem[]; isRunning: boolean; drag: boolean } {
+  data(): { items: RouletteItem[]; isRunning: boolean } {
     return {
       items: [],
       isRunning: false,
-      drag: false,
     };
-  },
-  computed: {
-    dragOptions() {
-      return {
-        animation: 200,
-        group: "description",
-        disabled: false,
-        ghostClass: "ghost",
-      };
-    },
   },
   async mounted() {
     const rouletteItems = this.$share.sharedItems();

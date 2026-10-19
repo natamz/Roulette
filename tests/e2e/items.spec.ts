@@ -39,6 +39,25 @@ test("名前を入力した直後に項目を削除しても、リロード後�
   await expect(itemInputs(page)).toHaveCount(2);
 });
 
+test("ハンドルをドラッグすると並びが変わり、リロード後も残る", async ({ page }) => {
+  await page.goto("/");
+  await addItems(page, ["りんご", "みかん", "ぶどう"]);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご", "みかん", "ぶどう"]);
+
+  // 3番目の行を、1番目の行の上の端に落とす
+  const rows = page.locator(".list-group > .v-row");
+  await rows.nth(2).locator(".handle").dragTo(rows.nth(0), { targetPosition: { x: 20, y: 5 } });
+
+  await expect(itemInputs(page).nth(0)).toHaveValue("ぶどう");
+  await expect.poll(() => storedNames(page)).toEqual(["ぶどう", "りんご", "みかん"]);
+
+  await page.reload();
+  await expect(itemInputs(page)).toHaveCount(3);
+  await expect(itemInputs(page).nth(0)).toHaveValue("ぶどう");
+  await expect(itemInputs(page).nth(1)).toHaveValue("りんご");
+  await expect(itemInputs(page).nth(2)).toHaveValue("みかん");
+});
+
 test("テンプレートを選ぶと項目が置き換わる", async ({ page }) => {
   await page.goto("/");
   await addItems(page, ["消える項目"]);

@@ -10,6 +10,8 @@
   "tutorial_1": "好きな言葉でルーレットを作成できるWebアプリです。",
   "tutorial_2": "抽選したい言葉を入力して・・・",
   "tutorial_3": "ルーレットを作成！",
+  "tutorial_image_1_alt": "項目リストに「林檎」「梨」「葡萄」を入力した画面",
+  "tutorial_image_2_alt": "果物の名前で色分けされたルーレット",
   "start": "開始",
   "result": "結果は・・・",
   "setting_title": "設定",

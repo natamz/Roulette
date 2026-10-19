@@ -62,13 +62,6 @@ for (const { path, lang, ogLocale, title, body } of pages) {
     expect(hreflang("x-default")).toBe(hreflang("en"));
   });
 
-  test(`${path} に、両方の言語版への <a href> がある（#173）`, async ({ request }) => {
-    const html = await getHtml(request, path);
-    // クローラーがたどるのは <a href>。ヘッダーの言語メニューの中身は開くまで描かれないので、フッターのリンクで出す
-    const hrefs = [...html.matchAll(/<a\s[^>]*href="([^"]*)"/g)].map(([, href]) => href);
-    expect(hrefs).toEqual(expect.arrayContaining(["/", "/en/"]));
-  });
-
   test(`${path} の構造化データ`, async ({ request }) => {
     const html = await getHtml(request, path);
     const json = html.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)?.[1];
@@ -79,6 +72,13 @@ for (const { path, lang, ogLocale, title, body } of pages) {
     expect(data.url).toBe(canonical);
     expect(data.inLanguage).toBe(lang);
     expect(data.offers.price).toBe(0);
+  });
+
+  test(`${path} に、両方の言語版への <a href> がある（#173）`, async ({ request }) => {
+    const html = await getHtml(request, path);
+    // クローラーがたどるのは <a href>。ヘッダーの言語メニューの中身は開くまで描かれないので、フッターのリンクで出す
+    const hrefs = [...html.matchAll(/<a\s[^>]*href="([^"]*)"/g)].map(([, href]) => href);
+    expect(hrefs).toEqual(expect.arrayContaining(["/", "/en/"]));
   });
 }
 

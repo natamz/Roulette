@@ -47,7 +47,7 @@ export async function addItems(page: Page, names: string[]) {
   for (const name of names) {
     // 追加は IndexedDB への保存後に描画されるので、行が増えるのを待ってから入力する
     const count = await itemInputs(page).count();
-    await page.locator("button:has(.mdi-card-plus-outline)").click();
+    await page.getByRole("button", { name: "項目を追加" }).click();
     await expect(itemInputs(page)).toHaveCount(count + 1);
     await itemInputs(page).nth(count).fill(name);
   }

@@ -1,9 +1,10 @@
 <template>
   <v-btn
     variant="text"
+    :aria-label="$t('share_title')"
     @click="shareRoulette"
   >
-    <v-icon>mdi-export-variant</v-icon>
+    <v-icon>$share</v-icon>
   </v-btn>
 
   <v-dialog
@@ -15,9 +16,10 @@
       <v-toolbar color="primary">
         <v-btn
           icon
+          :aria-label="$t('close')"
           @click="dialog = false"
         >
-          <v-icon>mdi-close</v-icon>
+          <v-icon>$close</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t("share_title") }}</v-toolbar-title>
         <v-spacer />
@@ -31,13 +33,17 @@
         hide-details="auto"
       />
 
-      <v-btn @click="copyUrl">
+      <!-- 「コピーしました！」が出ている間は、見えている文字をそのまま名前にする -->
+      <v-btn
+        :aria-label="copied ? undefined : $t('copy_url')"
+        @click="copyUrl"
+      >
         <span v-if="copied">
-          <v-icon>mdi-check-outline</v-icon>
+          <v-icon>$copied</v-icon>
           {{ $t("share_clicked") }}
         </span>
         <span v-if="!copied">
-          <v-icon>mdi-content-copy</v-icon>
+          <v-icon>$copy</v-icon>
         </span>
       </v-btn>
     </v-card>

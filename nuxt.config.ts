@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       // 言語で変わる title / description / OGP は app.vue で出す
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
         { name: "google-site-verification", content: "p6tyJpuorBw-qfK70bDg9BSVnUU7i6zai-yiAwH-BG0" },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },

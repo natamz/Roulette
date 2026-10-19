@@ -59,7 +59,7 @@
                     class="px-1 d-flex flex-column justify-center"
                   >
                     <v-icon class="handle">
-                      mdi-drag-horizontal-variant
+                      $drag
                     </v-icon>
                   </v-col>
 
@@ -70,6 +70,7 @@
                     <v-btn
                       block
                       :style="'background-color:' + element.color"
+                      :aria-label="$t('change_color')"
                       :disabled="isRunning"
                       class="my-3"
                       @click="onColorPaletteClick(element.id)"
@@ -113,10 +114,11 @@
                       size="x-small"
                       icon
                       color="error"
+                      :aria-label="$t('delete_item')"
                       :disabled="isRunning"
                       @click="remove(element.id)"
                     >
-                      <v-icon> mdi-close </v-icon>
+                      <v-icon>$close</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -126,10 +128,11 @@
               block
               elevation="2"
               class="ma-1"
+              :aria-label="$t('add_item')"
               :disabled="isRunning"
               @click="add"
             >
-              <v-icon>mdi-card-plus-outline</v-icon>
+              <v-icon>$addItem</v-icon>
             </v-btn>
           </v-container>
         </template>

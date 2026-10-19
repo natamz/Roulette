@@ -22,7 +22,7 @@ test("共有ダイアログのURLを開くと同じ項目が復元される", as
   await page.goto("/");
   await addItems(page, ["共有1", "共有2"]);
 
-  await page.locator("button:has(.mdi-export-variant)").click();
+  await page.getByRole("button", { name: "共有", exact: true }).click();
   const url = await page.locator(".v-overlay--active input").inputValue();
   expect(url).toContain("?q=");
 

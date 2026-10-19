@@ -9,9 +9,10 @@
         <v-toolbar color="primary">
           <v-btn
             icon
+            :aria-label="$t('close')"
             @click="dialog = false"
           >
-            <v-icon>mdi-close</v-icon>
+            <v-icon>$close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("tutorial_title") }}</v-toolbar-title>
           <language-switch />

@@ -31,3 +31,14 @@ test("/en/ を直接開くと英語で表示される", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
 });
+
+test("フッターのリンクでも言語を切り替えられる（#173）", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("footer").getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL("/en/");
+  await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
+
+  await page.locator("footer").getByRole("link", { name: "日本語" }).click();
+  await expect(page).toHaveURL("/");
+  await expect(page.getByRole("button", { name: "開始" })).toBeVisible();
+});

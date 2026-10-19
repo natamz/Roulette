@@ -1,3 +1,5 @@
+import vuetify from "vite-plugin-vuetify";
+
 const baseURL = process.env.NUXT_APP_BASE_URL;
 
 export default defineNuxtConfig({
@@ -35,6 +37,8 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
   vite: {
+    // テンプレートで使った Vuetify のコンポーネント（とその CSS）だけを読み込む
+    plugins: [vuetify({ autoImport: true })],
     define: {
       "process.env.DEBUG": false,
     },

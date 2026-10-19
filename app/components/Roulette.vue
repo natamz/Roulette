@@ -83,12 +83,11 @@
                     class="px-1"
                   >
                     <v-text-field
-                      ref="textFields"
                       v-model="element.name"
                       :disabled="isRunning"
                       hide-details="auto"
                       clearable
-                      @keypress.enter="onKeypressEnter(index)"
+                      @keypress.enter="onKeypressEnter(index, $event)"
                     />
                   </v-col>
 
@@ -147,7 +146,6 @@ import type RouletteItem from "~/models/entities/RouletteItem";
 import type ColorPalette from "~/components/ColorPalette.vue";
 import type ResultDialog from "~/components/ResultDialog.vue";
 import type Wheel from "~/components/Wheel.vue";
-import type { VTextField } from "vuetify/components";
 
 const colorList: string[] = colors.flat();
 
@@ -238,11 +236,15 @@ export default {
       const getItems = (await this.$db.rouletteItem.getAll()) ?? [];
       this.items = getItems;
     },
-    async onKeypressEnter(index: number) {
+    // Enter で次の項目の名前に移る。最後の項目なら項目を足して、描画されてから移る
+    // スマホ幅では項目リストがダイアログの中にも描かれるので、押した入力欄と同じリストの中で探す
+    async onKeypressEnter(index: number, event: KeyboardEvent) {
+      const list = (event.target as HTMLElement).closest(".list-group");
       if (index === this.items.length - 1) {
         await this.add();
+        await this.$nextTick();
       }
-      (this.$refs.textFields as typeof VTextField)[index].focus();
+      list?.querySelectorAll<HTMLInputElement>(".v-text-field:not(.v-select) input")[index + 1]?.focus();
     },
     onColorPaletteClick(elementid: number) {
       (this.$refs.colorPalette as typeof ColorPalette).showDialog(elementid);

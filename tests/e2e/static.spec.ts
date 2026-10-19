@@ -66,8 +66,11 @@ for (const { path, lang, ogLocale, title, body } of pages) {
 
   test(`${path} はコンポーネントの CSS をインラインで入れない（#175）`, async ({ request }) => {
     const html = await getHtml(request, path);
-    // インラインの <style> は Vuetify のテーマの変数だけ。コンポーネントの CSS は <link> のファイルで読む
-    expect([...html.matchAll(/<style[^>]*>/g)].map(([tag]) => tag)).toEqual([`<style id="vuetify-theme-stylesheet">`]);
+    // インラインの <style> は Vuetify のテーマの変数（とハイドレーション前のダーク用の変数（#158））だけ。コンポーネントの CSS は <link> のファイルで読む
+    expect([...html.matchAll(/<style[^>]*>/g)].map(([tag]) => tag).sort()).toEqual([
+      `<style id="dark-mode-fallback">`,
+      `<style id="vuetify-theme-stylesheet">`,
+    ]);
     expect(tags(html, "link").filter(link => link.rel === "stylesheet")).not.toHaveLength(0);
   });
 

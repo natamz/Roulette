@@ -62,6 +62,13 @@ for (const { path, lang, ogLocale, title, body } of pages) {
     expect(hreflang("x-default")).toBe(hreflang("en"));
   });
 
+  test(`${path} はコンポーネントの CSS をインラインで入れない（#175）`, async ({ request }) => {
+    const html = await getHtml(request, path);
+    // インラインの <style> は Vuetify のテーマの変数だけ。コンポーネントの CSS は <link> のファイルで読む
+    expect([...html.matchAll(/<style[^>]*>/g)].map(([tag]) => tag)).toEqual([`<style id="vuetify-theme-stylesheet">`]);
+    expect(tags(html, "link").filter(link => link.rel === "stylesheet")).not.toHaveLength(0);
+  });
+
   test(`${path} の構造化データ`, async ({ request }) => {
     const html = await getHtml(request, path);
     const json = html.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)?.[1];

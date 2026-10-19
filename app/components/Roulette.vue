@@ -237,7 +237,7 @@ export default {
       this.items = getItems;
     },
     // Enter で次の項目の名前に移る。最後の項目なら項目を足して、描画されてから移る
-    // スマホ幅では項目リストがダイアログの中にも描かれるので、押した入力欄と同じリストの中で探す
+    // 項目リストは画面の幅で描く場所が変わる（Responsive.vue）ので、押した入力欄のリストの中で探す
     async onKeypressEnter(index: number, event: KeyboardEvent) {
       const list = (event.target as HTMLElement).closest(".list-group");
       if (index === this.items.length - 1) {

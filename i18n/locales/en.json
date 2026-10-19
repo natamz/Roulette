@@ -10,6 +10,8 @@
   "tutorial_1": "Create your own wheel with any words you like, then spin it to pick one at random.",
   "tutorial_2": "Enter the options you want to pick from...",
   "tutorial_3": "...and your wheel is ready!",
+  "tutorial_image_1_alt": "The entry list with three fruits entered",
+  "tutorial_image_2_alt": "A wheel divided into colored slices labeled with the fruits",
   "start": "Spin",
   "result": "The result is...",
   "setting_title": "Settings",

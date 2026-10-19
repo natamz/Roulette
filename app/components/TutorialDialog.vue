@@ -23,8 +23,11 @@
 
           <div class="mt-5">
             <p>{{ $t("tutorial_2") }}</p>
+            <!-- 読み込む前から画像の高さを空けておく（比率は画像の実寸）。読み込んだときに下の文とボタンがずれないように -->
             <v-img
               :src="`${$config.app.baseURL}images/tutorial-1${imageSuffix}.png`"
+              :alt="$t('tutorial_image_1_alt')"
+              :aspect-ratio="564 / 268"
               max-width="500px"
             />
           </div>
@@ -33,6 +36,8 @@
             <p>{{ $t("tutorial_3") }}</p>
             <v-img
               :src="`${$config.app.baseURL}images/tutorial-2${imageSuffix}.png`"
+              :alt="$t('tutorial_image_2_alt')"
+              :aspect-ratio="1"
               max-width="400px"
             />
           </div>

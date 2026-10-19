@@ -1,75 +1,113 @@
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.provide("audio", new AudioUtil());
-
   const config = useRuntimeConfig();
-  (async () => {
-    for (const item of fileNames) {
-      const response = await fetch(`${config.app.baseURL}audio/${item}`);
-      const buffer = await response.arrayBuffer();
-      buffs[item] = await audioContext.decodeAudioData(buffer);
-    }
-  })();
+  const audio = new AudioUtil(`${config.app.baseURL}audio/`);
+  nuxtApp.provide("audio", audio);
+
+  // 効果音は既定でオフなので、起動時には読み込まない
+  // オンなら、最初に鳴らすときに待たないよう、起動が終わってから読み込んでおく
+  onNuxtReady(() => {
+    if (isEnabled()) audio.preload();
+  });
 });
 
+const fileNames = ["click_A.wav", "click_B.wav", "result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav", "start.wav"] as const;
+type FileName = typeof fileNames[number];
+
+function isEnabled() {
+  return localStorage.getItem("audio") == "true";
+}
+
 export class AudioUtil {
+  private readonly baseURL: string;
+  // AudioContext はユーザーの操作の前に作ると止まった状態で作られるので、最初に鳴らすとき（クリックの中）に作る
+  private output?: { context: AudioContext; gain: GainNode };
+  // 読み込みもデコードも1ファイル1回だけ。失敗したら undefined（鳴らさない）
+  private readonly files = new Map<FileName, Promise<ArrayBuffer | undefined>>();
+  private readonly buffers = new Map<FileName, Promise<AudioBuffer | undefined>>();
+
+  constructor(baseURL: string) {
+    this.baseURL = baseURL;
+  }
+
   click() {
-    if (localStorage.getItem("audio") != "true") return;
-    play(buffs["click_A.wav"]);
+    this.play("click_A.wav");
   }
 
   click_B() {
-    if (localStorage.getItem("audio") != "true") return;
-    play(buffs["click_B.wav"]);
+    this.play("click_B.wav");
   }
 
   start() {
-    if (localStorage.getItem("audio") != "true") return;
-    play(buffs["start.wav"]);
+    this.play("start.wav");
   }
 
   result() {
-    if (localStorage.getItem("audio") != "true") return;
-
     const type = localStorage.getItem("audioResultType");
     switch (type) {
       case "1":
-        return play(buffs["result_1.wav"]);
+        return this.play("result_1.wav");
       case "2":
-        return play(buffs["result_2.wav"]);
+        return this.play("result_2.wav");
       case "3":
-        return play(buffs["result_3.wav"]);
+        return this.play("result_3.wav");
       case "4":
-        return play(buffs["result_4.wav"]);
+        return this.play("result_4.wav");
       case "5":
-        return play(buffs["result_5.wav"]);
+        return this.play("result_5.wav");
       case "99": {
-        const arr = ["result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav"];
-        return play(buffs[arr[Math.floor(Math.random() * arr.length)] ?? "result_1.wav"]);
+        const arr = ["result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav"] as const;
+        return this.play(arr[Math.floor(Math.random() * arr.length)] ?? "result_1.wav");
       }
       default:
-        return play(buffs["result_1.wav"]);
+        return this.play("result_1.wav");
     }
   }
-}
 
-const audioContext = new AudioContext();
-const gain = audioContext.createGain();
-gain.connect(audioContext.destination);
+  // 全部の効果音を並行して読み込む（AudioContext は作らない）
+  preload() {
+    for (const name of fileNames) this.load(name);
+  }
 
-const fileNames: string[] = ["click_A.wav", "click_B.wav", "result_1.wav", "result_2.wav", "result_3.wav", "result_4.wav", "result_5.wav", "start.wav"];
-const buffs: { [key: string]: AudioBuffer } = {};
+  private load(name: FileName) {
+    let file = this.files.get(name);
+    if (!file) {
+      file = fetch(`${this.baseURL}${name}`)
+        .then(response => (response.ok ? response.arrayBuffer() : undefined))
+        .catch(() => undefined);
+      this.files.set(name, file);
+    }
+    return file;
+  }
 
-function createSourceNode(audioBuffer: AudioBuffer): AudioBufferSourceNode {
-  const sourceNode = audioContext.createBufferSource();
-  sourceNode.buffer = audioBuffer;
-  return sourceNode;
-}
+  // 読み込みが終わっていなければ、終わってから鳴らす
+  private async play(name: FileName) {
+    if (!isEnabled()) return;
 
-// 音声の読み込みが終わる前に呼ばれたときは鳴らさない
-function play(audioBuffer: AudioBuffer | undefined) {
-  if (!audioBuffer) return;
-  const source = createSourceNode(audioBuffer);
-  gain.gain.value = 0.5;
-  source.connect(gain);
-  source.start(0);
+    if (!this.output) {
+      const context = new AudioContext();
+      const gain = context.createGain();
+      gain.gain.value = 0.5;
+      gain.connect(context.destination);
+      this.output = { context, gain };
+    }
+    const { context, gain } = this.output;
+
+    let buffer = this.buffers.get(name);
+    if (!buffer) {
+      // decodeAudioData は渡した ArrayBuffer を使えなくするので、デコードした結果を取っておく
+      buffer = this.load(name)
+        .then(data => (data ? context.decodeAudioData(data) : undefined))
+        .catch(() => undefined);
+      this.buffers.set(name, buffer);
+    }
+    // オンにした直後なら、ほかの効果音もここで読み込み始める
+    this.preload();
+
+    const audioBuffer = await buffer;
+    if (!audioBuffer) return;
+    const source = context.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(gain);
+    source.start(0);
+  }
 }

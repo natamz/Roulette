@@ -36,6 +36,10 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
+  features: {
+    // コンポーネントの CSS を HTML にインラインで入れない。入れると、同じ CSS を <link> のファイルでも読むことになる
+    inlineStyles: false,
+  },
   vite: {
     // テンプレートで使った Vuetify のコンポーネント（とその CSS）だけを読み込む
     plugins: [vuetify({ autoImport: true })],

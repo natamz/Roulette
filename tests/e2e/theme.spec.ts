@@ -81,6 +81,31 @@ test.describe("OS の設定がダーク", () => {
     await expectDark(page.locator("header"));
     await expectDark(page.locator("footer"));
   });
+
+  test("ハイドレーションの前から画面の背景が暗い（#158）", async ({ page }) => {
+    // アプリの JS を止める。color-mode が html の class を決めるインラインのスクリプトは動く
+    await page.route(/\/_nuxt\/.*\.js$/, route => route.abort());
+    await page.goto("/");
+
+    await expect(page.locator("html")).toHaveClass(/dark-mode/);
+    await expect(page.locator(".v-application")).toHaveClass(/v-theme--light/);
+    await expectDark(page.locator(".v-application"));
+    await expectDark(page.locator("header"));
+    await expectDark(page.locator("footer"));
+    await expectDark(page.getByRole("button", { name: "開始" }));
+  });
+});
+
+test.describe("OS の設定がライト", () => {
+  test.use({ colorScheme: "light" });
+
+  test("ハイドレーションの前の画面はライトのまま", async ({ page }) => {
+    await page.route(/\/_nuxt\/.*\.js$/, route => route.abort());
+    await page.goto("/");
+
+    await expect(page.locator("html")).toHaveClass(/light-mode/);
+    await expect.poll(async () => (await color(page.locator(".v-application"))).luminance).toBeGreaterThan(200);
+  });
 });
 
 test("全画面のダイアログが画面幅いっぱいに広がる", async ({ page }) => {

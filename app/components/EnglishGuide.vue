@@ -14,7 +14,8 @@
         English version →
       </v-btn>
       <v-btn
-        icon="mdi-close"
+        icon="$close"
+        aria-label="Close"
         variant="text"
         @click="show = false"
       />

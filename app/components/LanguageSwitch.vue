@@ -2,7 +2,8 @@
   <v-menu>
     <template #activator="{ props }">
       <v-btn
-        icon="mdi-translate"
+        icon="$translate"
+        :aria-label="$t('language')"
         v-bind="props"
       />
     </template>

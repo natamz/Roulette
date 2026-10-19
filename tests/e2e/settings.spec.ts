@@ -1,7 +1,7 @@
 import { expect, test } from "./fixtures";
 
 async function openSettings(page: import("@playwright/test").Page) {
-  await page.locator("button:has(.mdi-cog-outline)").click();
+  await page.getByRole("button", { name: "設定", exact: true }).click();
   const dialog = page.locator(".settintgs-dialog .v-card");
   await expect(dialog).toBeVisible();
   return dialog;
@@ -12,7 +12,7 @@ test("回転時間と効果音の設定がリロード後も残る", async ({ pa
   let dialog = await openSettings(page);
 
   await dialog.getByRole("button", { name: "普通" }).click();
-  await dialog.locator("button:has(.mdi-volume-off)").click();
+  await dialog.getByRole("button", { name: "効果音" }).click();
   await dialog.getByRole("button", { name: "3", exact: true }).click();
 
   expect(await page.evaluate(() => ({ ...localStorage }))).toMatchObject({
@@ -24,7 +24,7 @@ test("回転時間と効果音の設定がリロード後も残る", async ({ pa
   await page.reload();
   dialog = await openSettings(page);
   await expect(dialog.getByRole("button", { name: "普通" })).toHaveClass(/bg-primary/);
-  await expect(dialog.locator("button:has(.mdi-volume-high)")).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "効果音" })).toHaveAttribute("aria-pressed", "true");
   await expect(dialog.getByRole("button", { name: "3", exact: true })).toHaveClass(/bg-primary/);
 });
 

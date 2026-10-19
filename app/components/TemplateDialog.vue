@@ -9,9 +9,10 @@
         <v-toolbar color="primary">
           <v-btn
             icon
+            :aria-label="$t('close')"
             @click="dialog = false"
           >
-            <v-icon>mdi-close</v-icon>
+            <v-icon>$close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("template_title") }}</v-toolbar-title>
           <v-spacer />
@@ -30,7 +31,8 @@
               <v-col>
                 <v-btn
                   class="ma-1"
-                  icon="mdi-check"
+                  icon="$apply"
+                  :aria-label="$t('use_template', { name: template.name[$i18n.locale] })"
                   @click="selectTemplate(index)"
                 />
               </v-col>

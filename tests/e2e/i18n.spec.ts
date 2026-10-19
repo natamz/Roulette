@@ -2,7 +2,7 @@ import { addItems, expect, itemInputs, storedNames, test } from "./fixtures";
 import type { Page } from "@playwright/test";
 
 async function switchLanguage(page: Page, name: string) {
-  await page.locator("header button:has(.mdi-translate)").click();
+  await page.locator("header").getByRole("button", { name: /^(言語|Language)$/ }).click();
   await page.locator(".v-overlay--active .v-list-item", { hasText: name }).click();
 }
 

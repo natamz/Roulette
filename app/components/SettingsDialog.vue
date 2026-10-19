@@ -10,9 +10,10 @@
         <v-toolbar color="primary">
           <v-btn
             icon
+            :aria-label="$t('close')"
             @click="dialog = false"
           >
-            <v-icon>mdi-close</v-icon>
+            <v-icon>$close</v-icon>
           </v-btn>
           <v-toolbar-title>{{ $t("setting_title") }}</v-toolbar-title>
           <v-spacer />
@@ -43,9 +44,11 @@
             <v-btn
               v-model="audio"
               class="ma-1"
+              :aria-label="$t('sound')"
+              :aria-pressed="audio"
               @click="toggleAudio"
             >
-              <v-icon :icon="audio ? 'mdi-volume-high' : 'mdi-volume-off'" />
+              <v-icon :icon="audio ? '$soundOn' : '$soundOff'" />
             </v-btn>
           </v-list-item>
 

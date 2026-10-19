@@ -2,6 +2,7 @@
   <v-switch
     v-model="dark"
     hide-details="auto"
+    :aria-label="$t('dark_mode')"
     :prepend-icon="themeIcon"
   />
 </template>
@@ -15,7 +16,7 @@ export default {
   },
   computed: {
     themeIcon(): string {
-      return this.dark ? "mdi-weather-night" : "mdi-weather-sunny";
+      return this.dark ? "$themeDark" : "$themeLight";
     },
   },
   watch: {

@@ -13,25 +13,28 @@
         <v-app-bar-title>{{ $t("title") }}</v-app-bar-title>
         <v-btn
           icon
+          :aria-label="$t('tutorial_title')"
           :disabled="isRunning"
           @click="onTutorialClick"
         >
-          <v-icon>mdi-help-circle-outline</v-icon>
+          <v-icon>$help</v-icon>
         </v-btn>
         <language-switch />
         <v-btn
           icon
+          :aria-label="$t('template_title')"
           :disabled="isRunning"
           @click="onTemplateClick"
         >
-          <v-icon>mdi-database</v-icon>
+          <v-icon>$template</v-icon>
         </v-btn>
         <v-btn
           icon
+          :aria-label="$t('setting_title')"
           :disabled="isRunning"
           @click="onSettingClick"
         >
-          <v-icon>mdi-cog-outline</v-icon>
+          <v-icon>$settings</v-icon>
         </v-btn>
       </v-app-bar>
 

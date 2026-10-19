@@ -18,7 +18,7 @@
     "node": "24.x"
   },
   "dependencies": {
-    "@mdi/font": "7.4.47",
+    "@mdi/js": "7.4.47",
     "@nuxtjs/color-mode": "4.0.1",
     "@nuxtjs/i18n": "10.6.0",
     "dexie": "4.4.6",

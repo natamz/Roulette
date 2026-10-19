@@ -10,7 +10,7 @@ test("項目の追加・削除がリロード後も残る", async ({ page }) => 
   await expect(itemInputs(page)).toHaveCount(3);
   await expect(itemInputs(page).nth(1)).toHaveValue("みかん");
 
-  await page.locator(".list-group button:has(.mdi-close)").nth(1).click();
+  await page.locator(".list-group").getByRole("button", { name: "項目を削除" }).nth(1).click();
   await expect(itemInputs(page)).toHaveCount(2);
   await expect.poll(() => storedNames(page)).toEqual(["りんご", "ぶどう"]);
 
@@ -24,7 +24,7 @@ test("テンプレートを選ぶと項目が置き換わる", async ({ page }) 
   await page.goto("/");
   await addItems(page, ["消える項目"]);
 
-  await page.locator("button:has(.mdi-database)").click();
+  await page.getByRole("button", { name: "テンプレート", exact: true }).click();
   const dialog = page.locator(".v-overlay--active");
   const firstTemplate = dialog.locator(".v-list-item").first();
   await firstTemplate.locator("button").click();

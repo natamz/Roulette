@@ -1,12 +1,47 @@
 import { createVuetify } from "vuetify";
-import { aliases, mdi } from "vuetify/iconsets/mdi";
-import "@mdi/font/css/materialdesignicons.css";
+import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
+import {
+  mdiCardPlusOutline,
+  mdiCheck,
+  mdiCheckOutline,
+  mdiChevronUp,
+  mdiCogOutline,
+  mdiContentCopy,
+  mdiDatabase,
+  mdiDragHorizontalVariant,
+  mdiExportVariant,
+  mdiHelpCircleOutline,
+  mdiTranslate,
+  mdiVolumeHigh,
+  mdiVolumeOff,
+  mdiWeatherNight,
+  mdiWeatherSunny,
+} from "@mdi/js";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     icons: {
       defaultSet: "mdi",
-      aliases,
+      // アイコンは SVG（使う分だけバンドルに入る）。テンプレートでは "$help" のようにエイリアスで書く
+      // 閉じるは Vuetify 組み込みの "$close" を使う
+      aliases: {
+        ...aliases,
+        help: mdiHelpCircleOutline,
+        translate: mdiTranslate,
+        template: mdiDatabase,
+        settings: mdiCogOutline,
+        share: mdiExportVariant,
+        copy: mdiContentCopy,
+        copied: mdiCheckOutline,
+        apply: mdiCheck,
+        addItem: mdiCardPlusOutline,
+        drag: mdiDragHorizontalVariant,
+        editItems: mdiChevronUp,
+        soundOn: mdiVolumeHigh,
+        soundOff: mdiVolumeOff,
+        themeLight: mdiWeatherSunny,
+        themeDark: mdiWeatherNight,
+      },
       sets: {
         mdi,
       },

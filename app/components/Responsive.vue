@@ -9,11 +9,12 @@
       class="mt-2"
     >
       <v-btn
+        :aria-label="$t('edit_items')"
         :disabled="isRunning"
         @click="showDialog"
       >
         <v-icon size="30">
-          mdi-chevron-up
+          $editItems
         </v-icon>
       </v-btn>
     </v-row>
@@ -27,9 +28,10 @@
         <v-card-actions>
           <v-btn
             icon
+            :aria-label="$t('close')"
             @click="dialog = false"
           >
-            <v-icon>mdi-close</v-icon>
+            <v-icon>$close</v-icon>
           </v-btn>
         </v-card-actions>
 

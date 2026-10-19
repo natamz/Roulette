@@ -28,6 +28,8 @@ for (const { path, lang, ogLocale, title, body } of pages) {
 
     expect(html).toContain(`<title>${title}</title>`);
     expect(content("description")).toBeTruthy();
+    // 検索結果で途中で切れないよう、160 文字以内にする（#183）
+    expect(content("description")!.length).toBeLessThanOrEqual(160);
     expect(content("og:title")).toBe(title);
     expect(content("og:description")).toBe(content("description"));
     expect(content("og:site_name")).toBeTruthy();

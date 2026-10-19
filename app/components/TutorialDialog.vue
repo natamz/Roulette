@@ -51,6 +51,29 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- 初回は全画面のダイアログを自動で開かず、使い方があることを小さく案内する（#172） -->
+    <!-- 自動で開くと本文が隠れ（Googlebot も毎回初回訪問になる）、LCP もハイドレーションのあとに読む画像になる -->
+    <v-snackbar
+      v-model="guide"
+      :timeout="-1"
+    >
+      {{ $t("tutorial_guide") }}
+      <template #actions>
+        <v-btn
+          variant="text"
+          @click="onGuideClick"
+        >
+          {{ $t("tutorial_title") }}
+        </v-btn>
+        <v-btn
+          icon="$close"
+          :aria-label="$t('close')"
+          variant="text"
+          @click="guide = false"
+        />
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -58,9 +81,11 @@
 export default {
   data(): {
     dialog: boolean;
+    guide: boolean;
   } {
     return {
       dialog: false,
+      guide: false,
     };
   },
   computed: {
@@ -70,15 +95,20 @@ export default {
     },
   },
   mounted() {
-    if (localStorage.getItem("t") != "true") {
-      localStorage.setItem("t", "true");
-      this.dialog = true;
-    }
+    if (localStorage.getItem("t") == "true") return;
+    // 日本語以外のブラウザで日本語版を開いたときは、同じ場所に English の案内（EnglishGuide.vue）を出すので、こちらは出さない
+    if (this.$i18n.locale === "ja" && !navigator.language.toLowerCase().startsWith("ja")) return;
+    localStorage.setItem("t", "true");
+    this.guide = true;
   },
   methods: {
     showDialog() {
       this.dialog = true;
       this.$audio.click();
+    },
+    onGuideClick() {
+      this.guide = false;
+      this.showDialog();
     },
   },
 };

@@ -37,6 +37,7 @@
     "fake-indexeddb": "6.2.6",
     "serve": "14.2.6",
     "typescript": "6.0.3",
+    "vite-plugin-vuetify": "2.1.3",
     "vitest": "5.0.5",
     "vue-tsc": "3.3.13"
   }

@@ -9,11 +9,11 @@ async function color(locator: Locator, property: "backgroundColor" | "color" = "
 }
 
 // ダークテーマで背景が暗いこと。テーマの上書き漏れでライトの色が残ると白っぽくなる
+// テーマはマウントしてからダークに切り替わり、ボタンは背景色に transition（0.28s）があるので、暗くなるまで待つ（#166）
 async function expectDark(locator: Locator) {
   await expect(locator).toBeVisible();
-  const { alpha, luminance } = await color(locator);
-  expect(alpha).toBeGreaterThan(0);
-  expect(luminance).toBeLessThan(80);
+  await expect.poll(async () => (await color(locator)).luminance).toBeLessThan(80);
+  expect((await color(locator)).alpha).toBeGreaterThan(0);
 }
 
 async function openDialog(page: Page, name: string) {

@@ -20,6 +20,25 @@ test("項目の追加・削除がリロード後も残る", async ({ page }) => 
   await expect(itemInputs(page).nth(1)).toHaveValue("ぶどう");
 });
 
+test("名前を入力した直後に項目を削除しても、リロード後に戻らない（#180）", async ({ page }) => {
+  await page.goto("/");
+  await addItems(page, ["りんご", "みかん", "ぶどう"]);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご", "みかん", "ぶどう"]);
+
+  // 入力で始まった保存が終わる前に、別のタスクで削除を押す
+  await page.evaluate(() => {
+    const input = document.querySelector<HTMLInputElement>(".list-group .v-text-field:not(.v-select) input")!;
+    input.value = "りんご2";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    setTimeout(() => document.querySelectorAll<HTMLButtonElement>(".list-group button[aria-label='項目を削除']")[2]!.click());
+  });
+  await expect(itemInputs(page)).toHaveCount(2);
+  await expect.poll(() => storedNames(page)).toEqual(["りんご2", "みかん"]);
+
+  await page.reload();
+  await expect(itemInputs(page)).toHaveCount(2);
+});
+
 test("ハンドルをドラッグすると並びが変わり、リロード後も残る", async ({ page }) => {
   await page.goto("/");
   await addItems(page, ["りんご", "みかん", "ぶどう"]);
@@ -64,13 +83,29 @@ test("Enter で次の項目の名前に移り、最後の項目では項目を�
   await expect(itemInputs(page).nth(2)).toBeFocused();
 });
 
+test("項目リストは1つだけ描く（#181）", async ({ page }) => {
+  await page.goto("/");
+  await addItems(page, ["りんご"]);
+  await expect(page.locator(".list-group")).toHaveCount(1);
+});
+
 test.describe("スマホ幅", () => {
   test.use({ viewport: { width: 390, height: 844 } });
+
+  test("項目リストは、ダイアログを開いたときだけ描く（#181）", async ({ page }) => {
+    await page.goto("/");
+    // ハイドレーションまでは CSS で隠したリストもあるが、マウントしたら消す
+    await expect(page.locator(".list-group")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await expect(page.locator(".list-group")).toHaveCount(1);
+    await expect(page.locator(".v-overlay--active .list-group")).toHaveCount(1);
+  });
 
   test("項目リストのダイアログでも、Enter で次の項目の名前に移る（#82）", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "項目を編集" }).click();
-    // スマホ幅では項目リストがダイアログの中にも描かれる（隠れている側のリストもある）ので、ダイアログの中だけを見る
+    // スマホ幅では項目リストがダイアログの中に描かれる
     const dialog = page.locator(".v-overlay--active");
     const inputs = dialog.locator(".list-group .v-text-field:not(.v-select) input");
     await dialog.getByRole("button", { name: "項目を追加" }).click();

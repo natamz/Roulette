@@ -1,4 +1,5 @@
 import { createVuetify } from "vuetify";
+import { darkModeFallbackStyles } from "~/utils/theme";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import {
   mdiCardPlusOutline,
@@ -68,6 +69,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     // コンポーネントは nuxt.config.ts の vite-plugin-vuetify が、使った分だけ import する
   });
   nuxtApp.vueApp.use(vuetify);
+
+  // 静的 HTML はライトのテーマで出力されるので、OS の設定がダークの人にはハイドレーションまで白い画面が出る（#158）
+  // color-mode が html に dark-mode を付けたら、ライトのテーマの class にもダークの変数を当てる
+  useHead({
+    style: [{ id: "dark-mode-fallback", textContent: darkModeFallbackStyles(vuetify.theme.styles.value) }],
+  });
 
   // ダークモードの切り替えは @nuxtjs/color-mode が持つので、Vuetify のテーマをそれに合わせる
   const colorMode = useColorMode();

@@ -32,6 +32,11 @@ export class RouletteItemRepository {
     await db.RouletteItems.put(Dexie.deepClone(item));
   }
 
+  // 1つのトランザクションで書く
+  async putRange(items: RouletteItem[]) {
+    await db.RouletteItems.bulkPut(items.map(item => Dexie.deepClone(item)));
+  }
+
   async remove(id: number) {
     await db.RouletteItems.delete(id);
   }

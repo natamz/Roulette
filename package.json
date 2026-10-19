@@ -26,6 +26,7 @@
     "nuxt": "4.6.2",
     "sass": "1.105.2",
     "vue-gtag": "3.7.1",
+    "vue-router": "5.4.0",
     "vuedraggable": "4.1.0",
     "vuetify": "3.13.7"
   },

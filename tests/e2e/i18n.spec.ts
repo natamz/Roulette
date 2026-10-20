@@ -2,8 +2,7 @@ import { addItems, expect, itemInputs, storedNames, test } from "./fixtures";
 import type { Page } from "@playwright/test";
 
 async function switchLanguage(page: Page, name: string) {
-  await page.locator("header").getByRole("button", { name: /^(言語|Language)$/ }).click();
-  await page.locator(".v-overlay--active .v-list-item", { hasText: name }).click();
+  await page.locator("header").getByRole("link", { name }).click();
 }
 
 test("言語を切り替えると URL と表示が変わり、項目はそのまま残る", async ({ page }) => {
@@ -30,15 +29,4 @@ test("/en/ を直接開くと英語で表示される", async ({ page }) => {
   await page.goto("/en/");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
-});
-
-test("フッターのリンクでも言語を切り替えられる（#173）", async ({ page }) => {
-  await page.goto("/");
-  await page.locator("footer").getByRole("link", { name: "English" }).click();
-  await expect(page).toHaveURL("/en/");
-  await expect(page.getByRole("button", { name: "Spin" })).toBeVisible();
-
-  await page.locator("footer").getByRole("link", { name: "日本語" }).click();
-  await expect(page).toHaveURL("/");
-  await expect(page.getByRole("button", { name: "開始" })).toBeVisible();
 });

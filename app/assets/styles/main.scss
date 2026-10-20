@@ -5,59 +5,47 @@
   // マテリアルの色の class（.bg-red-lighten-1、.text-white など）は出さない
   // テーマの色の .bg-primary などは、Vuetify が実行時にテーマの stylesheet に出す
   $color-pack: false,
-  // ブレークポイント別の版（.d-sm-flex、.ma-md-2 など）と印刷用の版（.d-print-none など）は出さない（#177）
-  // 使っているのは hidden-xs / hidden-sm-and-up だけで、これは $utilities ではなく $display-breakpoints から出る
-  // $utilities: false にすると hidden-* と elevation-* まで消えるので、キーごとに書く。Vuetify を上げたら、
-  // lib/styles/settings/_utilities.scss で responsive: true のキーが増えていないか見る
+  // ユーティリティの class は、アプリが使うキーだけを出す（#177、#203）
+  // - ブレークポイント別の版（.d-sm-flex、.ma-md-2 など）と印刷用の版（.d-print-none など）は出さない
+  // - 使っていないキーは false にする。外したキーの class（.pa-2、.text-h6、.w-100 など）を使っても、黙って効かない
+  //   VRow の align / VCol の order などの props も、対応するキー（align-items / order）の class を付けるだけなので効かない
+  // - hidden-xs / hidden-sm-and-up は $utilities ではなく $display-breakpoints から、elevation-* は $misc から出る
+  //   この2つは $utilities にキーが1つでもあれば出る。$utilities: false にすると消えるので、キーごとに false にする
+  // Vuetify を上げたら、lib/styles/settings/_utilities.scss でキーが増えていないか（増えた分は出てしまう）、
+  // responsive: true のキーが増えていないかを見る
   $utilities: (
-    "display": (responsive: false, print: false),
-    "float": (responsive: false, print: false),
-    "float:ltr": (responsive: false, print: false),
-    "float:rtl": (responsive: false, print: false),
-    "flex": (responsive: false),
-    "flex-direction": (responsive: false),
-    "flex-grow": (responsive: false),
-    "flex-shrink": (responsive: false),
-    "flex-wrap": (responsive: false),
-    "justify-content": (responsive: false),
-    "justify-items": (responsive: false),
-    "align-items": (responsive: false),
-    "align-content": (responsive: false),
-    "align-self": (responsive: false),
-    "order": (responsive: false),
-    "gap": (responsive: false),
-    "gap-row": (responsive: false),
-    "gap-column": (responsive: false),
-    "margin": (responsive: false),
-    "margin-x": (responsive: false),
-    "margin-y": (responsive: false),
-    "margin-top": (responsive: false),
-    "margin-right": (responsive: false),
-    "margin-bottom": (responsive: false),
-    "margin-left": (responsive: false),
-    "margin-start": (responsive: false),
-    "margin-end": (responsive: false),
-    "negative-margin": (responsive: false),
-    "negative-margin-x": (responsive: false),
-    "negative-margin-y": (responsive: false),
-    "negative-margin-top": (responsive: false),
-    "negative-margin-right": (responsive: false),
-    "negative-margin-bottom": (responsive: false),
-    "negative-margin-left": (responsive: false),
-    "negative-margin-start": (responsive: false),
-    "negative-margin-end": (responsive: false),
-    "padding": (responsive: false),
-    "padding-x": (responsive: false),
-    "padding-y": (responsive: false),
-    "padding-top": (responsive: false),
-    "padding-right": (responsive: false),
-    "padding-bottom": (responsive: false),
-    "padding-left": (responsive: false),
-    "padding-start": (responsive: false),
-    "padding-end": (responsive: false),
-    "text-align": (responsive: false),
-    "typography": (responsive: false),
-    "height": (responsive: false),
-    "width": (responsive: false),
+    // 使うキー（ほかに rounded（rounded="0" の rounded-0）。設定を変えないので書いていない）
+    "display": (responsive: false, print: false), // d-flex
+    "flex-direction": (responsive: false), // flex-column
+    "justify-content": (responsive: false), // justify-center、<v-row justify>
+    "margin": (responsive: false), // ma-1
+    "margin-y": (responsive: false), // my-1 / my-3 / my-5
+    "margin-top": (responsive: false), // mt-1 / mt-2 / mt-5
+    "margin-bottom": (responsive: false), // mb-5
+    "padding-x": (responsive: false), // px-1
+    "text-align": (responsive: false), // text-center
+    // 使わないキー
+    "overflow": false, "overflow-x": false, "overflow-y": false,
+    "float": false, "float:rtl": false, "float:ltr": false,
+    "flex": false, "flex-grow": false, "flex-shrink": false, "flex-wrap": false,
+    "justify-items": false, "align-items": false, "align-content": false, "align-self": false, "order": false,
+    "gap": false, "gap-row": false, "gap-column": false,
+    "margin-x": false, "margin-right": false, "margin-left": false, "margin-start": false, "margin-end": false,
+    "negative-margin": false, "negative-margin-x": false, "negative-margin-y": false,
+    "negative-margin-top": false, "negative-margin-right": false, "negative-margin-bottom": false,
+    "negative-margin-left": false, "negative-margin-start": false, "negative-margin-end": false,
+    "padding": false, "padding-y": false, "padding-top": false, "padding-right": false,
+    "padding-bottom": false, "padding-left": false, "padding-start": false, "padding-end": false,
+    "rounded-top": false, "rounded-end": false, "rounded-bottom": false, "rounded-start": false,
+    "rounded-top-start": false, "rounded-top-end": false, "rounded-bottom-end": false, "rounded-bottom-start": false,
+    "border": false, "border-current": false, "border-opacity": false,
+    "border-top": false, "border-end": false, "border-bottom": false, "border-start": false, "border-style": false,
+    "text-decoration": false, "white-space": false, "overflow-wrap": false, "opacity": false,
+    "text-opacity": false, "text-overflow": false, "typography": false, "text-transform": false,
+    "font-weight": false, "font-italic": false, "text-mono": false,
+    "position": false, "top": false, "right": false, "bottom": false, "left": false, "cursor": false,
+    "fill-height": false, "height": false, "height-screen": false, "width": false,
   ),
+  // .d-sr-only と .pointer-events-* も使っていない
+  $misc: ("sr-only": false, "pointer-events": false),
 );

@@ -59,8 +59,6 @@
 
           <v-card-text>
             <share-button />
-            <!-- 共有ボタンと同じ行に並べて、フッターの高さを変えない -->
-            <language-links class="d-inline-block" />
           </v-card-text>
         </v-card>
       </v-footer>

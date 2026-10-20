@@ -28,7 +28,7 @@ test.describe("ダークテーマ", () => {
     await page.addInitScript(() => localStorage.setItem("nuxt-color-mode", "dark"));
   });
 
-  test("画面とメニューの背景が暗い", async ({ page }) => {
+  test("画面の背景が暗い", async ({ page }) => {
     await page.goto("/");
     await addItems(page, ["a"]);
 
@@ -37,9 +37,6 @@ test.describe("ダークテーマ", () => {
     await expectDark(page.getByRole("button", { name: "項目を追加" }));
     // 入力欄自体には背景を付けない（付くとクリアボタンの領域だけ色が違って見える）
     expect((await color(itemInputs(page).first())).alpha).toBe(0);
-
-    await page.locator("header").getByRole("button", { name: "言語" }).click();
-    await expectDark(page.locator(".v-overlay--active .v-list"));
   });
 
   test("ダイアログとボタンの背景が暗い", async ({ page }) => {

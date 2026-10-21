@@ -34,97 +34,41 @@
     >
       <responsive :is-running="isRunning">
         <template #content>
-          <v-container>
-            <vue-draggable
-              v-model="items"
-              class="list-group"
-              handle=".handle"
-              :animation="200"
-            >
-              <v-row
-                v-for="(element, index) in items"
-                :key="element.id"
-                class="my-1"
+          <!-- 回転中はリスト全体を inert で操作できなくする（並び替えも止まる） -->
+          <!-- VContainer の中で isRunning を読むと、開始・停止のたびに VContainer から全行まで描き直すので、外に置く（#202） -->
+          <div
+            class="item-list"
+            :inert="isRunning"
+          >
+            <v-container>
+              <vue-draggable
+                v-model="items"
+                class="list-group"
+                handle=".handle"
+                :animation="200"
               >
-                <v-col
-                  cols="1"
-                  class="px-1 d-flex flex-column justify-center"
-                >
-                  <v-icon class="handle">
-                    $drag
-                  </v-icon>
-                </v-col>
-
-                <v-col
-                  cols="1"
-                  class="px-1 d-flex flex-column justify-center"
-                >
-                  <v-btn
-                    block
-                    :style="'background-color:' + element.color"
-                    :aria-label="$t('change_color')"
-                    :disabled="isRunning"
-                    class="my-3"
-                    @click="onColorPaletteClick(element.id)"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="5"
-                  md="6"
-                  class="px-1"
-                >
-                  <v-text-field
-                    v-model="element.name"
-                    :disabled="isRunning"
-                    hide-details="auto"
-                    clearable
-                    @keypress.enter="onKeypressEnter(index, $event)"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="3"
-                  md="2"
-                  class="px-1"
-                >
-                  <v-select
-                    v-model="element.rate"
-                    :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                    :disabled="isRunning"
-                    density="compact"
-                    hide-details="auto"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="2"
-                  class="px-1"
-                >
-                  <v-btn
-                    size="x-small"
-                    icon
-                    color="error"
-                    :aria-label="$t('delete_item')"
-                    :disabled="isRunning"
-                    @click="remove(element.id)"
-                  >
-                    <v-icon>$close</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </vue-draggable>
-            <v-btn
-              block
-              elevation="2"
-              class="ma-1"
-              :aria-label="$t('add_item')"
-              :disabled="isRunning"
-              @click="add"
-            >
-              <v-icon>$addItem</v-icon>
-            </v-btn>
-          </v-container>
+                <roulette-item-row
+                  v-for="(element, index) in items"
+                  :key="element.id"
+                  :item="element"
+                  @update-name="element.name = $event"
+                  @update-rate="element.rate = $event"
+                  @color-click="onColorPaletteClick(element.id)"
+                  @remove="remove(element.id)"
+                  @enter="onKeypressEnter(index, $event)"
+                />
+              </vue-draggable>
+              <v-btn
+                block
+                elevation="2"
+                class="ma-1"
+                :aria-label="$t('add_item')"
+                @click="add"
+              >
+                <v-icon>$addItem</v-icon>
+              </v-btn>
+            </v-container>
+          </div>
         </template>
       </responsive>
     </v-col>
@@ -232,9 +176,7 @@ export default {
 </script>
 
 <style lang="scss">
-.v-select {
-  * :not(.v-field__append-inner *) {
-    height: 56px;
-  }
+.item-list[inert] {
+  opacity: var(--v-disabled-opacity);
 }
 </style>

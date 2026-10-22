@@ -34,3 +34,28 @@ test("回転中は項目リストを操作できない", async ({ page }) => {
   await expect(page.locator(".v-overlay--active").getByText("結果は・・・")).toBeVisible();
   await expect(itemInputs(page)).toHaveCount(3);
 });
+
+test("止まったあとにテーマや項目の名前を変えても、円の角度が変わらない（#204）", async ({ page }) => {
+  // 扇形の canvas。指針とラベルは別の canvas なので、テーマの色や名前では変わらない
+  const wheel = () => page.locator("#canvas").evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL());
+  await page.goto("/");
+  await addItems(page, ["A案", "B案", "C案"]);
+  const initial = await wheel();
+
+  await page.getByRole("button", { name: "開始" }).click();
+  await expect(page.locator(".v-overlay--active").getByText("結果は・・・")).toBeVisible();
+  const stopped = await wheel();
+  expect(stopped).not.toBe(initial);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "設定", exact: true }).click();
+  await page.locator(".settintgs-dialog .v-switch input").check();
+  await expect(page.locator(".v-application")).toHaveClass(/v-theme--dark/);
+  expect(await wheel()).toBe(stopped);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+
+  await itemInputs(page).first().fill("D案");
+  expect(await wheel()).toBe(stopped);
+});

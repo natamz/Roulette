@@ -37,10 +37,12 @@ export default {
     items: { type: Array as () => RouletteItem[], default: () => [] },
   },
   emits: ["stopped"],
-  data(): { result: string; isRunning: boolean; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
+  data(): { result: string; isRunning: boolean; deg: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
     return {
       result: "",
       isRunning: false,
+      // 円の角度。テーマや項目が変わって描き直すときも、止まった角度のまま描く（#204）
+      deg: 0,
       ctx: null,
       ctx_label: null,
     };
@@ -73,7 +75,7 @@ export default {
     this.draw();
   },
   methods: {
-    draw(start_deg: number = 0) {
+    draw() {
       this.ctx?.clearRect(0, 0, 500, 500);
       this.ctx_label?.clearRect(0, 0, 500, 500);
 
@@ -82,8 +84,8 @@ export default {
 
       // 扇形の範囲は判定（pickItemId）と同じものを使う
       itemSectors(this.items).forEach(({ item, start, end }) => {
-        this.drawPart(start_deg + start, start_deg + end, item);
-        this.drawLabel(start_deg + (start + end) / 2, item.name);
+        this.drawPart(this.deg + start, this.deg + end, item);
+        this.drawLabel(this.deg + (start + end) / 2, item.name);
       });
       this.drawTriangle();
     },
@@ -130,7 +132,8 @@ export default {
       const timer = setInterval(() => {
         const t = GetTime() - startTime;
         const d = decayDistance(t, time);
-        this.draw(-num - d - 90);
+        this.deg = -num - d - 90;
+        this.draw();
 
         if (d < 0.5) {
           // 停止

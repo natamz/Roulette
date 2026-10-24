@@ -5,10 +5,12 @@
   />
   <result-dialog ref="resultDialog" />
 
+  <!-- sm はリストが狭く、名前の入力欄が潰れるので、リストを広めにとる -->
   <v-row>
     <v-col
       cols="12"
-      sm="6"
+      sm="5"
+      md="6"
     >
       <wheel
         ref="wheel"
@@ -30,43 +32,57 @@
 
     <v-col
       cols="12"
-      sm="6"
+      sm="7"
+      md="6"
     >
       <responsive :is-running="isRunning">
-        <template #content>
+        <template #content="{ swipeable }">
           <!-- 回転中はリスト全体を inert で操作できなくする（並び替えも止まる） -->
           <!-- VContainer の中で isRunning を読むと、開始・停止のたびに VContainer から全行まで描き直すので、外に置く（#202） -->
           <div
             class="item-list"
             :inert="isRunning"
           >
-            <v-container>
+            <!-- PC は VCol の余白があるので、左右の余白を足さない（名前の入力欄を広くとる） -->
+            <v-container :class="{ 'px-0': !swipeable }">
               <vue-draggable
                 v-model="items"
                 class="list-group"
                 handle=".handle"
                 :animation="200"
+                @update="hideHint"
               >
                 <roulette-item-row
                   v-for="(element, index) in items"
                   :key="element.id"
                   :item="element"
+                  :swipeable="swipeable"
                   @update-name="element.name = $event"
                   @update-rate="element.rate = $event"
                   @color-click="onColorPaletteClick(element.id)"
                   @remove="remove(element.id)"
                   @enter="onKeypressEnter(index, $event)"
+                  @swiped="hideHint"
                 />
               </vue-draggable>
               <v-btn
                 block
                 elevation="2"
-                class="ma-1"
+                class="mt-1"
                 :aria-label="$t('add_item')"
                 @click="add"
               >
                 <v-icon>$addItem</v-icon>
               </v-btn>
+              <!-- 並び替え（2件から）と、スマホのスライドでの削除の案内。操作するか閉じたら、ふわっと消す -->
+              <transition name="item-list-hint">
+                <item-list-hint
+                  v-if="hint && (items.length > 1 || swipeable && items.length)"
+                  :reorder="items.length > 1"
+                  :swipe="swipeable"
+                  @close="hideHint"
+                />
+              </transition>
             </v-container>
           </div>
         </template>
@@ -88,10 +104,12 @@ const colorList: string[] = colors.flat();
 export default {
   components: { VueDraggable },
   emits: ["stateChange"],
-  data(): { items: RouletteItem[]; isRunning: boolean } {
+  data(): { items: RouletteItem[]; isRunning: boolean; hint: boolean } {
     return {
       items: [],
       isRunning: false,
+      // 操作の案内（ItemListHint.vue）を出すか。保存しないので、リロードしたらまた出る
+      hint: true,
     };
   },
   async mounted() {
@@ -171,6 +189,10 @@ export default {
     onColorPaletteClick(elementid: number) {
       (this.$refs.colorPalette as typeof ColorPalette).showDialog(elementid);
     },
+    // 行をスライドして削除ボタンを出したか、並び替えたか、案内を閉じたら、案内はもう出さない
+    hideHint() {
+      this.hint = false;
+    },
   },
 };
 </script>
@@ -178,5 +200,14 @@ export default {
 <style lang="scss">
 .item-list[inert] {
   opacity: var(--v-disabled-opacity);
+}
+
+// 操作の案内（ItemListHint.vue）は、消えるときだけフェードする
+.item-list-hint-leave-active {
+  transition: opacity 0.3s;
+}
+
+.item-list-hint-leave-to {
+  opacity: 0;
 }
 </style>

@@ -15,16 +15,15 @@
   // responsive: true のキーが増えていないかを見る
   $utilities: (
     // 使うキー（ほかに rounded（rounded="0" の rounded-0）。設定を変えないので書いていない）
-    "display": (responsive: false, print: false), // d-flex
-    "flex-direction": (responsive: false), // flex-column
-    "justify-content": (responsive: false), // justify-center、<v-row justify>
+    "justify-content": (responsive: false), // <v-row justify="center"> の justify-center
     "margin": (responsive: false), // ma-1
-    "margin-y": (responsive: false), // my-1 / my-3 / my-5
+    "margin-y": (responsive: false), // my-5
     "margin-top": (responsive: false), // mt-1 / mt-2 / mt-5
     "margin-bottom": (responsive: false), // mb-5
-    "padding-x": (responsive: false), // px-1
+    "padding-x": (responsive: false), // px-0
     "text-align": (responsive: false), // text-center
     // 使わないキー
+    "display": false, "flex-direction": false,
     "overflow": false, "overflow-x": false, "overflow-y": false,
     "float": false, "float:rtl": false, "float:ltr": false,
     "flex": false, "flex-grow": false, "flex-shrink": false, "flex-wrap": false,

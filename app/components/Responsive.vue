@@ -43,7 +43,11 @@
           </v-btn>
         </v-card-actions>
 
-        <slot name="content" />
+        <!-- ダイアログの中の行は、削除ボタンを常に出さず、左にスライドすると出す -->
+        <slot
+          name="content"
+          :swipeable="true"
+        />
       </v-card>
     </v-dialog>
   </div>

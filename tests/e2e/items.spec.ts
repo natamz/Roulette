@@ -1,4 +1,5 @@
 import { addItems, expect, itemInputs, storedNames, test } from "./fixtures";
+import type { Locator, Page } from "@playwright/test";
 
 test("項目の追加・削除がリロード後も残る", async ({ page }) => {
   await page.goto("/");
@@ -45,7 +46,7 @@ test("ハンドルをドラッグすると並びが変わり、リロード後�
   await expect.poll(() => storedNames(page)).toEqual(["りんご", "みかん", "ぶどう"]);
 
   // 3番目の行を、1番目の行の上の端に落とす
-  const rows = page.locator(".list-group > .v-row");
+  const rows = page.locator(".list-group > .item-row");
   await rows.nth(2).locator(".handle").dragTo(rows.nth(0), { targetPosition: { x: 20, y: 5 } });
 
   await expect(itemInputs(page).nth(0)).toHaveValue("ぶどう");
@@ -120,4 +121,113 @@ test.describe("スマホ幅", () => {
     await inputs.nth(0).press("Enter");
     await expect(inputs.nth(1)).toBeFocused();
   });
+
+  // スライドは pointer イベントで見ているので、マウスで動かしてもタッチと同じ処理を通る
+  async function slide(page: Page, target: Locator, dx: number) {
+    const box = (await target.boundingBox())!;
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + dx, y, { steps: 10 });
+    await page.mouse.up();
+  }
+
+  test("行を左にスライドすると削除ボタンが出て、押すと消える", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["りんご", "みかん", "ぶどう"]);
+    const row = page.locator(".list-group > .item-row").nth(1);
+    const remove = row.getByRole("button", { name: "項目を削除" });
+    await expect(remove).not.toBeInViewport();
+
+    // 色のボタンの上から動かしても、パレットは開かない（開いているのは項目リストのダイアログだけ）
+    await slide(page, row.getByRole("button", { name: "色を変更" }), -60);
+    await expect(remove).toBeInViewport();
+    await expect(page.locator(".v-overlay--active")).toHaveCount(1);
+
+    await remove.click();
+    await expect(itemInputs(page)).toHaveCount(2);
+    await expect.poll(() => storedNames(page)).toEqual(["りんご", "ぶどう"]);
+  });
+
+  test("少しだけスライドしたときと、開いた行の本体を押したときは、削除ボタンを閉じる", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["りんご"]);
+    const row = page.locator(".list-group > .item-row").first();
+    const remove = row.getByRole("button", { name: "項目を削除" });
+    const name = row.locator(".v-text-field:not(.v-select)");
+
+    await slide(page, name, -20);
+    await expect(remove).not.toBeInViewport();
+
+    await slide(page, name, -60);
+    await expect(remove).toBeInViewport();
+    // 行の真ん中（名前の入力欄の上）を押す。開いているあいだ本体は押せないので、行が受け取る
+    await row.click();
+    await expect(remove).not.toBeInViewport();
+    await expect(itemInputs(page)).toHaveCount(1);
+  });
+
+  test("操作の案内は、行をスライドすると消え、リロードするとまた出る", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    const hint = page.getByRole("note");
+    // 行が無いときは出さない
+    await expect(page.getByRole("button", { name: "項目を追加" })).toBeVisible();
+    await expect(hint).toBeHidden();
+
+    await addItems(page, ["りんご", "みかん"]);
+    await expect(hint).toContainText("ドラッグで並び替え");
+    await expect(hint).toContainText("左にスライドで削除");
+    const color = page.locator(".list-group > .item-row").first().getByRole("button", { name: "色を変更" });
+
+    // 少しだけ動かして閉じたときは、まだ出す
+    await slide(page, color, -20);
+    await expect(hint).toBeVisible();
+
+    await slide(page, color, -60);
+    await expect(hint).toBeHidden();
+
+    // ダイアログを開き直しても出さない
+    await page.locator(".v-overlay--active").getByRole("button", { name: "閉じる", exact: true }).click();
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await expect(itemInputs(page)).toHaveCount(2);
+    await expect(hint).toBeHidden();
+
+    await page.reload();
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await expect(hint).toBeVisible();
+  });
+
+  test("操作の案内は、閉じるボタンで消せる", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["りんご"]);
+    const hint = page.getByRole("note");
+    // 1件では並び替えの案内は出さない
+    await expect(hint).toContainText("左にスライドで削除");
+    await expect(hint).not.toContainText("ドラッグで並び替え");
+
+    await hint.getByRole("button", { name: "案内を閉じる" }).click();
+    await expect(hint).toBeHidden();
+  });
+});
+
+test("PC の操作の案内は並び替えだけで、並び替えると消える", async ({ page }) => {
+  await page.goto("/");
+  const hint = page.getByRole("note");
+  await addItems(page, ["りんご"]);
+  // 1件では出さない
+  await expect(hint).toBeHidden();
+
+  await addItems(page, ["みかん"]);
+  await expect(hint).toContainText("ドラッグで並び替え");
+  await expect(hint).not.toContainText("左にスライドで削除");
+
+  const rows = page.locator(".list-group > .item-row");
+  await rows.nth(1).locator(".handle").dragTo(rows.nth(0), { targetPosition: { x: 20, y: 5 } });
+  await expect(itemInputs(page).nth(0)).toHaveValue("みかん");
+  await expect(hint).toBeHidden();
 });

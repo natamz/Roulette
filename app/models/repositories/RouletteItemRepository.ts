@@ -37,6 +37,14 @@ export class RouletteItemRepository {
     await db.RouletteItems.bulkPut(items.map(item => Dexie.deepClone(item)));
   }
 
+  // 全件を入れ替える。消すのと書くのを1つのトランザクションにして、書けなかったときに空にしない
+  async replaceAll(items: RouletteItem[]) {
+    await db.transaction("rw", db.RouletteItems, async () => {
+      await db.RouletteItems.clear();
+      await db.RouletteItems.bulkAdd(items.map(item => Dexie.deepClone(item)));
+    });
+  }
+
   async remove(id: number) {
     await db.RouletteItems.delete(id);
   }

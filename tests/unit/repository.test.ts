@@ -44,6 +44,20 @@ describe("RouletteItemRepository", () => {
     expect(all.map(x => x.name)).toEqual(["B", "A2"]);
   });
 
+  it("replaceAll で全件を入れ替える", async () => {
+    await repo.addRange([newItem("A", 0), newItem("B", 1)]);
+    await repo.replaceAll([newItem("C", 0)]);
+    expect((await repo.getAll())?.map(x => x.name)).toEqual(["C"]);
+  });
+
+  it("replaceAll で書けなかったときは、元の項目が残る", async () => {
+    await repo.addRange([newItem("A", 0)]);
+    // 同じ id の項目は bulkAdd で書けない
+    const duplicated = [{ ...newItem("B", 0), id: 100 }, { ...newItem("C", 1), id: 100 }];
+    await expect(repo.replaceAll(duplicated)).rejects.toThrow();
+    expect((await repo.getAll())?.map(x => x.name)).toEqual(["A"]);
+  });
+
   it("update は更新後の項目を返す", async () => {
     const item = newItem("A", 0);
     await repo.add(item);

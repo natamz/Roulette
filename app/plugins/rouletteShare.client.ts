@@ -23,8 +23,8 @@ export class RouletteShareUtil {
     return location.protocol + "//" + location.host + location.pathname + "?q=" + encodeItems(items);
   }
 
-  // 開いた URL の ?q= に入っていた項目
-  sharedItems(): RouletteItem[] {
+  // 開いた URL の ?q= に入っていた項目。?q= が無ければ []、読めなければ null
+  sharedItems(): RouletteItem[] | null {
     return this.query ? decodeItems(this.query) : [];
   }
 }

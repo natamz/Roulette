@@ -1,31 +1,26 @@
 <template>
   <v-switch
     v-model="dark"
+    inset
+    color="primary"
     hide-details="auto"
+    role="switch"
     :aria-label="$t('dark_mode')"
-    :prepend-icon="themeIcon"
   />
 </template>
 
 <script lang="ts">
 export default {
-  data() {
-    return {
-      dark: false,
-    };
-  },
   computed: {
-    themeIcon(): string {
-      return this.dark ? "$themeDark" : "$themeLight";
+    // 保存した値（preference）ではなく、今のテーマを見る。OS の設定に従っているときは preference が "system" になる
+    dark: {
+      get(): boolean {
+        return this.$colorMode.value == "dark";
+      },
+      set(value: boolean) {
+        this.$colorMode.preference = value ? "dark" : "light";
+      },
     },
-  },
-  watch: {
-    dark() {
-      this.$colorMode.preference = this.dark ? "dark" : "light";
-    },
-  },
-  mounted() {
-    this.dark = localStorage.getItem("nuxt-color-mode") == "dark";
   },
 };
 </script>

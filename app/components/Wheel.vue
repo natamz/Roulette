@@ -11,6 +11,13 @@
       width="500"
       height="500"
     />
+    <!-- 項目が無いときに、扇形の代わりに出す円と案内 -->
+    <div
+      v-if="placeholder"
+      class="placeholder"
+    >
+      {{ placeholder }}
+    </div>
   </div>
 </template>
 
@@ -35,6 +42,7 @@ function GetTime() {
 export default {
   props: {
     items: { type: Array as () => RouletteItem[], default: () => [] },
+    placeholder: { type: String, default: "" },
   },
   emits: ["stopped"],
   data(): { result: string; isRunning: boolean; deg: number; ctx: CanvasRenderingContext2D | null; ctx_label: CanvasRenderingContext2D | null } {
@@ -172,5 +180,19 @@ canvas {
   top: 0;
   padding: 0;
   margin: 0;
+}
+// 扇形と同じ円（中心 250、半径 200 / 500）。canvas に描かないので、テーマや言語が変わっても描き直さなくていい
+.placeholder {
+  position: absolute;
+  inset: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 2px dashed rgba(var(--v-theme-on-background), var(--v-border-opacity));
+  border-radius: 50%;
+  background: rgba(var(--v-theme-on-background), var(--v-hover-opacity));
+  color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
+  text-align: center;
 }
 </style>

@@ -13,18 +13,49 @@
       md="6"
     >
       <div class="wheel-area">
-        <wheel
-          ref="wheel"
-          :items="items"
-          @stopped="stopped"
-        />
+        <!-- スマホは項目リストがダイアログの中にあるので、ルーレットを押すと開く -->
+        <div
+          :class="{ 'wheel-button': tapToEdit }"
+          :role="tapToEdit ? 'button' : undefined"
+          :tabindex="tapToEdit ? 0 : undefined"
+          :aria-label="tapToEdit ? $t('edit_items') : undefined"
+          :aria-disabled="tapToEdit ? isRunning : undefined"
+          @click="editItems"
+          @keydown.enter.space.prevent="editItems"
+        >
+          <wheel
+            ref="wheel"
+            :items="items"
+            :placeholder="placeholder"
+            @stopped="stopped"
+          />
+        </div>
 
+        <!-- スマホでは、出していないときも場所を空けておく（出し入れで開始ボタンが動かないように） -->
+        <!-- サーバーは画面の幅を知らないので、静的 HTML にも透明なまま描き、PC は CSS で隠す -->
+        <!-- 0件のときは、ルーレットの円の中に案内があるので出さない -->
+        <!-- canvas の下には円の外の余白（幅の 10%）があるので、上はしっぽの分（mt-2 = 8px）だけ空ける -->
+        <hint-bubble
+          class="hidden-sm-and-up mt-2 mb-4"
+          :class="{ 'wheel-hint--hidden': !(tapToEdit && wheelHint && items.length) }"
+          centered
+          @close="wheelHint = false"
+        >
+          <li>
+            <v-icon size="small">
+              $tap
+            </v-icon>
+            {{ $t("tap_wheel_to_edit") }}
+          </li>
+        </hint-bubble>
+
+        <!-- 読み込むまでは0件か分からないので、押せる見た目のままにする -->
         <v-btn
           block
           color="primary"
           elevation="2"
           size="large"
-          :disabled="isRunning"
+          :disabled="isRunning || isLoaded && !items.length"
           @click="start"
         >
           {{ $t("start") }}
@@ -38,7 +69,7 @@
       md="6"
     >
       <responsive
-        :is-running="isRunning"
+        ref="responsive"
         @template-click="$emit('templateClick')"
       >
         <template #content="{ swipeable }">
@@ -80,13 +111,24 @@
                 <v-icon>$addItem</v-icon>
               </v-btn>
               <!-- 並び替え（2件から）と、スマホのスライドでの削除の案内。操作するか閉じたら、ふわっと消す -->
-              <transition name="item-list-hint">
-                <item-list-hint
+              <transition name="hint">
+                <hint-bubble
                   v-if="hint && (items.length > 1 || swipeable && items.length)"
-                  :reorder="items.length > 1"
-                  :swipe="swipeable"
                   @close="hideHint"
-                />
+                >
+                  <li v-if="items.length > 1">
+                    <v-icon size="small">
+                      $drag
+                    </v-icon>
+                    {{ $t("drag_to_reorder") }}
+                  </li>
+                  <li v-if="swipeable">
+                    <v-icon size="small">
+                      $swipeLeft
+                    </v-icon>
+                    {{ $t("swipe_to_delete") }}
+                  </li>
+                </hint-bubble>
               </transition>
             </v-container>
           </div>
@@ -101,6 +143,7 @@ import { colors } from "~/consts/colors";
 import type RouletteItem from "~/models/entities/RouletteItem";
 import type ColorPalette from "~/components/ColorPalette.vue";
 import type ResultDialog from "~/components/ResultDialog.vue";
+import type Responsive from "~/components/Responsive.vue";
 import type Wheel from "~/components/Wheel.vue";
 import { VueDraggable } from "vue-draggable-plus";
 
@@ -109,13 +152,29 @@ const colorList: string[] = colors.flat();
 export default {
   components: { VueDraggable },
   emits: ["stateChange", "templateClick"],
-  data(): { items: RouletteItem[]; isRunning: boolean; hint: boolean } {
+  data(): { items: RouletteItem[]; isRunning: boolean; isLoaded: boolean; hint: boolean; wheelHint: boolean } {
     return {
       items: [],
       isRunning: false,
-      // 操作の案内（ItemListHint.vue）を出すか。保存しないので、リロードしたらまた出る
+      // DB から項目を読み終えたか。それまでは0件か分からない
+      isLoaded: false,
+      // 項目リストの操作の案内（HintBubble.vue）を出すか。保存しないので、リロードしたらまた出る
       hint: true,
+      // スマホの「ルーレットをタップして項目を編集」の案内を出すか。これも保存しない
+      wheelHint: true,
     };
+  },
+  computed: {
+    // ルーレットを押すと項目リストのダイアログを開くか（スマホだけ）
+    // サーバーは画面の幅を知らないので、マウントしてから（読み終えてから）決める
+    tapToEdit(): boolean {
+      return this.isLoaded && this.$vuetify.display.xs;
+    },
+    // 項目が無いときにルーレットの円に出す案内。PC はリストが横にあるので、タップを促さない
+    placeholder(): string {
+      if (!this.isLoaded || this.items.length) return "";
+      return this.$t(this.tapToEdit ? "wheel_empty_tap" : "wheel_empty");
+    },
   },
   async mounted() {
     const rouletteItems = this.$share.sharedItems();
@@ -126,6 +185,7 @@ export default {
 
     const item = (await this.$db.rouletteItem.getAll()) ?? [];
     this.items = item.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
+    this.isLoaded = true;
 
     // 画面の項目が変わったら、並び順を振り直して DB に保存する
     // DB から読んだ項目をそのまま書き戻さないよう、読んだあとに見始める
@@ -191,6 +251,12 @@ export default {
       }
       list?.querySelectorAll<HTMLInputElement>(".v-text-field:not(.v-select) input")[index + 1]?.focus();
     },
+    // スマホでルーレットを押したら、項目リストのダイアログを開く。案内はもう出さない
+    editItems() {
+      if (!this.tapToEdit || this.isRunning) return;
+      this.wheelHint = false;
+      (this.$refs.responsive as typeof Responsive).showDialog();
+    },
     onColorPaletteClick(elementid: number) {
       (this.$refs.colorPalette as typeof ColorPalette).showDialog(elementid);
     },
@@ -217,16 +283,31 @@ export default {
   margin: 0 auto;
 }
 
+.wheel-button {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid rgb(var(--v-theme-primary));
+  }
+}
+
 .item-list[inert] {
   opacity: var(--v-disabled-opacity);
 }
 
-// 操作の案内（ItemListHint.vue）は、消えるときだけフェードする
-.item-list-hint-leave-active {
+// ルーレットの案内は、場所を空けたまま透明にする。消えるときだけフェードする
+.wheel-hint--hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+// 操作の案内（HintBubble.vue）は、消えるときだけフェードする
+.hint-leave-active {
   transition: opacity 0.3s;
 }
 
-.item-list-hint-leave-to {
+.hint-leave-to {
   opacity: 0;
 }
 </style>

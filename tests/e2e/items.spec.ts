@@ -209,7 +209,8 @@ test.describe("スマホ幅", () => {
   test("操作の案内は、行をスライドすると消え、リロードするとまた出る", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "項目を編集" }).click();
-    const hint = page.getByRole("note");
+    // ダイアログの裏には、ルーレットをタップする案内もあるので、ダイアログの中に絞る
+    const hint = page.locator(".v-overlay--active").getByRole("note");
     // 行が無いときは出さない
     await expect(page.getByRole("button", { name: "項目を追加" })).toBeVisible();
     await expect(hint).toBeHidden();
@@ -241,13 +242,69 @@ test.describe("スマホ幅", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "項目を編集" }).click();
     await addItems(page, ["りんご"]);
-    const hint = page.getByRole("note");
+    const hint = page.locator(".v-overlay--active").getByRole("note");
     // 1件では並び替えの案内は出さない
     await expect(hint).toContainText("左にスライドで削除");
     await expect(hint).not.toContainText("ドラッグで並び替え");
 
     await hint.getByRole("button", { name: "案内を閉じる" }).click();
     await expect(hint).toBeHidden();
+  });
+
+  test("項目が無いときは、ルーレットに追加の案内を出し、開始は押せない", async ({ page }) => {
+    await page.goto("/");
+    const wheel = page.locator(".canvas_container");
+    const start = page.getByRole("button", { name: "開始" });
+    await expect(wheel).toContainText("タップして項目を追加");
+    await expect(start).toBeDisabled();
+
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["りんご"]);
+    await page.locator(".v-overlay--active").getByRole("button", { name: "閉じる", exact: true }).click();
+    await expect(wheel).not.toContainText("タップして項目を追加");
+    await expect(start).toBeEnabled();
+  });
+
+  test("ルーレットをタップする案内は、ルーレットを押すか閉じると消え、リロードするとまた出る", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["りんご"]);
+    await expect.poll(() => storedNames(page)).toEqual(["りんご"]);
+
+    await page.reload();
+    const hint = page.getByRole("note").filter({ hasText: "ルーレットをタップして項目を編集" });
+    await expect(hint).toBeVisible();
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await expect(page.locator(".v-overlay--active .list-group")).toHaveCount(1);
+    await expect(hint).toBeHidden();
+
+    await page.reload();
+    await expect(hint).toBeVisible();
+    // 閉じても場所は空けたままで、開始ボタンは動かない
+    const start = page.getByRole("button", { name: "開始" });
+    const top = (await start.boundingBox())!.y;
+    await hint.getByRole("button", { name: "案内を閉じる" }).click();
+    await expect(hint).toBeHidden();
+    expect((await start.boundingBox())!.y).toBe(top);
+  });
+
+  test("回転中はルーレットを押しても項目リストを開かない", async ({ page }) => {
+    // 回転時間を約 3 秒にする（fixtures の初期化スクリプトのあとに上書きする）
+    await page.addInitScript(() => localStorage.setItem("rotationTime", "3000"));
+    await page.goto("/");
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["A案", "B案"]);
+    await page.locator(".v-overlay--active").getByRole("button", { name: "閉じる", exact: true }).click();
+    await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "開始" }).click();
+    const wheel = page.getByRole("button", { name: "項目を編集" });
+    await expect(wheel).toHaveAttribute("aria-disabled", "true");
+    // aria-disabled の要素は、Playwright が押せるようになるまで待つので、待たずに押す
+    await wheel.click({ force: true });
+
+    await expect(page.locator(".v-overlay--active").getByText("結果は・・・")).toBeVisible();
+    await expect(page.locator(".list-group")).toHaveCount(0);
   });
 });
 
@@ -266,4 +323,18 @@ test("PC の操作の案内は並び替えだけで、並び替えると消え�
   await rows.nth(1).locator(".handle").dragTo(rows.nth(0), { targetPosition: { x: 20, y: 5 } });
   await expect(itemInputs(page).nth(0)).toHaveValue("みかん");
   await expect(hint).toBeHidden();
+});
+
+test("PC は、項目が無いときはルーレットに追加の案内を出し、ルーレットをボタンにしない", async ({ page }) => {
+  await page.goto("/");
+  const wheel = page.locator(".canvas_container");
+  const start = page.getByRole("button", { name: "開始" });
+  await expect(wheel).toContainText("項目を追加してください");
+  await expect(start).toBeDisabled();
+  // リストは横にあるので、タップを促さない
+  await expect(page.getByRole("button", { name: "項目を編集" })).toHaveCount(0);
+
+  await addItems(page, ["りんご"]);
+  await expect(wheel).not.toContainText("項目を追加してください");
+  await expect(start).toBeEnabled();
 });

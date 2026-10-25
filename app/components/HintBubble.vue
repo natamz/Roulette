@@ -1,22 +1,12 @@
 <template>
-  <!-- 上の項目リストを、しっぽ（::before）で指す -->
+  <!-- 上にあるもの（項目リストやルーレット）を、しっぽ（::before）で指す -->
   <div
-    class="item-list-hint"
+    class="hint-bubble"
+    :class="{ 'hint-bubble--centered': centered }"
     role="note"
   >
-    <ul class="item-list-hint__list">
-      <li v-if="reorder">
-        <v-icon size="small">
-          $drag
-        </v-icon>
-        {{ $t("drag_to_reorder") }}
-      </li>
-      <li v-if="swipe">
-        <v-icon size="small">
-          $swipeLeft
-        </v-icon>
-        {{ $t("swipe_to_delete") }}
-      </li>
+    <ul class="hint-bubble__list">
+      <slot />
     </ul>
 
     <v-btn
@@ -30,14 +20,12 @@
 </template>
 
 <script lang="ts">
-// 項目リストの下に出す、操作の案内のフキダシ
-// - reorder: ハンドルのドラッグで並び替えられること
-// - swipe: 行を左にスライドすると削除ボタンが出ること（スマホのダイアログだけ）
+// 操作の案内のフキダシ。中身は1行ずつ <li>（アイコンと文）で渡す
+// - centered: しっぽを真ん中に置く。既定は左（項目リストの行のハンドルの列）
 // 出すかどうかは親（Roulette.vue）がメモリに持つ。リロードしたらまた出す
 export default {
   props: {
-    reorder: { type: Boolean, default: false },
-    swipe: { type: Boolean, default: false },
+    centered: { type: Boolean, default: false },
   },
   emits: ["close"],
 };
@@ -48,7 +36,7 @@ $tail: 8px;
 $radius: 8px;
 
 // 色は Vuetify のツールチップと同じ、テーマの surface-variant
-.item-list-hint {
+.hint-bubble {
   position: relative;
   display: flex;
   align-items: center;
@@ -72,13 +60,17 @@ $radius: 8px;
   }
 }
 
-.item-list-hint__list {
+.hint-bubble--centered::before {
+  left: calc(50% - #{$tail});
+}
+
+.hint-bubble__list {
   flex: 1 1 0;
   margin: 0;
   padding: 0;
   list-style: none;
 
-  li {
+  :slotted(li) {
     display: flex;
     gap: 8px;
     align-items: center;

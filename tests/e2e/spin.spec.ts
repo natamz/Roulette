@@ -50,7 +50,7 @@ test("止まったあとにテーマや項目の名前を変えても、円の�
   await expect(page.locator(".v-overlay--active")).toHaveCount(0);
 
   await page.getByRole("button", { name: "設定", exact: true }).click();
-  await page.locator(".settintgs-dialog .v-switch input").check();
+  await page.getByRole("switch", { name: "ダークモード" }).check();
   await expect(page.locator(".v-application")).toHaveClass(/v-theme--dark/);
   expect(await wheel()).toBe(stopped);
   await page.keyboard.press("Escape");

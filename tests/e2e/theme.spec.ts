@@ -43,10 +43,9 @@ test.describe("ダークテーマ", () => {
 
     const settings = await openDialog(page, "設定");
     await expectDark(settings);
-    await expectDark(settings.getByRole("button", { name: "短い" }));
-    await expectDark(settings.getByRole("button", { name: "効果音" }));
+    await expectDark(settings.getByRole("button", { name: "2", exact: true }));
     // 見出しの文字が背景と同化しない
-    expect((await color(settings.locator(".v-list-subheader").first(), "color")).luminance).toBeGreaterThan(120);
+    expect((await color(settings.getByText("回転時間", { exact: true }), "color")).luminance).toBeGreaterThan(120);
     await page.keyboard.press("Escape");
 
     const template = await openDialog(page, "テンプレート");
@@ -77,6 +76,18 @@ test.describe("OS の設定がダーク", () => {
     await expectDark(page.locator("header"));
   });
 
+  test("設定のダークモードのスイッチがオンになっていて、オフにするとライトになる", async ({ page }) => {
+    await page.goto("/");
+    const settings = await openDialog(page, "設定");
+    const toggle = settings.getByRole("switch", { name: "ダークモード" });
+
+    await expect(toggle).toBeChecked();
+    await toggle.uncheck();
+    await expect(page.locator("html")).toHaveClass(/light-mode/);
+    await page.reload();
+    await expect(page.locator("html")).toHaveClass(/light-mode/);
+  });
+
   test("ハイドレーションの前から画面の背景が暗い（#158）", async ({ page }) => {
     // アプリの JS を止める。color-mode が html の class を決めるインラインのスクリプトは動く
     await page.route(/\/_nuxt\/.*\.js$/, route => route.abort());
@@ -102,11 +113,12 @@ test.describe("OS の設定がライト", () => {
   });
 });
 
+// 設定は PC では中央のカード（settings.spec.ts）
 test("全画面のダイアログが画面幅いっぱいに広がる", async ({ page }) => {
   await page.goto("/");
   const width = page.viewportSize()!.width;
 
-  for (const name of ["設定", "テンプレート", "使い方"]) {
+  for (const name of ["テンプレート", "使い方"]) {
     const card = await openDialog(page, name);
     expect((await card.boundingBox())!.width).toBe(width);
     await card.getByRole("button", { name: "閉じる" }).first().click();

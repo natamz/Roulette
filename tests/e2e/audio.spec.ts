@@ -30,7 +30,7 @@ test("効果音がオフなら音声を読み込まない。オンにすると�
   expect(audio.requests).toEqual([]);
 
   await page.getByRole("button", { name: "設定", exact: true }).click();
-  await page.locator(".settintgs-dialog .v-card").getByRole("button", { name: "効果音" }).click();
+  await page.getByRole("switch", { name: "効果音" }).check();
   // オンにしたときのクリック音は、読み込みが終わってから鳴る
   await expect.poll(audio.played).toBe(1);
   await expect.poll(() => audio.requests.length).toBe(8);

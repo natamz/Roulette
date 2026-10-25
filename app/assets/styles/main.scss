@@ -14,15 +14,15 @@
   // Vuetify を上げたら、lib/styles/settings/_utilities.scss でキーが増えていないか（増えた分は出てしまう）、
   // responsive: true のキーが増えていないかを見る
   $utilities: (
-    // 使うキー（ほかに rounded（rounded="0" の rounded-0）。設定を変えないので書いていない）
+    // 使うキー
     "justify-content": (responsive: false), // <v-row justify="center"> の justify-center
     "margin": (responsive: false), // ma-1
     "margin-y": (responsive: false), // my-5
     "margin-top": (responsive: false), // mt-1 / mt-2 / mt-5
     "margin-bottom": (responsive: false), // mb-5
     "padding-x": (responsive: false), // px-0
-    "text-align": (responsive: false), // text-center
     // 使わないキー
+    // rounded は、rounded="0" などの props（rounded-0 などの class を付ける）にも効かなくなる
     "display": false, "flex-direction": false,
     "overflow": false, "overflow-x": false, "overflow-y": false,
     "float": false, "float:rtl": false, "float:ltr": false,
@@ -35,11 +35,11 @@
     "negative-margin-left": false, "negative-margin-start": false, "negative-margin-end": false,
     "padding": false, "padding-y": false, "padding-top": false, "padding-right": false,
     "padding-bottom": false, "padding-left": false, "padding-start": false, "padding-end": false,
-    "rounded-top": false, "rounded-end": false, "rounded-bottom": false, "rounded-start": false,
+    "rounded": false, "rounded-top": false, "rounded-end": false, "rounded-bottom": false, "rounded-start": false,
     "rounded-top-start": false, "rounded-top-end": false, "rounded-bottom-end": false, "rounded-bottom-start": false,
     "border": false, "border-current": false, "border-opacity": false,
     "border-top": false, "border-end": false, "border-bottom": false, "border-start": false, "border-style": false,
-    "text-decoration": false, "white-space": false, "overflow-wrap": false, "opacity": false,
+    "text-align": false, "text-decoration": false, "white-space": false, "overflow-wrap": false, "opacity": false,
     "text-opacity": false, "text-overflow": false, "typography": false, "text-transform": false,
     "font-weight": false, "font-italic": false, "text-mono": false,
     "position": false, "top": false, "right": false, "bottom": false, "left": false, "cursor": false,

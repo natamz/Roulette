@@ -33,7 +33,6 @@ test.describe("ダークテーマ", () => {
     await addItems(page, ["a"]);
 
     await expectDark(page.locator("header"));
-    await expectDark(page.locator("footer"));
     await expectDark(page.getByRole("button", { name: "項目を追加" }));
     // 入力欄自体には背景を付けない（付くとクリアボタンの領域だけ色が違って見える）
     expect((await color(itemInputs(page).first())).alpha).toBe(0);
@@ -60,7 +59,7 @@ test.describe("ダークテーマ", () => {
     await expect(tutorial.locator("img").first()).toHaveAttribute("src", /-dark\.png$/);
     await page.keyboard.press("Escape");
 
-    await page.locator("footer").getByRole("button", { name: "共有" }).click();
+    await page.locator("header").getByRole("button", { name: "共有" }).click();
     const share = page.locator(".v-overlay--active .v-card").last();
     await expectDark(share);
     await expectDark(share.getByRole("button", { name: "URLをコピー" }));
@@ -76,7 +75,6 @@ test.describe("OS の設定がダーク", () => {
 
     await expectDark(page.locator(".v-application"));
     await expectDark(page.locator("header"));
-    await expectDark(page.locator("footer"));
   });
 
   test("ハイドレーションの前から画面の背景が暗い（#158）", async ({ page }) => {
@@ -88,7 +86,6 @@ test.describe("OS の設定がダーク", () => {
     await expect(page.locator(".v-application")).toHaveClass(/v-theme--light/);
     await expectDark(page.locator(".v-application"));
     await expectDark(page.locator("header"));
-    await expectDark(page.locator("footer"));
     await expectDark(page.getByRole("button", { name: "開始" }));
   });
 });

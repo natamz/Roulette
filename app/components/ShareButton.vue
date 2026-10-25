@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    variant="text"
+    icon
     :aria-label="$t('share_title')"
     @click="shareRoulette"
   >

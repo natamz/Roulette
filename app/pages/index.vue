@@ -20,14 +20,18 @@
           <v-icon>$help</v-icon>
         </v-btn>
         <language-switch />
+        <!-- スマホ（xs）では、テンプレートは項目リストのダイアログから開く（ヘッダーのアイコンが多いとタイトルが切れる） -->
+        <!-- サーバーは画面の幅を知らないので、CSS で隠す -->
         <v-btn
           icon
+          class="hidden-xs"
           :aria-label="$t('template_title')"
           :disabled="isRunning"
           @click="onTemplateClick"
         >
           <v-icon>$template</v-icon>
         </v-btn>
+        <share-button />
         <v-btn
           icon
           :aria-label="$t('setting_title')"
@@ -43,25 +47,10 @@
           <roulette
             ref="roulette"
             @state-change="stateChange"
+            @template-click="onTemplateClick"
           />
         </v-container>
       </v-main>
-
-      <v-footer color="background">
-        <v-card
-          color="background"
-          elevation="0"
-          rounded="0"
-          width="100%"
-          class="text-center"
-        >
-          <v-divider />
-
-          <v-card-text>
-            <share-button />
-          </v-card-text>
-        </v-card>
-      </v-footer>
     </v-app>
   </div>
 </template>

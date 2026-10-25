@@ -41,6 +41,14 @@
           >
             <v-icon>$close</v-icon>
           </v-btn>
+          <v-spacer />
+          <!-- スマホではヘッダーのアイコンを減らすため、テンプレートはここから開く（ダイアログは index.vue） -->
+          <v-btn
+            prepend-icon="$template"
+            @click="$emit('templateClick')"
+          >
+            {{ $t("template_title") }}
+          </v-btn>
         </v-card-actions>
 
         <!-- ダイアログの中の行は、削除ボタンを常に出さず、左にスライドすると出す -->
@@ -58,6 +66,7 @@ export default {
   props: {
     isRunning: { type: Boolean, default: false },
   },
+  emits: ["templateClick"],
   data(): {
     dialog: boolean;
     isMounted: boolean;

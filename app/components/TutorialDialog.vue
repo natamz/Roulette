@@ -54,7 +54,7 @@
 
     <!-- 初回は全画面のダイアログを自動で開かず、使い方があることを小さく案内する（#172） -->
     <!-- 自動で開くと本文が隠れ（Googlebot も毎回初回訪問になる）、LCP もハイドレーションのあとに読む画像になる -->
-    <v-snackbar
+    <stacked-snackbar
       v-model="guide"
       :timeout="-1"
     >
@@ -73,7 +73,7 @@
           @click="guide = false"
         />
       </template>
-    </v-snackbar>
+    </stacked-snackbar>
   </div>
 </template>
 

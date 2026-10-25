@@ -5,6 +5,30 @@
   />
   <result-dialog ref="resultDialog" />
 
+  <!-- 共有URLを開いたときの案内。今の項目を置き換えたら元に戻せるようにし、読めなかったらそう伝える -->
+  <stacked-snackbar
+    v-model="shareSnackbar"
+    :timeout="-1"
+  >
+    {{ $t(itemsBeforeShare.length ? "share_replaced" : "share_invalid") }}
+    <template #actions>
+      <v-btn
+        v-if="itemsBeforeShare.length"
+        variant="text"
+        :disabled="isRunning"
+        @click="undoShare"
+      >
+        {{ $t("share_undo") }}
+      </v-btn>
+      <v-btn
+        icon="$close"
+        :aria-label="$t('close')"
+        variant="text"
+        @click="shareSnackbar = false"
+      />
+    </template>
+  </stacked-snackbar>
+
   <!-- sm はリストが狭く、名前の入力欄が潰れるので、リストを広めにとる -->
   <v-row>
     <v-col
@@ -141,6 +165,7 @@
 <script lang="ts">
 import { colors } from "~/consts/colors";
 import type RouletteItem from "~/models/entities/RouletteItem";
+import { isSameItems } from "~/utils/share";
 import type ColorPalette from "~/components/ColorPalette.vue";
 import type ResultDialog from "~/components/ResultDialog.vue";
 import type Responsive from "~/components/Responsive.vue";
@@ -152,7 +177,15 @@ const colorList: string[] = colors.flat();
 export default {
   components: { VueDraggable },
   emits: ["stateChange", "templateClick"],
-  data(): { items: RouletteItem[]; isRunning: boolean; isLoaded: boolean; hint: boolean; wheelHint: boolean } {
+  data(): {
+    items: RouletteItem[];
+    isRunning: boolean;
+    isLoaded: boolean;
+    hint: boolean;
+    wheelHint: boolean;
+    shareSnackbar: boolean;
+    itemsBeforeShare: RouletteItem[];
+  } {
     return {
       items: [],
       isRunning: false,
@@ -162,6 +195,11 @@ export default {
       hint: true,
       // スマホの「ルーレットをタップして項目を編集」の案内を出すか。これも保存しない
       wheelHint: true,
+      // 共有URLを開いたときの案内（StackedSnackbar.vue）を出すか
+      shareSnackbar: false,
+      // 共有URLの項目で置き換える前の項目。元に戻すときに使う。空なら、案内は「読み込めませんでした」
+      // 案内が消えるまで文言が変わらないよう、元に戻したあとも空にしない
+      itemsBeforeShare: [],
     };
   },
   computed: {
@@ -177,14 +215,21 @@ export default {
     },
   },
   async mounted() {
-    const rouletteItems = this.$share.sharedItems();
-    if (rouletteItems.length) {
-      await this.$db.rouletteItem.clear();
-      await this.$db.rouletteItem.addRange(rouletteItems);
+    let items = await this.getSortedItems();
+    const shared = this.$share.sharedItems();
+    if (shared === null) {
+      this.shareSnackbar = true;
     }
-
-    const item = (await this.$db.rouletteItem.getAll()) ?? [];
-    this.items = item.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
+    else if (shared.length && !isSameItems(items, shared)) {
+      // 開いただけで今の項目が消えるので、元に戻せるようにする。項目が無ければ消えるものも無い
+      await this.$db.rouletteItem.replaceAll(shared);
+      if (items.length) {
+        this.itemsBeforeShare = items;
+        this.shareSnackbar = true;
+      }
+      items = await this.getSortedItems();
+    }
+    this.items = items;
     this.isLoaded = true;
 
     // 画面の項目が変わったら、並び順を振り直して DB に保存する
@@ -195,6 +240,16 @@ export default {
     }, { deep: true });
   },
   methods: {
+    async getSortedItems(): Promise<RouletteItem[]> {
+      const items = (await this.$db.rouletteItem.getAll()) ?? [];
+      return items.sort((a: RouletteItem, b: RouletteItem) => a.order - b.order);
+    },
+    // 共有URLの項目で置き換える前に戻す。id ごと戻すので、このあと watch が書くのも同じ内容
+    async undoShare() {
+      this.shareSnackbar = false;
+      await this.$db.rouletteItem.replaceAll(this.itemsBeforeShare);
+      this.items = [...this.itemsBeforeShare];
+    },
     async add() {
       const _colors = colorList.filter(item => !this.items.some(i => i.color === item));
       if (_colors.length === 0) {

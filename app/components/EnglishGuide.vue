@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar
+  <stacked-snackbar
     v-model="show"
     :timeout="-1"
   >
@@ -20,7 +20,7 @@
         @click="show = false"
       />
     </template>
-  </v-snackbar>
+  </stacked-snackbar>
 </template>
 
 <script setup lang="ts">

@@ -12,22 +12,24 @@
       sm="5"
       md="6"
     >
-      <wheel
-        ref="wheel"
-        :items="items"
-        @stopped="stopped"
-      />
+      <div class="wheel-area">
+        <wheel
+          ref="wheel"
+          :items="items"
+          @stopped="stopped"
+        />
 
-      <v-btn
-        block
-        color="primary"
-        elevation="2"
-        size="large"
-        :disabled="isRunning"
-        @click="start"
-      >
-        {{ $t("start") }}
-      </v-btn>
+        <v-btn
+          block
+          color="primary"
+          elevation="2"
+          size="large"
+          :disabled="isRunning"
+          @click="start"
+        >
+          {{ $t("start") }}
+        </v-btn>
+      </div>
     </v-col>
 
     <v-col
@@ -35,7 +37,10 @@
       sm="7"
       md="6"
     >
-      <responsive :is-running="isRunning">
+      <responsive
+        :is-running="isRunning"
+        @template-click="$emit('templateClick')"
+      >
         <template #content="{ swipeable }">
           <!-- 回転中はリスト全体を inert で操作できなくする（並び替えも止まる） -->
           <!-- VContainer の中で isRunning を読むと、開始・停止のたびに VContainer から全行まで描き直すので、外に置く（#202） -->
@@ -103,7 +108,7 @@ const colorList: string[] = colors.flat();
 
 export default {
   components: { VueDraggable },
-  emits: ["stateChange"],
+  emits: ["stateChange", "templateClick"],
   data(): { items: RouletteItem[]; isRunning: boolean; hint: boolean } {
     return {
       items: [],
@@ -198,6 +203,20 @@ export default {
 </script>
 
 <style lang="scss">
+// PC・タブレットでは、リストが伸びてスクロールしても、ルーレットとスタートボタンを app-bar の下に残す
+// 列はリストの高さまで伸びるので、その中で止まる。スマホ（xs）はリストがダイアログの中にあり、列が伸びないので止まらない
+// top はスクロール前の位置（VContainer の余白 16px）と同じなので、スクロールしてもルーレットは動かない
+// 画面の高さに収まらないと、スタートボタンが画面の外に出たままになるので、収まる大きさまで縮める
+// （上の余白 16px ＋ スタートボタン（size="large"）の 44px ＋ 下の余白 16px）
+// フッターを置くと、一番下までスクロールしたときにフッターの分だけ押し上げられる（列がフッターの上で終わるため）
+.wheel-area {
+  position: sticky;
+  top: calc(var(--v-layout-top) + 16px);
+  // dvh だと、スクロールでブラウザのバーが出入りするたびに大きさが変わる
+  max-width: calc(100svh - var(--v-layout-top) - 76px);
+  margin: 0 auto;
+}
+
 .item-list[inert] {
   opacity: var(--v-disabled-opacity);
 }

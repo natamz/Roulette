@@ -90,6 +90,27 @@ test("項目リストは1つだけ描く（#181）", async ({ page }) => {
   await expect(page.locator(".list-group")).toHaveCount(1);
 });
 
+test("項目が増えてスクロールしても、ルーレットと開始ボタンは画面から出ない", async ({ page }) => {
+  // 1366×768 のノートPCくらいの高さ。ルーレットを縮めないと、開始ボタンが画面の下にはみ出す
+  await page.setViewportSize({ width: 1366, height: 650 });
+  await page.goto("/");
+  await addItems(page, Array.from({ length: 15 }, (_, i) => `項目${i + 1}`));
+  const wheel = page.locator(".canvas_container");
+  const start = page.getByRole("button", { name: "開始" });
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const top = (await wheel.boundingBox())!.y;
+  await expect(wheel).toBeInViewport({ ratio: 1 });
+  await expect(start).toBeInViewport({ ratio: 1 });
+
+  // 一番下までスクロールしても、ルーレットは動かない
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  expect((await wheel.boundingBox())!.y).toBeCloseTo(top, 0);
+  await expect(wheel).toBeInViewport({ ratio: 1 });
+  await expect(start).toBeInViewport({ ratio: 1 });
+});
+
 test.describe("スマホ幅", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
@@ -120,6 +141,21 @@ test.describe("スマホ幅", () => {
     await inputs.nth(1).fill("みかん");
     await inputs.nth(0).press("Enter");
     await expect(inputs.nth(1)).toBeFocused();
+  });
+
+  test("テンプレートは項目リストのダイアログから開き、選ぶと項目が置き換わる", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("header").getByRole("button", { name: "テンプレート", exact: true })).toBeHidden();
+
+    await page.getByRole("button", { name: "項目を編集" }).click();
+    await addItems(page, ["消える項目"]);
+    await page.locator(".v-overlay--active").getByRole("button", { name: "テンプレート", exact: true }).click();
+    await page.locator(".v-overlay--active .v-list-item").first().locator("button").click();
+
+    // テンプレートのダイアログだけが閉じ、項目リストのダイアログで置き換わった項目が見える
+    await expect(page.locator(".v-overlay--active")).toHaveCount(1);
+    await expect(itemInputs(page).first()).toBeVisible();
+    await expect(itemInputs(page).first()).not.toHaveValue("消える項目");
   });
 
   // スライドは pointer イベントで見ているので、マウスで動かしてもタッチと同じ処理を通る

@@ -8,25 +8,11 @@
     <slot name="content" />
   </div>
 
+  <!-- ダイアログは、ルーレットを押すと Roulette.vue が showDialog() で開く -->
   <div
     v-if="!isMounted || $vuetify.display.xs"
     class="hidden-sm-and-up"
   >
-    <v-row
-      justify="center"
-      class="mt-2"
-    >
-      <v-btn
-        :aria-label="$t('edit_items')"
-        :disabled="isRunning"
-        @click="showDialog"
-      >
-        <v-icon size="30">
-          $editItems
-        </v-icon>
-      </v-btn>
-    </v-row>
-
     <v-dialog
       v-model="dialog"
       width="100%"
@@ -63,9 +49,6 @@
 
 <script lang="ts">
 export default {
-  props: {
-    isRunning: { type: Boolean, default: false },
-  },
   emits: ["templateClick"],
   data(): {
     dialog: boolean;

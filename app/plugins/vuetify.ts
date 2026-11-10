@@ -3,7 +3,6 @@ import { darkModeFallbackStyles } from "~/utils/theme";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import {
   mdiCardPlusOutline,
-  mdiCheck,
   mdiCheckOutline,
   mdiCogOutline,
   mdiContentCopy,
@@ -35,7 +34,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         share: mdiExportVariant,
         copy: mdiContentCopy,
         copied: mdiCheckOutline,
-        apply: mdiCheck,
         addItem: mdiCardPlusOutline,
         drag: mdiDragHorizontalVariant,
         // "$delete" は Vuetify 組み込み（チップの削除）なので別名にする

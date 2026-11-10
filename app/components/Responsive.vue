@@ -13,37 +13,29 @@
     v-if="!isMounted || $vuetify.display.xs"
     class="hidden-sm-and-up"
   >
-    <v-dialog
+    <app-dialog
       v-model="dialog"
-      width="100%"
-      fullscreen
+      :title="$t('edit_items')"
+      mobile-fullscreen
     >
-      <v-card>
-        <v-card-actions>
-          <v-btn
-            icon
-            :aria-label="$t('close')"
-            @click="dialog = false"
-          >
-            <v-icon>$close</v-icon>
-          </v-btn>
-          <v-spacer />
-          <!-- スマホではヘッダーのアイコンを減らすため、テンプレートはここから開く（ダイアログは index.vue） -->
-          <v-btn
-            prepend-icon="$template"
-            @click="$emit('templateClick')"
-          >
-            {{ $t("template_title") }}
-          </v-btn>
-        </v-card-actions>
+      <!-- スマホではヘッダーのアイコンを減らすため、テンプレートはここから開く（ダイアログは index.vue） -->
+      <template #actions>
+        <v-btn
+          variant="text"
+          prepend-icon="$template"
+          class="template-button"
+          @click="$emit('templateClick')"
+        >
+          {{ $t("template_title") }}
+        </v-btn>
+      </template>
 
-        <!-- ダイアログの中の行は、削除ボタンを常に出さず、左にスライドすると出す -->
-        <slot
-          name="content"
-          :swipeable="true"
-        />
-      </v-card>
-    </v-dialog>
+      <!-- ダイアログの中の行は、削除ボタンを常に出さず、左にスライドすると出す -->
+      <slot
+        name="content"
+        :swipeable="true"
+      />
+    </app-dialog>
   </div>
 </template>
 
@@ -70,3 +62,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+// 見出しと同じく、英語でも大文字にしない
+.template-button {
+  letter-spacing: normal;
+  text-transform: none;
+}
+</style>

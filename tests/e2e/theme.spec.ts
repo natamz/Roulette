@@ -113,17 +113,13 @@ test.describe("OS の設定がライト", () => {
   });
 });
 
-// 設定は PC では中央のカード（settings.spec.ts）
+// 設定・テンプレートは PC では中央のカード（settings.spec.ts・dialogs.spec.ts）
 test("全画面のダイアログが画面幅いっぱいに広がる", async ({ page }) => {
   await page.goto("/");
   const width = page.viewportSize()!.width;
 
-  for (const name of ["テンプレート", "使い方"]) {
-    const card = await openDialog(page, name);
-    expect((await card.boundingBox())!.width).toBe(width);
-    await card.getByRole("button", { name: "閉じる" }).first().click();
-    await expect(page.locator(".v-overlay--active")).toHaveCount(0);
-  }
+  const card = await openDialog(page, "使い方");
+  expect((await card.boundingBox())!.width).toBe(width);
 });
 
 test.describe("スマホ幅", () => {

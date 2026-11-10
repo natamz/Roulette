@@ -64,9 +64,7 @@ test("テンプレートを選ぶと項目が置き換わる", async ({ page }) 
   await addItems(page, ["消える項目"]);
 
   await page.getByRole("button", { name: "テンプレート", exact: true }).click();
-  const dialog = page.locator(".v-overlay--active");
-  const firstTemplate = dialog.locator(".v-list-item").first();
-  await firstTemplate.locator("button").click();
+  await page.locator(".v-overlay--active").getByRole("button", { name: /を使う$/ }).first().click();
 
   await expect(itemInputs(page).first()).not.toHaveValue("消える項目");
   expect(await itemInputs(page).count()).toBeGreaterThan(0);
@@ -150,7 +148,7 @@ test.describe("スマホ幅", () => {
     await page.getByRole("button", { name: "項目を編集" }).click();
     await addItems(page, ["消える項目"]);
     await page.locator(".v-overlay--active").getByRole("button", { name: "テンプレート", exact: true }).click();
-    await page.locator(".v-overlay--active .v-list-item").first().locator("button").click();
+    await page.locator(".v-overlay--active").last().getByRole("button", { name: /を使う$/ }).first().click();
 
     // テンプレートのダイアログだけが閉じ、項目リストのダイアログで置き換わった項目が見える
     await expect(page.locator(".v-overlay--active")).toHaveCount(1);

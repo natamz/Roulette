@@ -7,47 +7,35 @@
     <v-icon>$share</v-icon>
   </v-btn>
 
-  <v-dialog
+  <!-- PC は中央のカード、スマホは全画面 -->
+  <app-dialog
     v-model="dialog"
-    max-width="800px"
-    transition="dialog-bottom-transition"
+    :title="$t('share_title')"
+    mobile-fullscreen
   >
-    <v-card>
-      <v-toolbar color="primary">
-        <v-btn
-          icon
-          :aria-label="$t('close')"
-          @click="dialog = false"
-        >
-          <v-icon>$close</v-icon>
-        </v-btn>
-        <v-toolbar-title>{{ $t("share_title") }}</v-toolbar-title>
-        <v-spacer />
-      </v-toolbar>
-
-      <v-card-text>{{ $t("share_message") }}</v-card-text>
-
+    <div class="share">
+      <p class="share__message">
+        {{ $t("share_message") }}
+      </p>
       <v-text-field
         v-model="url"
         readonly
-        hide-details="auto"
+        variant="outlined"
+        hide-details
       />
-
-      <!-- 「コピーしました！」が出ている間は、見えている文字をそのまま名前にする -->
       <v-btn
-        :aria-label="copied ? undefined : $t('copy_url')"
+        block
+        size="large"
+        color="primary"
+        variant="flat"
+        :prepend-icon="copied ? '$copied' : '$copy'"
+        class="share__copy"
         @click="copyUrl"
       >
-        <span v-if="copied">
-          <v-icon>$copied</v-icon>
-          {{ $t("share_clicked") }}
-        </span>
-        <span v-if="!copied">
-          <v-icon>$copy</v-icon>
-        </span>
+        {{ copied ? $t("share_clicked") : $t("copy_url") }}
       </v-btn>
-    </v-card>
-  </v-dialog>
+    </div>
+  </app-dialog>
 </template>
 
 <script lang="ts">
@@ -77,3 +65,23 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.share {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 24px 24px;
+}
+
+.share__message {
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  font-size: 0.875rem;
+}
+
+.share__copy.v-btn {
+  border-radius: 10px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+</style>

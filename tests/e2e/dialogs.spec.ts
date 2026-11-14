@@ -22,6 +22,33 @@ test("テンプレートは PC では中央のカード、スマホでは全画�
   await expect.poll(() => topCard(page).boundingBox()).toEqual({ x: 0, y: 0, width: 390, height: 844 });
 });
 
+test("共有は PC では中央のカード、スマホでは全画面で開く", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("header").getByRole("button", { name: "共有", exact: true }).click();
+  await expect.poll(async () => (await topCard(page).boundingBox())?.width).toBe(480);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("header").getByRole("button", { name: "共有", exact: true }).click();
+  await expect.poll(() => topCard(page).boundingBox()).toEqual({ x: 0, y: 0, width: 390, height: 844 });
+});
+
+test("共有のコピーボタンを押すと URL がコピーされ、ボタンが「コピーしました！」になる", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/");
+  await addItems(page, ["共有1"]);
+  await page.locator("header").getByRole("button", { name: "共有", exact: true }).click();
+  const share = topCard(page);
+
+  await share.getByRole("button", { name: "URLをコピー" }).click();
+  await expect(share.getByRole("button", { name: "コピーしました！" })).toBeVisible();
+  await expect(share.getByRole("button", { name: "URLをコピー" })).toHaveCount(0);
+  const url = await share.locator("input").inputValue();
+  expect(url).toContain("?q=");
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(url);
+});
+
 test.describe("スマホ幅", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

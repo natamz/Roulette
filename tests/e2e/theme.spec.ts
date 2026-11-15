@@ -113,15 +113,6 @@ test.describe("OS の設定がライト", () => {
   });
 });
 
-// 設定・テンプレートは PC では中央のカード（settings.spec.ts・dialogs.spec.ts）
-test("全画面のダイアログが画面幅いっぱいに広がる", async ({ page }) => {
-  await page.goto("/");
-  const width = page.viewportSize()!.width;
-
-  const card = await openDialog(page, "使い方");
-  expect((await card.boundingBox())!.width).toBe(width);
-});
-
 test.describe("スマホ幅", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

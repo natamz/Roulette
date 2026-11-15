@@ -21,7 +21,7 @@
             <v-img
               :src="imageSrc('items')"
               :alt="$t('tutorial_image_1_alt')"
-              :aspect-ratio="908 / 528"
+              :aspect-ratio="908 / 624"
             />
           </div>
         </section>

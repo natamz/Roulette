@@ -15,6 +15,24 @@ test("使い方の画像は読み込む前から高さがあり、alt が付い�
   }
 });
 
+test("使い方の画像は、その言語の項目で撮ったものを出す（#165）", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("header").getByRole("button", { name: "使い方", exact: true }).click();
+  const images = page.locator(".v-overlay--active .v-img img");
+  await expect(images).toHaveCount(2);
+  for (const image of await images.all()) {
+    await expect(image).toHaveAttribute("src", /\/images\/tutorial-(items|wheel)-ja\.png$/);
+  }
+
+  // ダイアログを開いたまま、ダイアログの中の言語ボタンで英語版に切り替える
+  await page.locator(".v-overlay--active").getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL("/en/");
+  await expect(page.locator(".v-overlay--active").getByRole("heading", { name: "How to use" })).toBeVisible();
+  for (const image of await images.all()) {
+    await expect(image).toHaveAttribute("src", /\/images\/tutorial-(items|wheel)-en\.png$/);
+  }
+});
+
 test.describe("初回訪問", () => {
   const guide = (page: Page, text: string) => page.locator(".v-snackbar", { hasText: text });
   const dialog = (page: Page) => page.locator(".v-overlay--active .v-card");
@@ -35,7 +53,7 @@ test.describe("初回訪問", () => {
 
     await guide(page, "はじめての方は").getByRole("button", { name: "使い方" }).click();
     await expect(dialog(page)).toBeVisible();
-    await expect(dialog(page).locator(".v-toolbar-title")).toHaveText("使い方");
+    await expect(dialog(page).getByRole("heading", { name: "使い方" })).toBeVisible();
     await expect(guide(page, "はじめての方は")).toBeHidden();
 
     // 2回目からは案内しない

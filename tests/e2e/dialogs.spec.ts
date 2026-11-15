@@ -22,6 +22,21 @@ test("テンプレートは PC では中央のカード、スマホでは全画�
   await expect.poll(() => topCard(page).boundingBox()).toEqual({ x: 0, y: 0, width: 390, height: 844 });
 });
 
+test("使い方は PC では中央のカード、スマホでは全画面で開く", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("header").getByRole("button", { name: "使い方", exact: true }).click();
+  await expect.poll(async () => (await topCard(page).boundingBox())?.width).toBe(480);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("header").getByRole("button", { name: "使い方", exact: true }).click();
+  await expect.poll(() => topCard(page).boundingBox()).toEqual({ x: 0, y: 0, width: 390, height: 844 });
+  // 下の閉じるボタンでも閉じる
+  await topCard(page).getByRole("button", { name: "閉じる", exact: true }).last().click();
+  await expect(page.locator(".v-overlay--active")).toHaveCount(0);
+});
+
 test("共有は PC では中央のカード、スマホでは全画面で開く", async ({ page }) => {
   await page.goto("/");
   await page.locator("header").getByRole("button", { name: "共有", exact: true }).click();

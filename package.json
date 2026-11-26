@@ -28,7 +28,7 @@
     "vue-draggable-plus": "0.6.1",
     "vue-gtag": "3.7.1",
     "vue-router": "5.4.0",
-    "vuetify": "3.13.7"
+    "vuetify": "3.13.8"
   },
   "devDependencies": {
     "@nuxt/eslint": "1.17.0",
